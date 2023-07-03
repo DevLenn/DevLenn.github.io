@@ -201,3 +201,11 @@ html, body {
     left: 1%;
     color: white;
 }
+
+#read {
+    position: fixed;
+    top: 1%;
+    left: 49%;
+    color: red;
+    font-size: 21px;
+}
