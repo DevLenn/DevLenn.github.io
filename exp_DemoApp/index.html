@@ -18,34 +18,7 @@
       <div id="ai">This is the AI tab content.</div>
     </div>
   </div>
-  <script>
-    const tabLinks = document.querySelectorAll(".tab-menu li a");
-    const tabContents = document.querySelectorAll(".tab-content div");
-
-    tabLinks.forEach((link, index) => {
-      link.addEventListener("click", function(e) {
-        e.preventDefault();
-        tabLinks.forEach(otherLink => {
-          otherLink.classList.remove("active");
-        });
-        this.classList.add("active");
-        tabContents.forEach(content => {
-          content.style.display = "none";
-        });
-        tabContents[index].style.display = "block";
-      });
-
-      link.addEventListener("mouseover", function() {
-        tabLinks.forEach(otherLink => {
-          otherLink.classList.remove("hover");
-        });
-        this.classList.add("hover");
-      });
-
-      link.addEventListener("mouseout", function() {
-        this.classList.remove("hover");
-      });
-    });
+  <script src="tabs.js">
   </script>
 </body>
 </html>
