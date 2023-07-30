@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Replays🔛🔝</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="taskbar">
+    <div class="logo"></div>
+    <button class="active" onclick="showTab('about')">About</button>
+    <button onclick="showTab('best-clips')">Best Clips</button>
+    <button onclick="showTab('best-pics')">Best Pics</button>
+    <button onclick="showTab('he-loves-those')">He Loves Those</button>
+    <button onclick="showTab('lil-fan-msg')">Lil Fan Msg</button>
+  </div>
+
+  <div class="page-content">
+    <div class="tab-content" id="about">
+        <!-- Content for the "About" tab goes here -->
+        <h2 id="first">About</h2>
+        <h2 id="socials">Socials</h2>
+        <h2 id="personality">Personality</h2>
+        <p>Real Name: Franco Sicilia</p>
+        <p>Date of Birth: October 17, 1996</p>
+        <p>Birth Sign: Libra</p>
+        <p>Nationality: Canada</p>
+        <p>Clan: FaZe (ofc)</p>
+        <p>Joined FaZe: 2015 </p>
+        <p>Networth: 5.000.000$</p>
+        <p id="perso1">Chilled</p>
+        <p id="perso2">Extremely Motivated/Motivating</p>
+        <p id="perso3">(Familie-) Friendly </p>
+        <p id="perso4">Teamplayer</p>
+
+        <img src="him.jpg" alt="Him" class="him-image">
+            <div class="social-pics">
+                <img src="twitch.png" id="twitch" onclick="twitch()">
+                <img src="youtube.png" id="youtube" onclick="youtube()">
+                <img src="instagram.png" id="instagram" onclick="instagram()">
+                <img src="twitter.png" id="twitter" onclick="twitter()">
+                <img src="tiktok.png" id="tiktok" onclick="tiktok()">
+            </div>
+        
+        <img src="him2.jpg" id="him2">
+      </div>
+
+    <div class="tab-content" id="best-clips" style="display:none;">
+      <!-- Content for the "Best Clips" tab goes here -->
+      <h2 id="second">Best Clips</h2>
+      <p>some random stuff right here</p>
+    </div>
+
+    <div class="tab-content" id="best-pics" style="display:none;">
+      <!-- Content for the "Best Pics" tab goes here -->
+      <h2 id="third">Best Pics</h2>
+      <p>My most beautiful pictures!</p>
+    </div>
+
+    <div class="tab-content" id="he-loves-those" style="display:none;">
+      <!-- Content for the "He Loves Those" tab goes here -->
+      <h2 id="fourth">He Loves Those</h2>
+      <p>He just loves them!</p>
+    </div>
+
+    <div class="tab-content" id="lil-fan-msg" style="display:none;">
+      <!-- Content for the "Lil Fan Msg" tab goes here -->
+      <h2 id="fifth">Lil Fan Msg</h2>
+      <p>A message from my biggest fan!</p>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
