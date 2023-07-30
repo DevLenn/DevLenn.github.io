@@ -1,0 +1,165 @@
+body {
+    background-color: #212121; /* Gray background for the entire page */
+    font-family: Helvetica, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .taskbar {
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 5px solid red;
+  }
+  
+  .taskbar button {
+    border: none;
+    outline: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: white;
+    background-color: transparent;
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .taskbar button:hover {
+    background-color: red;
+  }
+  
+  .taskbar button.active {
+    background-color: red;
+  }
+  
+  .page-content {
+    padding: 20px;
+  }
+  
+  .tab-content {
+    background-color: #212121; /* Light gray background for the tabs */
+    position: fixed;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    background-image: url('replays-logo.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  
+#first, #second, #third, #fourth, #fifth {
+    color: red;
+}
+
+.him-image {
+    max-width: 100%;
+    display: block;
+    margin-top: 10px; /* Add some space between the text and the image */
+  }
+
+  #him2 {
+    position: fixed;
+    top: 95px;
+    right: 5%;
+    height: 80%;
+  }
+
+#socials {
+    position: fixed;
+    color: red;
+    top: 372px;
+    left: 42%;
+}
+
+  #twitch {
+    position: fixed;
+    top: 450px;
+    height: 10%;
+    left: 35%;
+}
+
+#twitch:hover{
+    height: 12%;
+}
+
+#youtube {
+    position: fixed;
+    top: 445px;
+    height: 10%;
+    left: 43%;
+}
+
+#youtube:hover{
+    height: 12%;
+}
+
+#instagram {
+    position: fixed;
+    top: 445px;
+    height: 10%;
+    left: 51%
+}
+
+#instagram:hover{
+    height: 12%;
+}
+
+#twitter {
+    position: fixed;
+    top: 520px;
+    height: 10%;
+    left: 38%
+}
+
+#twitter:hover{
+    height: 12%;
+}
+
+#tiktok {
+    position: fixed;
+    top: 520px;
+    height: 10%;
+    left: 47%;
+}
+
+#tiktok:hover{
+    height: 12%;
+}
+
+.social-pics{
+    cursor: pointer;
+}
+
+#personality{
+    position: fixed;
+    top: 90px;
+    left: 35%;
+    color: red;
+}
+
+#perso1, #perso2, #perso3, #perso4{
+    position:fixed;
+    left: 35%;
+}
+
+#perso1{
+    top: 145px;
+}
+
+#perso2{
+    top: 180px;
+}
+
+#perso3{
+    top: 215px;
+}
+
+#perso4{
+    top: 250px;
+}
