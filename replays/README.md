@@ -2,4 +2,4 @@
 ### I don´t care how many of u think this is the best what i can do or sth like that. i created this site because i was bored.
 ### I will not adjust the site for mobile phones
 
-#Feel free to adjust for mobile phones ore contribute this project in another way
+# Feel free to adjust for mobile phones ore contribute this project in another way
