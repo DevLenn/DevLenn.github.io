@@ -163,3 +163,50 @@ body {
 #perso4{
     top: 250px;
 }
+
+#stormscout{
+    position: fixed;
+    left: 1%;
+}
+
+#kills {
+    position: fixed;
+    top: 310px;
+    right: 1%;
+}
+
+#og {
+    position: fixed;
+    top: 460px;
+    left: 1%;
+}
+
+.vid-one{
+    position: fixed;
+    left: 300px;
+    top: 140px;
+}
+
+#vid-one-h{
+    color: red;
+}
+
+.vid-two{
+    position: fixed;
+    right: 300px;
+    top: 290px;
+}
+
+#vid-two-h{
+    color: red;
+}
+
+.vid-three{
+    position: fixed;
+    left: 300px;
+    top: 440px;    
+}
+
+#vid-three-h{
+    color: red;
+}
