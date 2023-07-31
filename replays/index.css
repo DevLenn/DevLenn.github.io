@@ -216,3 +216,78 @@ body {
     max-height: 100%;
     object-fit: cover; /* Ensures the image fills the entire container */
   }
+
+  #gun{
+    position: fixed;
+    left: 1%;
+    top: 170px;
+}
+
+
+#party{
+    position: fixed;
+    right: 1%;
+    top: 290px;
+}
+
+#wtf{
+    position: fixed;
+    left: 1%;
+    top: 420px;    
+}
+
+#head-one-three{
+    position: fixed;
+    left: 27%;
+    top: 150px;
+    color: red;
+}
+
+#head-one-three-two{
+    position: fixed;
+    left: 27%;
+    top: 170px;
+    color: red;
+}
+
+.text-one{
+    position: fixed;
+    left: 27%;
+    top: 190px;
+}
+
+#one-one{
+   top: 210px; 
+}
+
+#one-two{
+    top: 240px;
+}
+
+#one-three{
+    top: 270px;
+}
+
+#head-two-three{
+    color: red;
+}
+
+.party-h{
+    position: fixed;
+    right: 27%;
+    top: 300px;
+}
+
+#last-head{
+    position: fixed;
+    top: 78%;
+    color: red;
+    left: 27%;
+}
+
+#love{
+    position: absolute;
+    top: -15px;
+    right: 1%;
+    height: 20%;
+}
