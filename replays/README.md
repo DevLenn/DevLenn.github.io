@@ -2,4 +2,4 @@
 
 # if anything is cut of or some shit, just zoom out!
 
-### DONT JUDGE THIS CODE! IK ITS BAD! 
+### DONT JUDGE THIS CODE! IK IT'S BAD! 
