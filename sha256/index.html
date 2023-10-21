@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text & Binary Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 50px;
+        }
+
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            font-weight: bold;
+            margin-top: 20px;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Text zu Binary und umgekehrt</h2>
+        <input type="text" id="textInput" placeholder="Geben Sie Ihren Text oder Binärcode ein">
+        <button onclick="convertTextOrBinary()">Text zu Binary / Binary zu Text</button>
+        <div class="output" id="textToBinaryOutput"></div>
+    </div>
+
+    <div class="container">
+        <h2>Text oder Binary zu SHA-256</h2>
+        <input type="text" id="shaInput" placeholder="Geben Sie den Text oder Binary-Code ein">
+        <button onclick="calculateSHA256()">Berechnen</button>
+        <div class="output" id="sha256Output"></div>
+    </div>
+
+    <script>
+        function convertTextOrBinary() {
+            var input = document.getElementById("textInput").value;
+            var output = '';
+
+            if (/^[01]+$/.test(input)) {
+                var binaryArray = input.match(/.{1,8}/g);
+                output = binaryArray.map(function(bin) {
+                    return String.fromCharCode(parseInt(bin, 2));
+                }).join('');
+            } else {
+                var text = input;
+                output = '';
+                for (var i = 0; i < text.length; i++) {
+                    output += text[i].charCodeAt(0).toString(2).padStart(8, '0');
+                }
+            }
+
+            document.getElementById("textToBinaryOutput").textContent = "Text/Binary: " + output;
+        }
+
+        function calculateSHA256() {
+            var input = document.getElementById("shaInput").value;
+            var textInput = '';
+
+            if (/^[01]+$/.test(input)) {
+                var binaryArray = input.match(/.{1,8}/g);
+                textInput = binaryArray.map(function(bin) {
+                    return String.fromCharCode(parseInt(bin, 2));
+                }).join('');
+            } else {
+                textInput = input;
+            }
+
+            var hash = CryptoJS.SHA256(textInput).toString(CryptoJS.enc.Hex);
+            document.getElementById("sha256Output").textContent = "SHA-256: " + hash;
+        }
+    </script>
+</body>
+
+</html>
