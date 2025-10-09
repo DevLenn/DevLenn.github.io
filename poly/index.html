@@ -13,7 +13,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow: hidden;
+            /* overflow: hidden; */
         }
         .presentation {
             width: 100vw;
@@ -328,6 +328,20 @@
         .slide:nth-child(8) .box span {
             font-size: 0.8em;
         }
+
+    @media (max-width: 768px) {
+        .slide {
+            height: auto;
+            min-height: 90vh;
+            overflow-y: auto;
+        }
+    
+        .presentation {
+            height: auto;
+            min-height: 100vh;
+            padding: 10px 0;
+        }
+    }
     </style>
 </head>
 <body>
