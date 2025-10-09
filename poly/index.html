@@ -13,7 +13,6 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            /* overflow: hidden; */
         }
         .presentation {
             width: 100vw;
@@ -32,7 +31,6 @@
             display: none;
             flex-direction: column;
             position: relative;
-            /* overflow: hidden; */
         }
         .slide.active {
             display: flex;
@@ -227,7 +225,6 @@
             font-size: 1.1em;
         }
         
-        /* Spezifische Anpassungen für Folie 4 */
         .slide:nth-child(5) .content {
             padding-top: 5px;
         }
@@ -238,7 +235,6 @@
             padding: 15px;
         }
         
-        /* Spezifische Anpassungen für Folie 6 */
         .slide:nth-child(7) .property-row {
             margin: 10px 0;
         }
@@ -246,7 +242,6 @@
             font-size: 1em;
         }
         
-        /* Spezifische Anpassungen für Folie 11 */
         .slide:nth-child(9) .box {
             padding: 15px;
         }
@@ -254,7 +249,6 @@
             margin: 10px 0;
         }
         
-        /* Anpassungen für zusammengefasste Folien */
         .combined-slide .content {
             display: flex;
             flex-direction: column;
@@ -267,7 +261,6 @@
             border-left: 5px solid #667eea;
         }
         
-        /* SPEZIELLE ANPASSUNGEN FÜR FOLIE 2 */
         .slide:nth-child(2) .content {
             overflow-y: visible;
             padding: 0;
@@ -299,7 +292,6 @@
             margin: 5px 0;
         }
         
-        /* SPEZIELLE ANPASSUNGEN FÜR FOLIE 8 */
         .slide:nth-child(8) .content {
             overflow-y: visible;
             padding: 0;
@@ -364,7 +356,6 @@
             </div>
         </div>
 
-        <!-- Folie 2: Monomere und Polymere (zusammengefasst) - OPTIMIERT -->
         <div class="slide combined-slide">
             <h2>1. Vom Monomer zum Polymer</h2>
             <div class="content">
@@ -376,7 +367,6 @@
                         </div>
                         <div style="margin-top: 10px; color: #666; font-size: 1em;">
                             Ein kleines Molekül mit einer <strong>Doppelbindung</strong><br>
-                            (= das Monomer, der Baustein)
                         </div>
                     </div>
 
@@ -401,7 +391,6 @@
                     </div>
                     <div style="text-align: center; margin-top: 10px; font-size: 1em; color: #333; background: #fff3cd; padding: 10px; border-radius: 8px;">
                         <strong>n</strong> = Anzahl der verknüpften Bausteine<br>
-                        (typisch: 1.000 bis 100.000 → riesige Molekülkette!)
                     </div>
                 </div>
             </div>
@@ -412,7 +401,6 @@
             </div>
         </div>
 
-        <!-- Folie 3: Herstellungsverfahren Teil 1 -->
         <div class="slide">
             <h2>2. Herstellung: Zwei verschiedene Wege</h2>
             <div class="content">
@@ -456,7 +444,7 @@
                     <h3 style="color: #0984e3;">Was ist Ziegler-Natta?</h3>
                     <p style="font-size: 1.1em; line-height: 1.5;">
                         Der <strong>Ziegler-Natta-Katalysator</strong> ist ein Katalysatorsystem, das aus einer Kombination von
-                        Übergangsmetallverbindungen (wie Titanchlorid) und Organoaluminiumverbindungen besteht.
+                        Übergangsmetallverbindungen und Organoaluminiumverbindungen besteht.
                     </p>
                 </div>
                 <div class="tip-box">
@@ -470,7 +458,6 @@
             </div>
         </div>
 
-        <!-- Folie 4: Struktur erklärt die Eigenschaften -->
         <div class="slide">
             <h2>3. Warum sind LD-PE und HD-PE so unterschiedlich?</h2>
             <div class="content">
@@ -528,7 +515,6 @@
             </div>
         </div>
 
-        <!-- Folie 5: Weitere Eigenschaften -->
         <div class="slide">
             <h2>4. Eigenschaften aus der Molekülstruktur</h2>
             <div class="content">
@@ -583,7 +569,6 @@
             </div>
         </div>
 
-        <!-- Folie 6: Anwendung LD-PE (zusammengefasst) -->
         <div class="slide combined-slide">
             <h2>5. Anwendung: LD-PE (Low Density)</h2>
             <div class="content">
@@ -630,7 +615,6 @@
             </div>
         </div>
 
-        <!-- Folie 7: Anwendung HD-PE (zusammengefasst) -->
         <div class="slide combined-slide">
             <h2>5. Anwendung: HD-PE (High Density)</h2>
             <div class="content">
@@ -677,7 +661,6 @@
             </div>
         </div>
 
-        <!-- Folie 8: Alltagsbezug und Bedeutung (zusammengefasst) - OPTIMIERT -->
         <div class="slide combined-slide">
             <h2>6. Polyethylen im Alltag</h2>
             <div class="content">
@@ -718,7 +701,6 @@
                 </div>
 
                 <div style="margin-top: 15px; background: #667eea; color: white; padding: 12px; border-radius: 10px; text-align: center; font-size: 1.1em;">
-                    <strong>💡 Zukunft:</strong> Bio-basiertes PE aus Zuckerrohr & verbesserte Recyclingverfahren
                 </div>
             </div>
             <div class="slide-number">8 / 8</div>
@@ -752,7 +734,6 @@
             }
         }
 
-        // Tastatursteuerung
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 nextSlide();
