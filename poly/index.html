@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyethylen (PE)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide {
+            width: 95%;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px 40px;
+            display: none;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide.active {
+            display: flex;
+        }
+        h1 {
+            color: #667eea;
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 8px;
+        }
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-top: 15px;
+            margin-bottom: 12px;
+        }
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .content::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+        .formula {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            border: 2px solid #667eea;
+        }
+        .formula-large {
+            font-size: 1.8em;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            line-height: 1.6;
+        }
+        .structure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin: 15px 0;
+        }
+        .molecule {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4em;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        .arrow {
+            font-size: 2.5em;
+            color: #667eea;
+        }
+        ul {
+            margin-left: 30px;
+            margin-top: 12px;
+        }
+        li {
+            margin: 12px 0;
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 15px;
+        }
+        .box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .box h3 {
+            margin-top: 0;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .btn-prev {
+            background: #95a5a6;
+            color: white;
+        }
+        .btn-next {
+            background: #667eea;
+            color: white;
+        }
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            color: #999;
+            font-size: 1em;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .polymer-chain {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3em;
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 15px 0;
+            line-height: 1.8;
+        }
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .example-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .property-table {
+            margin-top: 15px;
+        }
+        .property-row {
+            display: flex;
+            margin: 12px 0;
+            align-items: flex-start;
+        }
+        .property-name {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 180px;
+            font-size: 1.1em;
+        }
+        .property-desc {
+            flex: 1;
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.3em;
+            margin-top: 15px;
+        }
+        .tip-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+        
+        /* Spezifische Anpassungen für Folie 4 */
+        .slide:nth-child(5) .content {
+            padding-top: 5px;
+        }
+        .slide:nth-child(5) .grid-2 {
+            gap: 20px;
+        }
+        .slide:nth-child(5) .box {
+            padding: 15px;
+        }
+        
+        /* Spezifische Anpassungen für Folie 6 */
+        .slide:nth-child(7) .property-row {
+            margin: 10px 0;
+        }
+        .slide:nth-child(7) .property-desc {
+            font-size: 1em;
+        }
+        
+        /* Spezifische Anpassungen für Folie 11 */
+        .slide:nth-child(9) .box {
+            padding: 15px;
+        }
+        .slide:nth-child(9) li {
+            margin: 10px 0;
+        }
+        
+        /* Anpassungen für zusammengefasste Folien */
+        .combined-slide .content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .slide-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        /* SPEZIELLE ANPASSUNGEN FÜR FOLIE 2 */
+        .slide:nth-child(2) .content {
+            overflow-y: visible;
+            padding: 0;
+            gap: 15px;
+        }
+        .slide:nth-child(2) .slide-section {
+            padding: 15px;
+            margin: 0;
+        }
+        .slide:nth-child(2) h3 {
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .slide:nth-child(2) .formula {
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .slide:nth-child(2) .formula-large {
+            font-size: 1.6em;
+        }
+        .slide:nth-child(2) .polymer-chain {
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        .slide:nth-child(2) .arrow {
+            font-size: 2em;
+            margin: 5px 0;
+        }
+        
+        /* SPEZIELLE ANPASSUNGEN FÜR FOLIE 8 */
+        .slide:nth-child(8) .content {
+            overflow-y: visible;
+            padding: 0;
+            gap: 15px;
+        }
+        .slide:nth-child(8) .grid-2 {
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .slide:nth-child(8) .box {
+            padding: 15px;
+        }
+        .slide:nth-child(8) h3 {
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .slide:nth-child(8) ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .slide:nth-child(8) li {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+        .slide:nth-child(8) .box span {
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Folie 1: Titel -->
+        <div class="slide active">
+            <h1>Polyethylen (PE)</h1>
+            <div class="subtitle">Der meistproduzierte Kunststoff der Welt</div>
+            <div class="content" style="display: flex; align-items: center; justify-content: center;">
+                <div class="formula" style="font-size: 3.5em; padding: 50px;">
+                    <div style="font-family: 'Courier New', monospace;">
+                        —(CH₂—CH₂)—<sub style="font-size: 0.6em;">n</sub>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">1 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()" style="visibility: hidden;">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 2: Monomere und Polymere (zusammengefasst) - OPTIMIERT -->
+        <div class="slide combined-slide">
+            <h2>1. Vom Monomer zum Polymer</h2>
+            <div class="content">
+                <div class="slide-section">
+                    <h3>Ausgangsstoff: Ethen (Ethylen)</h3>
+                    <div class="formula">
+                        <div class="formula-large">
+                            H<sub>2</sub>C=CH<sub>2</sub>
+                        </div>
+                        <div style="margin-top: 10px; color: #666; font-size: 1em;">
+                            Ein kleines Molekül mit einer <strong>Doppelbindung</strong><br>
+                            (= das Monomer, der Baustein)
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 15px 0;">
+                        <div class="arrow">↓</div>
+                        <div style="color: #764ba2; font-size: 1.2em; font-weight: bold; margin: 5px 0;">
+                            Polymerisation
+                        </div>
+                        <div style="color: #666; font-size: 0.9em;">
+                            (Die Doppelbindung öffnet sich und verknüpft viele Moleküle zu einer Kette)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-section">
+                    <h3>Produkt: Polyethylen (PE)</h3>
+                    <div class="polymer-chain">
+                        —CH₂—CH₂—CH₂—CH₂—CH₂—CH₂—CH₂—CH₂—CH₂—<sub>n</sub>
+                        <div style="margin-top: 10px; color: #666; font-size: 0.8em;">
+                            = —(CH₂—CH₂)—<sub>n</sub>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-size: 1em; color: #333; background: #fff3cd; padding: 10px; border-radius: 8px;">
+                        <strong>n</strong> = Anzahl der verknüpften Bausteine<br>
+                        (typisch: 1.000 bis 100.000 → riesige Molekülkette!)
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">2 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 3: Herstellungsverfahren Teil 1 -->
+        <div class="slide">
+            <h2>2. Herstellung: Zwei verschiedene Wege</h2>
+            <div class="content">
+                <p style="font-size: 1.2em; margin-bottom: 20px; line-height: 1.5;">
+                    Je nach <strong>Druck und Temperatur</strong> entstehen unterschiedliche PE-Typen:
+                </p>
+
+                <div class="grid-2">
+                    <div class="box">
+                        <h3 style="color: #d63031;">🔥 Hochdruck-Verfahren</h3>
+                        <ul style="font-size: 1.1em;">
+                            <li><strong>Druck:</strong> 1500-3000 bar</li>
+                            <li><strong>Temperatur:</strong> 200-300°C</li>
+                            <li><strong>Katalysator:</strong> Sauerstoff oder Peroxide</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding: 12px; background: #ffe0e0; border-radius: 8px; border: 2px solid #d63031;">
+                            <strong style="font-size: 1.1em;">Produkt:</strong><br>
+                            <strong style="font-size: 1.2em; color: #d63031;">LD-PE</strong><br>
+                            Low Density PE<br>
+                            (= niedrige Dichte)
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <h3 style="color: #0984e3;">❄️ Niederdruck-Verfahren</h3>
+                        <ul style="font-size: 1.1em;">
+                            <li><strong>Druck:</strong> 1-50 bar</li>
+                            <li><strong>Temperatur:</strong> 50-100°C</li>
+                            <li><strong>Katalysator:</strong> Ziegler-Natta</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding: 12px; background: #dfe6e9; border-radius: 8px; border: 2px solid #0984e3;">
+                            <strong style="font-size: 1.1em;">Produkt:</strong><br>
+                            <strong style="font-size: 1.2em; color: #0984e3;">HD-PE</strong><br>
+                            High Density PE<br>
+                            (= hohe Dichte)
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; background: #f0f8ff; padding: 15px; border-radius: 10px;">
+                    <h3 style="color: #0984e3;">Was ist Ziegler-Natta?</h3>
+                    <p style="font-size: 1.1em; line-height: 1.5;">
+                        Der <strong>Ziegler-Natta-Katalysator</strong> ist ein Katalysatorsystem, das aus einer Kombination von
+                        Übergangsmetallverbindungen (wie Titanchlorid) und Organoaluminiumverbindungen besteht.
+                    </p>
+                </div>
+                <div class="tip-box">
+                    <strong>Tipp:</strong> Der Normaldruck der Atmosphäre beträgt ca. 1 bar
+                </div>
+            </div>
+            <div class="slide-number">3 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 4: Struktur erklärt die Eigenschaften -->
+        <div class="slide">
+            <h2>3. Warum sind LD-PE und HD-PE so unterschiedlich?</h2>
+            <div class="content">
+                <div style="font-size: 1.1em; margin-bottom: 20px; line-height: 1.5; background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                    Der <strong>Unterschied liegt in der Molekülstruktur</strong>:
+                </div>
+
+                <div class="grid-2">
+                    <div class="box" style="background: #ffe0e0; border-left: 5px solid #d63031;">
+                        <h3 style="color: #d63031;">LD-PE: Verzweigte Ketten</h3>
+                        <div style="font-family: 'Courier New'; font-size: 1em; margin: 15px 0; text-align: center;">
+                            ——————<br>
+                            &nbsp;&nbsp;|<br>
+                            ————|————<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                            ——————
+                        </div>
+                        <p style="font-size: 1.1em; line-height: 1.5;">
+                            <strong>Hoher Druck</strong> → chaotische Reaktion<br>
+                            → viele Seitenketten entstehen<br>
+                            → Ketten <strong>können nicht dicht gepackt werden</strong>
+                        </p>
+                        <div style="margin-top: 12px; padding: 10px; background: white; border-radius: 6px;">
+                            <strong>Dichte:</strong> 0,915-0,935 g/cm³<br>
+                            <strong>Eigenschaften:</strong> Weich, flexibel, transparent
+                        </div>
+                    </div>
+
+                    <div class="box" style="background: #dfe6e9; border-left: 5px solid #0984e3;">
+                        <h3 style="color: #0984e3;">HD-PE: Lineare Ketten</h3>
+                        <div style="font-family: 'Courier New'; font-size: 1em; margin: 15px 0; text-align: center;">
+                            ——————<br>
+                            ——————<br>
+                            ——————<br>
+                            ——————<br>
+                            ——————
+                        </div>
+                        <p style="font-size: 1.1em; line-height: 1.5;">
+                            <strong>Niedriger Druck</strong> + Katalysator<br>
+                            → kontrollierte Reaktion<br>
+                            → fast keine Verzweigungen<br>
+                            → Ketten <strong>können dicht gepackt werden</strong>
+                        </p>
+                        <div style="margin-top: 12px; padding: 10px; background: white; border-radius: 6px;">
+                            <strong>Dichte:</strong> 0,94-0,97 g/cm³<br>
+                            <strong>Eigenschaften:</strong> Hart, fest, undurchsichtig
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">4 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 5: Weitere Eigenschaften -->
+        <div class="slide">
+            <h2>4. Eigenschaften aus der Molekülstruktur</h2>
+            <div class="content">
+                <div class="property-table">
+                    <div class="property-row">
+                        <div class="property-name">🔗 Nur C-H-Bindungen:</div>
+                        <div class="property-desc">
+                            Unpolare Moleküle → <strong>chemisch sehr beständig</strong><br>
+                            Keine Angriffspunkte für Säuren, Laugen oder Lösungsmittel<br>
+                            → <strong>wasserabweisend</strong> (hydrophob)
+                        </div>
+                    </div>
+
+                    <div class="property-row">
+                        <div class="property-name">📏 Lange Ketten:</div>
+                        <div class="property-desc">
+                            Viele Kontaktpunkte zwischen Ketten<br>
+                            → <strong>Van-der-Waals-Kräfte</strong> (schwache Anziehung)<br>
+                            → mechanische Festigkeit trotz nicht-kovalenter Bindung<br><br>
+                            <strong>Nicht-kovalente Bindungen</strong> sind schwache Wechselwirkungen zwischen Molekülen,
+                            die nicht auf der gemeinsamen Nutzung von Elektronen basieren (wie kovalente Bindungen).
+                            Dazu gehören Van-der-Waals-Kräfte, Wasserstoffbrückenbindungen und elektrostatische Wechselwirkungen.<br><br>
+                            Trotz dieser schwachen Bindungen entsteht mechanische Festigkeit durch die <strong>große Anzahl</strong>
+                            dieser Wechselwirkungen zwischen den langen Polymerketten, die sich wie ein molekulares Netzwerk verhalten.
+                        </div>
+                    </div>
+
+                    <div class="property-row">
+                        <div class="property-name">♨️ Thermoplast:</div>
+                        <div class="property-desc">
+                            Keine chemische Vernetzung zwischen Ketten<br>
+                            → bei Erwärmung verschieben sich Ketten<br>
+                            → <strong>verformbar und recyclebar</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formula" style="margin-top: 20px;">
+                    <strong style="font-size: 1.2em;">
+                        Schmelzbereiche:<br>
+                        LD-PE: 105-115°C | HD-PE: 125-135°C
+                    </strong>
+                    <div style="margin-top: 8px; font-size: 1em; color: #666;">
+                        (HD-PE schmilzt höher, weil die Ketten dichter gepackt sind)
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">5 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 6: Anwendung LD-PE (zusammengefasst) -->
+        <div class="slide combined-slide">
+            <h2>5. Anwendung: LD-PE (Low Density)</h2>
+            <div class="content">
+                <div class="slide-section" style="background: #ffe0e0; border-left: 5px solid #d63031;">
+                    <h3 style="color: #d63031;">Warum ist LD-PE flexibel?</h3>
+                    <p style="font-size: 1.2em; line-height: 1.6;">
+                        Die <strong>verzweigten Ketten</strong> können nicht eng packen<br>
+                        → lockere Struktur → <strong>niedrige Dichte</strong><br>
+                        → Ketten können sich leicht verschieben<br>
+                        → Material ist <strong>weich und biegbar</strong>
+                    </p>
+                </div>
+
+                <div class="slide-section">
+                    <h3>Typische Anwendungen:</h3>
+                    <div class="examples">
+                        <div class="example-box" style="background: linear-gradient(135deg, #d63031 0%, #e17055 100%);">
+                            🛍️<br><strong>Einkaufstüten</strong><br>
+                            <span style="font-size: 0.8em;">flexibel & reißfest</span>
+                        </div>
+                        <div class="example-box" style="background: linear-gradient(135deg, #d63031 0%, #e17055 100%);">
+                            📦<br><strong>Verpackungsfolien</strong><br>
+                            <span style="font-size: 0.8em;">dehnbar & transparent</span>
+                        </div>
+                        <div class="example-box" style="background: linear-gradient(135deg, #d63031 0%, #e17055 100%);">
+                            🔌<br><strong>Kabelummantelungen</strong><br>
+                            <span style="font-size: 0.8em;">isolierend & biegsam</span>
+                        </div>
+                        <div class="example-box" style="background: linear-gradient(135deg, #d63031 0%, #e17055 100%);">
+                            🧪<br><strong>Squeeze-Flaschen</strong><br>
+                            <span style="font-size: 0.8em;">elastisch & formbar</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; background: #fff3cd; padding: 12px; border-radius: 8px; font-size: 1.1em; text-align: center;">
+                        <strong>Recycling-Code:</strong> 04 (LD-PE)
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">6 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 7: Anwendung HD-PE (zusammengefasst) -->
+        <div class="slide combined-slide">
+            <h2>5. Anwendung: HD-PE (High Density)</h2>
+            <div class="content">
+                <div class="slide-section" style="background: #dfe6e9; border-left: 5px solid #0984e3;">
+                    <h3 style="color: #0984e3;">Warum ist HD-PE hart?</h3>
+                    <p style="font-size: 1.2em; line-height: 1.6;">
+                        Die <strong>linearen Ketten</strong> liegen eng aneinander<br>
+                        → dichte Packung → <strong>hohe Dichte</strong><br>
+                        → mehr Kontaktpunkte = stärkere Anziehung<br>
+                        → Material ist <strong>hart und formstabil</strong>
+                    </p>
+                </div>
+
+                <div class="slide-section">
+                    <h3>Typische Anwendungen:</h3>
+                    <div class="examples">
+                        <div class="example-box" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">
+                            🧴<br><strong>Shampoo-Flaschen</strong><br>
+                            <span style="font-size: 0.8em;">stabil & bruchsicher</span>
+                        </div>
+                        <div class="example-box" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">
+                            🧼<br><strong>Haushaltswaren</strong><br>
+                            <span style="font-size: 0.8em;">fest & langlebig</span>
+                        </div>
+                        <div class="example-box" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">
+                            🚰<br><strong>Rohre & Tanks</strong><br>
+                            <span style="font-size: 0.8em;">druckbeständig</span>
+                        </div>
+                        <div class="example-box" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">
+                            🧸<br><strong>Spielzeug</strong><br>
+                            <span style="font-size: 0.8em;">robust & sicher</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; background: #fff3cd; padding: 12px; border-radius: 8px; font-size: 1.1em; text-align: center;">
+                        <strong>Recycling-Code:</strong> 02 (HD-PE)
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">7 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- Folie 8: Alltagsbezug und Bedeutung (zusammengefasst) - OPTIMIERT -->
+        <div class="slide combined-slide">
+            <h2>6. Polyethylen im Alltag</h2>
+            <div class="content">
+                <div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                    <div style="font-size: 2.2em; font-weight: bold; margin-bottom: 5px;">100+ Millionen Tonnen</div>
+                    <div style="font-size: 1.2em;">Weltweite Jahresproduktion</div>
+                    <div style="font-size: 1em; margin-top: 5px; opacity: 0.9;">= Der meistproduzierte Kunststoff der Welt!</div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="box" style="background: #e8f8f5; border-left: 5px solid #00b894;">
+                        <h3 style="color: #00b894;">✅ Vorteile</h3>
+                        <ul style="font-size: 1.1em;">
+                            <li><strong>Chemisch beständig</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Resistent gegen viele Chemikalien</span></li>
+                            <li><strong>Leicht & stabil</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Gutes Verhältnis Gewicht/Festigkeit</span></li>
+                            <li><strong>Recyclebar</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Als Thermoplast einschmelzbar</span></li>
+                            <li><strong>Kostengünstig</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Einfache Herstellung aus Erdöl</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="box" style="background: #fff0f0; border-left: 5px solid #d63031;">
+                        <h3 style="color: #d63031;">⚠️ Herausforderungen</h3>
+                        <ul style="font-size: 1.1em;">
+                            <li><strong>Erdölbasis</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Nicht-nachwachsender Rohstoff</span></li>
+                            <li><strong>Langlebig in Umwelt</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Abbau dauert Jahrhunderte</span></li>
+                            <li><strong>Recyclingquote</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Nur ~30% werden wiederverwertet</span></li>
+                            <li><strong>Mikroplastik</strong><br>
+                            <span style="font-size: 0.8em; color: #666;">Zerfall in kleinste Partikel</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; background: #667eea; color: white; padding: 12px; border-radius: 10px; text-align: center; font-size: 1.1em;">
+                    <strong>💡 Zukunft:</strong> Bio-basiertes PE aus Zuckerrohr & verbesserte Recyclingverfahren
+                </div>
+            </div>
+            <div class="slide-number">8 / 8</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevSlide()">Zurück</button>
+                <button class="btn-next" onclick="nextSlide()" style="visibility: hidden;">Weiter</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = n;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+            if (currentSlide < 0) currentSlide = 0;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Tastatursteuerung
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+    </script>
+</body>
+</html>
