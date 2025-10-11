@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rechnen mit Binärzahlen</title>
+    <style>
+        @page {
+            margin: 1.5cm;
+            size: A4;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            padding: 40px 50px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #667eea;
+        }
+        
+        h1 {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        h2 {
+            font-size: 22px;
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 5px solid #667eea;
+            font-weight: 600;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .method-box {
+            background: #f8f9ff;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .example-box {
+            background: #fff9f0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .steps {
+            margin: 15px 0;
+        }
+        
+        .step {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .step::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        code, .code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        .tip {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .tip::before {
+            content: "💡 ";
+            font-size: 18px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+        
+        .formula {
+            background: #e8eaf6;
+            border: 2px dashed #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            border-radius: 8px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 All You Need to Know</h1>
+            <div class="subtitle">Lernblatt - Rechnen mit Binärzahlen</div>
+        </div>
+
+        <h2>1️⃣ Binärzahlen lesen (Binär → Dezimal)</h2>
+        
+        <div class="method-box">
+            <strong>Methode: Von links nach rechts verdoppeln</strong>
+        </div>
+        
+        <div class="steps">
+            <div class="step">Starte beim ersten <code>1</code> von links → Gedankenzahl: <strong>1</strong></div>
+            <div class="step">Gehe ein Bit nach rechts:
+                <ul style="margin-left: 25px; margin-top: 5px;">
+                    <li><strong>Bit = 0</strong>: Verdopple die Gedankenzahl</li>
+                    <li><strong>Bit = 1</strong>: Verdopple die Gedankenzahl und addiere 1</li>
+                </ul>
+            </div>
+            <div class="step">Wiederhole für jedes weitere Bit</div>
+        </div>
+
+        <h3>Beispiel: <code>1011010</code> → Dezimal</h3>
+        <div class="example-box">
+<pre>1011010 → Start bei erster 1: Gedankenzahl = 1
+1011010 → Nächstes Bit ist 0: 1 × 2 = 2
+1011010 → Bit ist 1: 2 × 2 + 1 = 5
+1011010 → Bit ist 1: 5 × 2 + 1 = 11
+1011010 → Bit ist 0: 11 × 2 = 22
+1011010 → Bit ist 1: 22 × 2 + 1 = 45
+1011010 → Bit ist 0: 45 × 2 = 90</pre>
+        </div>
+        <div class="tip"><strong>Ergebnis:</strong> <code>1011010₂ = 90₁₀</code></div>
+
+        <h2>2️⃣ Binäre Addition</h2>
+        
+        <div class="method-box">
+            <strong>Regeln:</strong> <code>0 + 0 = 0</code> | <code>0 + 1 = 1</code> | <code>1 + 1 = 10</code> (Übertrag!)
+        </div>
+
+        <div class="warning">
+            <strong>Wichtig:</strong> Immer von rechts nach links rechnen, Überträge nach links weitergeben!<br>
+            <span class="highlight">2 Einsen (1+1) = 10 → 0 im Ergebnis + 1 Übertrag</span><br>
+            <span class="highlight">3 Einsen (1+1+1) = 11 → 1 im Ergebnis + 1 Übertrag</span><br>
+            <span class="highlight">4 Einsen (1+1+1+1) = 100 → 0 im Ergebnis + 0 Übertrag eine Stelle + 1 Übertrag zwei Stellen nach links</span>
+        </div>
+
+        <h3>Beispiel mit Überträgen:</h3>
+        <div class="example-box">
+<pre>           1  1  (zu addierende Bits)
+           1  1
+           1  1
+         + 1  1
+         -------
+Übertrag:  1  0  0
+Übertrag:  1  0  0
+         -------
+Ergebnis:  1  1  0  0</pre>
+        </div>
+
+        <h2>3️⃣ Binäre Subtraktion (Zweierkomplement)</h2>
+        
+        <div class="formula">
+            Minuend + Zweierkomplement(Subtrahend)
+        </div>
+
+        <h3>Beispiel: <code>1011₂ − 0101₂</code></h3>
+        
+        <div class="steps">
+            <div class="step"><strong>Schritt 1:</strong> Subtrahend aufschreiben → <code>0101</code></div>
+            <div class="step"><strong>Schritt 2:</strong> Einerkomplement bilden (alle Bits umdrehen)
+                <pre>0101 → 1010</pre>
+            </div>
+            <div class="step"><strong>Schritt 3:</strong> +1 addieren = Zweierkomplement
+                <pre>  1010
++    1
+------
+  1011</pre>
+            </div>
+            <div class="step"><strong>Schritt 4:</strong> Mit Minuend addieren
+                <pre>  1011  (Minuend)
++ 1011  (Zweierkomplement)
+------
+ 10110</pre>
+            </div>
+            <div class="step"><strong>Schritt 5:</strong> Übertrag ignorieren (5. Bit streichen)
+                <pre>10110 → 0110</pre>
+            </div>
+        </div>
+
+        <div class="tip"><strong>Merksatz:</strong> Übertrag ganz links wird immer ignoriert!</div>
+
+        <h2>4️⃣ Binäre Multiplikation (Shift & Add)</h2>
+        
+        <div class="method-box">
+            <strong>Methode:</strong> Von rechts nach links, bei jeder 1 addieren mit Verschiebung (Shift)
+        </div>
+
+        <h3>Beispiel: <code>11010₂ × 101₂</code> (5-Bit × 3-Bit)</h3>
+        <div class="example-box">
+<pre>        11010  (26 dezimal)
+      ×   101  (5 dezimal)
+      --------
+        11010  (1. Bit ist 1 → kopieren)
+       00000   (2. Bit ist 0 → Nullen, um 1 nach links verschieben)
+      11010    (3. Bit ist 1 → kopieren, um 2 nach links verschieben)
+      --------</pre>
+        </div>
+
+        <div class="warning">
+            <strong>Jetzt die Shifts addieren:</strong> Wie bei normaler Addition mit Überträgen!
+        </div>
+
+        <div class="example-box">
+<pre>        11010
+       00000
+    + 11010
+    ---------
+Übertrag berücksichtigen:
+    
+      10000010  (130 dezimal)</pre>
+        </div>
+
+        <div class="tip"><strong>Kontrolle:</strong> 26 × 5 = 130 ✓</div>
+
+        <h2>5️⃣ Binäre Division</h2>
+        
+        <div class="method-box">
+            <strong>Methode:</strong> Wie schriftliche Dezimaldivision
+        </div>
+
+        <h3>Beispiel: <code>11001₂ ÷ 101₂</code> (5-Bit ÷ 3-Bit)</h3>
+        <div class="example-box">
+<pre>11001 : 101 = 101
+-101↓↓
+-----
+  0010
+  -000
+  ----
+   0101
+   -101
+   ----
+      0  (Rest)</pre>
+        </div>
+
+        <div class="steps">
+            <div class="step">Divisor von links in Dividend "hineinpassen" lassen</div>
+            <div class="step">Wenn möglich: 1 ins Ergebnis, Divisor abziehen</div>
+            <div class="step">Wenn nicht möglich: 0 ins Ergebnis, nächstes Bit herunterziehen</div>
+            <div class="step">Wiederholen bis alle Bits verarbeitet</div>
+        </div>
+
+        <div class="tip"><strong>Kontrolle:</strong> 25 ÷ 5 = 5 (Rest 0) ✓</div>
+
+        <h2>📋 Zusammenfassung</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Operation</th>
+                    <th>Methode</th>
+                    <th>Besonderheit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Lesen</strong></td>
+                    <td>Links starten, verdoppeln</td>
+                    <td>Bei 1: +1 addieren</td>
+                </tr>
+                <tr>
+                    <td><strong>Addition</strong></td>
+                    <td>Rechts nach links</td>
+                    <td>2 Einsen = 10₂<br>3 Einsen = 11₂<br>4 Einsen = 100₂</td>
+                </tr>
+                <tr>
+                    <td><strong>Subtraktion</strong></td>
+                    <td>Zweierkomplement</td>
+                    <td>Übertrag ignorieren</td>
+                </tr>
+                <tr>
+                    <td><strong>Multiplikation</strong></td>
+                    <td>Shift & Add</td>
+                    <td>Shifts addieren mit Überträgen</td>
+                </tr>
+                <tr>
+                    <td><strong>Division</strong></td>
+                    <td>Schriftlich</td>
+                    <td>Wie Dezimaldivision</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
