@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heapsort Visualizer</title>
+<title>Heapsort</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -42,6 +42,24 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #phase-badge{position:absolute;top:12px;left:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:#0f0d24;color:var(--accent3);border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;transition:all 0.3s;z-index:2;}
 #step-counter{position:absolute;top:12px;right:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:var(--bg3);color:var(--txt3);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;}
 #tree-svg{display:block;}
+/* Variablen-Panel */
+#vars-panel{
+  position:absolute;bottom:10px;right:10px;
+  background:#0a0d16;border:1px solid var(--border2);border-radius:8px;
+  padding:8px 10px;min-width:160px;max-width:220px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  z-index:3;
+}
+#vars-panel .vp-title{
+  color:var(--txt3);font-size:9px;letter-spacing:0.1em;
+  border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:6px;
+  text-transform:uppercase;
+}
+#vars-list{display:flex;flex-direction:column;gap:3px;}
+.var-row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.var-name{color:#818cf8;}
+.var-val{color:#34d399;font-weight:600;}
+.var-val.undef{color:var(--txt3);font-weight:400;}
 #array-bar{padding:8px 14px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:5px;overflow:hidden;}
 #array-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;margin-right:6px;}
 .arr-cell{height:28px;min-width:28px;padding:0 4px;border-radius:6px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--txt2);transition:all 0.2s;flex:1;}
@@ -79,6 +97,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         <div id="phase-badge">INITIALISIERUNG</div>
         <div id="step-counter">0 / 0</div>
         <svg id="tree-svg" width="100%" height="100%"></svg>
+        <div id="vars-panel">
+          <div class="vp-title">Variablen</div>
+          <div id="vars-list"></div>
+        </div>
       </div>
       <div id="array-bar"><span id="array-label">arr[]</span></div>
       <div id="legend">
@@ -103,88 +125,90 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
 </div>
 <script>
 const CODE = [
-  {n:1,  t:'<span class="kw">using</span> System;'},
-  {n:2,  t:'<span class="kw">namespace</span> HeapsortProjekt'},
-  {n:3,  t:'{'},
-  {n:4,  t:'    <span class="kw">class</span> <span class="tp">Program</span>'},
-  {n:5,  t:'    {'},
-  {n:6,  t:'        <span class="kw">static void</span> <span class="fn">Main</span>(<span class="kw">string</span>[] args)'},
-  {n:7,  t:'        {'},
-  {n:8,  t:'            <span class="cm">// 1. Zuf\u00e4llige Zahlen erzeugen</span>'},
-  {n:9,  t:'            Random rnd = <span class="kw">new</span> Random();'},
-  {n:10, t:'            <span class="kw">int</span> anzahl = <span class="nu">10</span>; <span class="cm">// Anzahl der zu sortierenden Zahlen</span>'},
-  {n:11, t:'            <span class="kw">int</span>[] zahlen = <span class="kw">new int</span>[anzahl];'},
-  {n:12, t:'            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nu">0</span>; i &lt; anzahl; i++)'},
-  {n:13, t:'            {'},
-  {n:14, t:'                zahlen[i] = rnd.Next(<span class="nu">1</span>, <span class="nu">100</span>); <span class="cm">// Zufallszahlen von 1 bis 99</span>'},
-  {n:15, t:'            }'},
-  {n:16, t:'            <span class="cm">// 2. Unsortierte Zahlenfolge ausgeben</span>'},
-  {n:17, t:'            Console.WriteLine(<span class="str">"Unsortierte Zahlenfolge:"</span>);'},
-  {n:18, t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen));'},
-  {n:19, t:'            Console.WriteLine();'},
-  {n:20, t:'            <span class="cm">// 3. Heapsort aufrufen</span>'},
-  {n:21, t:'            <span class="fn">Heapsort</span>(zahlen);'},
-  {n:22, t:'            <span class="cm">// 4. Sortierte Zahlenfolge ausgeben</span>'},
-  {n:23, t:'            Console.WriteLine(<span class="str">"\\nSortierte Zahlenfolge:"</span>);'},
-  {n:24, t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen));'},
-  {n:25, t:'            Console.ReadLine();'},
-  {n:26, t:'        }'},
-  {n:27, t:'        <span class="cm">// Hauptmethode f\u00fcr den Heapsort-Algorithmus</span>'},
-  {n:28, t:'        <span class="kw">static void</span> <span class="fn">Heapsort</span>(<span class="kw">int</span>[] arr)'},
-  {n:29, t:'        {'},
-  {n:30, t:'            <span class="kw">int</span> n = arr.Length;'},
-  {n:31, t:'            <span class="cm">// Max-Heap aufbauen</span>'},
-  {n:32, t:'            <span class="cm">// Wir starten beim letzten Elternknoten und arbeiten uns zur Wurzel vor.</span>'},
-  {n:33, t:'            <span class="cm">// Index des letzten Elternknotens ist (n / 2) - 1.</span>'},
-  {n:34, t:'            <span class="kw">for</span> (<span class="kw">int</span> i = n / <span class="nu">2</span> - <span class="nu">1</span>; i &gt;= <span class="nu">0</span>; i--)'},
-  {n:35, t:'            {'},
-  {n:36, t:'                <span class="fn">Versickere</span>(arr, n, i);'},
-  {n:37, t:'            }'},
-  {n:38, t:'            <span class="cm">// Sortieren</span>'},
-  {n:39, t:'            <span class="cm">// Wir extrahieren elementweise das gr\u00f6\u00dfte Element (Wurzel)</span>'},
-  {n:40, t:'            <span class="kw">for</span> (<span class="kw">int</span> i = n - <span class="nu">1</span>; i &gt; <span class="nu">0</span>; i--)'},
-  {n:41, t:'            {'},
-  {n:42, t:'                <span class="cm">// Wurzel (gr\u00f6\u00dftes Element) mit dem letzten unsortierten Element vertauschen</span>'},
-  {n:43, t:'                <span class="fn">Tauschen</span>(arr, <span class="nu">0</span>, i);'},
-  {n:44, t:'                <span class="cm">// Die Heap-Gr\u00f6\u00dfe verringert sich (i wird kleiner),</span>'},
-  {n:45, t:'                <span class="cm">// die neue Wurzel muss an ihre richtige Position "versickert" werden</span>'},
-  {n:46, t:'                <span class="fn">Versickere</span>(arr, i, <span class="nu">0</span>);'},
-  {n:47, t:'            }'},
-  {n:48, t:'        }'},
-  {n:49, t:'        <span class="cm">// Versickert ein Element im Heap nach unten, bis die Max-Heap-Eigenschaft wiederhergestellt ist.</span>'},
-  {n:50, t:'        <span class="kw">static void</span> <span class="fn">Versickere</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> heapGroesse, <span class="kw">int</span> index)'},
-  {n:51, t:'        {'},
-  {n:52, t:'            <span class="kw">int</span> groesstes = index;        <span class="cm">// Nehme an, das aktuelle Element ist das gr\u00f6\u00dfte</span>'},
-  {n:53, t:'            <span class="kw">int</span> links = <span class="nu">2</span> * index + <span class="nu">1</span>;    <span class="cm">// Index des linken Kindes</span>'},
-  {n:54, t:'            <span class="kw">int</span> rechts = <span class="nu">2</span> * index + <span class="nu">2</span>;   <span class="cm">// Index des rechten Kindes</span>'},
-  {n:55, t:'            <span class="cm">// Ist das linke Kind gr\u00f6\u00dfer als das aktuelle Element?</span>'},
-  {n:56, t:'            <span class="kw">if</span> (links &lt; heapGroesse &amp;&amp; arr[links] &gt; arr[groesstes])'},
-  {n:57, t:'            {'},
-  {n:58, t:'                groesstes = links;'},
-  {n:59, t:'            }'},
-  {n:60, t:'            <span class="cm">// Ist das rechte Kind gr\u00f6\u00dfer als das bisher gr\u00f6\u00dfte Element?</span>'},
-  {n:61, t:'            <span class="kw">if</span> (rechts &lt; heapGroesse &amp;&amp; arr[rechts] &gt; arr[groesstes])'},
-  {n:62, t:'            {'},
-  {n:63, t:'                groesstes = rechts;'},
-  {n:64, t:'            }'},
-  {n:65, t:'            <span class="cm">// Wenn das gr\u00f6\u00dfte Element nicht mehr das urspr\u00fcngliche Element ist,</span>'},
-  {n:66, t:'            <span class="cm">// m\u00fcssen wir tauschen und im Unterbaum weiter versickern.</span>'},
-  {n:67, t:'            <span class="kw">if</span> (groesstes != index)'},
-  {n:68, t:'            {'},
-  {n:69, t:'                <span class="fn">Tauschen</span>(arr, index, groesstes);'},
-  {n:70, t:'                <span class="cm">// Rekursiver Aufruf (oder iterativ machbar), um im Baum weiter nach unten zu gehen</span>'},
-  {n:71, t:'                <span class="fn">Versickere</span>(arr, heapGroesse, groesstes);'},
-  {n:72, t:'            }'},
-  {n:73, t:'        }'},
-  {n:74, t:'        <span class="cm">// Hilfsmethode zum Vertauschen zweier Elemente im Array</span>'},
-  {n:75, t:'        <span class="kw">static void</span> <span class="fn">Tauschen</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> a, <span class="kw">int</span> b)'},
-  {n:76, t:'        {'},
-  {n:77, t:'            <span class="kw">int</span> temp = arr[a];'},
-  {n:78, t:'            arr[a] = arr[b];'},
-  {n:79, t:'            arr[b] = temp;'},
-  {n:80, t:'        }'},
-  {n:81, t:'    }'},
-  {n:82, t:'}'},
+  {n:1,   t:'<span class="kw">using</span> System;'},
+  {n:2,   t:'<span class="kw">namespace</span> HeapsortProjekt'},
+  {n:3,   t:'{'},
+  {n:4,   t:'    <span class="kw">class</span> <span class="tp">Program</span>'},
+  {n:5,   t:'    {'},
+  {n:6,   t:'        <span class="kw">static void</span> <span class="fn">Main</span>(<span class="kw">string</span>[] args)'},
+  {n:7,   t:'        {'},
+  {n:8,   t:'            <span class="cm">// 1. Zuf\u00e4llige Zahlen erzeugen</span>'},
+  {n:9,   t:'            Random rnd = <span class="kw">new</span> Random();'},
+  {n:10,  t:'            <span class="kw">int</span> anzahl = <span class="nu">10</span>; <span class="cm">// Anzahl der zu sortierenden Zahlen</span>'},
+  {n:11,  t:'            <span class="kw">int</span>[] zahlen = <span class="kw">new int</span>[anzahl];'},
+  {n:12,  t:'            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nu">0</span>; i &lt; anzahl; i++)'},
+  {n:13,  t:'            {'},
+  {n:14,  t:'                zahlen[i] = rnd.Next(<span class="nu">1</span>, <span class="nu">100</span>); <span class="cm">// Zufallszahlen von 1 bis 99</span>'},
+  {n:15,  t:'            }'},
+  {n:16,  t:'            <span class="cm">// 2. Unsortierte Zahlenfolge ausgeben</span>'},
+  {n:17,  t:'            Console.WriteLine(<span class="str">"Unsortierte Zahlenfolge:"</span>);'},
+  {n:18,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen)); <span class="cm">// Kommas zwischen den Elementen des Arrays einf\u00fcgen</span>'},
+  {n:19,  t:'            Console.WriteLine();'},
+  {n:20,  t:'            <span class="cm">// 3. Heapsort aufrufen</span>'},
+  {n:21,  t:'            <span class="fn">Heapsort</span>(zahlen);   <span class="cm">// Den Array mit den Zufallszahlen an die Sortierfunktion \u00fcbergeben</span>'},
+  {n:22,  t:'            <span class="cm">// 4. Sortierte Zahlenfolge ausgeben</span>'},
+  {n:23,  t:'            Console.WriteLine(<span class="str">"\\nSortierte Zahlenfolge:"</span>);'},
+  {n:24,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen)); <span class="cm">// Kommas zwischen den Elementen des Arrays einf\u00fcgen</span>'},
+  {n:25,  t:'            <span class="cm">// 5. Programm aktiv halten; Schlie\u00dfen sowie komische Fehlermeldungen verhindern</span>'},
+  {n:26,  t:'            Console.ReadLine(); '},
+  {n:27,  t:'        }'},
+  {n:28,  t:'        <span class="cm">// Hauptmethode f\u00fcr den Heapsort-Algorithmus</span>'},
+  {n:29,  t:'        <span class="kw">static void</span> <span class="fn">Heapsort</span>(<span class="kw">int</span>[] arr) <span class="cm">// Den Array mit den Zufallszahlen entgegennehmen und als "arr" verf\u00fcgbar machen</span>'},
+  {n:30,  t:'        {'},
+  {n:31,  t:'            <span class="kw">int</span> n = arr.Length; <span class="cm">// n ist die L\u00e4nge des Arrays bzw. die Anzahl der Elemente im Array</span>'},
+  {n:32,  t:'            <span class="cm">// Max-Heap aufbauen</span>'},
+  {n:33,  t:'            <span class="cm">// Wir starten beim letzten Elternknoten und arbeiten uns zur Wurzel vor.</span>'},
+  {n:34,  t:'            <span class="cm">// Index des letzten Elternknotens ist (n / 2) - 1.</span>'},
+  {n:35,  t:'            <span class="kw">for</span> (<span class="kw">int</span> i = n / <span class="nu">2</span> - <span class="nu">1</span>; i &gt;= <span class="nu">0</span>; i--)'},
+  {n:36,  t:'            {'},
+  {n:37,  t:'                <span class="fn">Versickere</span>(arr, n, i);'},
+  {n:38,  t:'            }'},
+  {n:39,  t:'            <span class="cm">// Sortieren</span>'},
+  {n:40,  t:'            <span class="cm">// Wir extrahieren elementweise das gr\u00f6\u00dfte Element (Wurzel)</span>'},
+  {n:41,  t:'            <span class="kw">for</span> (<span class="kw">int</span> i = n - <span class="nu">1</span>; i &gt; <span class="nu">0</span>; i--)'},
+  {n:42,  t:'            {'},
+  {n:43,  t:'                <span class="cm">// Wurzel (gr\u00f6\u00dfstes Element) mit dem letzten unsortierten Element vertauschen</span>'},
+  {n:44,  t:'                <span class="fn">Tauschen</span>(arr, <span class="nu">0</span>, i);'},
+  {n:45,  t:'                <span class="cm">// Die Heap-Gr\u00f6\u00dfe verringert sich (i wird kleiner), </span>'},
+  {n:46,  t:'                <span class="cm">// die neue Wurzel muss an ihre richtige Position "versickert" werden</span>'},
+  {n:47,  t:'                <span class="fn">Versickere</span>(arr, i, <span class="nu">0</span>);'},
+  {n:48,  t:'            }'},
+  {n:49,  t:'        }'},
+  {n:50,  t:'        <span class="cm">// Versickert ein Element im Heap nach unten, bis die Max-Heap-Eigenschaft wiederhergestellt ist.</span>'},
+  {n:51,  t:'        <span class="kw">static void</span> <span class="fn">Versickere</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> heapGroesse, <span class="kw">int</span> index) <span class="cm">// Entgegennehmen von Array mit Zufallszahlen, L\u00e4nge des Arrays und aktueller Index</span>'},
+  {n:52,  t:'        {'},
+  {n:53,  t:'            <span class="kw">int</span> groesstes = index;        <span class="cm">// Nehme an, das aktuelle Element ist das gr\u00f6\u00dfte</span>'},
+  {n:54,  t:'            <span class="kw">int</span> links = <span class="nu">2</span> * index + <span class="nu">1</span>;    <span class="cm">// Index des linken Kindes</span>'},
+  {n:55,  t:'            <span class="kw">int</span> rechts = <span class="nu">2</span> * index + <span class="nu">2</span>;   <span class="cm">// Index des rechten Kindes</span>'},
+  {n:56,  t:'            <span class="cm">// Ist das linke Kind gr\u00f6\u00dfer als das aktuelle Element?</span>'},
+  {n:57,  t:'            <span class="kw">if</span> (links &lt; heapGroesse &amp;&amp; arr[links] &gt; arr[groesstes])'},
+  {n:58,  t:'            {'},
+  {n:59,  t:'                groesstes = links; <span class="cm">// "groesstes" auf das aktuell als gr\u00f6\u00dfte angenommene Element setzten</span>'},
+  {n:60,  t:'            }'},
+  {n:61,  t:'            <span class="cm">// Ist das rechte Kind gr\u00f6\u00dfer als das bisher gr\u00f6\u00dfte Element?</span>'},
+  {n:62,  t:'            <span class="kw">if</span> (rechts &lt; heapGroesse &amp;&amp; arr[rechts] &gt; arr[groesstes])'},
+  {n:63,  t:'            {'},
+  {n:64,  t:'                groesstes = rechts; <span class="cm">// "groesstes" auf das aktuell als gr\u00f6\u00dfte angenommene Element setzten</span>'},
+  {n:65,  t:'            }'},
+  {n:66,  t:'            <span class="cm">// Wenn das gr\u00f6\u00dfte Element nicht mehr das urspr\u00fcngliche Element ist,</span>'},
+  {n:67,  t:'            <span class="cm">// m\u00fcssen wir tauschen und im Unterbaum weiter versickern.</span>'},
+  {n:68,  t:'            <span class="kw">if</span> (groesstes != index)'},
+  {n:69,  t:'            {'},
+  {n:70,  t:'                <span class="fn">Tauschen</span>(arr, index, groesstes);'},
+  {n:71,  t:'                <span class="cm">// Rekursiver Aufruf um im Baum weiter nach unten zu gehen</span>'},
+  {n:72,  t:'                <span class="cm">// Heapsort im ganzen ist iterativ, das wird hier nicht ge\u00e4ndert, Teiloperationen sind jedoch rekursiv einfacher umzusetzen</span>'},
+  {n:73,  t:'                <span class="fn">Versickere</span>(arr, heapGroesse, groesstes);'},
+  {n:74,  t:'            }'},
+  {n:75,  t:'        }'},
+  {n:76,  t:'        <span class="cm">// Hilfsmethode zum Vertauschen zweier Elemente im Array</span>'},
+  {n:77,  t:'        <span class="kw">static void</span> <span class="fn">Tauschen</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> aktuell, <span class="kw">int</span> groesste)'},
+  {n:78,  t:'        {'},
+  {n:79,  t:'            <span class="kw">int</span> temp = arr[aktuell];          <span class="cm">// Wert des aktuellen Elements zwischenspeichern</span>'},
+  {n:80,  t:'            arr[aktuell] = arr[groesste];    <span class="cm">// Gr\u00f6\u00dferes Element an die aktuelle Position setzen</span>'},
+  {n:81,  t:'            arr[groesste] = temp;            <span class="cm">// Zwischengespeicherten Wert an die andere Position setzen</span>'},
+  {n:82,  t:'        }'},
+  {n:83,  t:'    }'},
+  {n:84,  t:'}'},
 ];
 
 function buildCode(){
@@ -219,53 +243,63 @@ function initArr(){
 function buildSteps(a){
   const n = a.length;
   const sorted = new Set();
-  function snap(line, arr, hl, sw, phase){
-    steps.push({line, arr:[...arr], hl:[...hl], sw:[...sw], sorted:[...sorted], phase});
+
+  function snap(line, arr, hl, sw, phase, vars){
+    steps.push({line, arr:[...arr], hl:[...hl], sw:[...sw], sorted:[...sorted], phase, vars: vars||{}});
   }
 
-  snap(21, a, [], [], 'init');
-  snap(28, a, [], [], 'init');
-  snap(30, a, [], [], 'init');
-  snap(34, a, [], [], 'heap-aufbau');
+  snap(21, a, [], [], 'init', {anzahl:n});
+  snap(29, a, [], [], 'init', {anzahl:n});
+  snap(31, a, [], [], 'init', {n, anzahl:n});
+  snap(35, a, [], [], 'heap-aufbau', {n});
 
-  function versickere(a, hg, idx, phase){
-    snap(50, a, [idx], [], phase);
-    snap(52, a, [idx], [], phase);
+  function versickere(a, hg, idx, phase, outerVars){
+    const base = Object.assign({}, outerVars||{}, {heapGroesse:hg, index:idx});
+    snap(51, a, [idx], [], phase, base);
+    snap(53, a, [idx], [], phase, Object.assign({},base,{groesstes:idx}));
     let gr = idx, li = 2*idx+1, re = 2*idx+2;
-    snap(53, a, [idx, li, re], [], phase);
-    snap(56, a, [idx, li], [], phase);
-    if(li < hg && a[li] > a[gr]){ snap(58, a, [li, gr], [], phase); gr = li; }
-    snap(61, a, [idx, re], [], phase);
-    if(re < hg && a[re] > a[gr]){ snap(63, a, [re, gr], [], phase); gr = re; }
-    snap(67, a, [idx, gr], [], phase);
+    snap(54, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li}));
+    snap(55, a, [idx, li, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    snap(57, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    if(li < hg && a[li] > a[gr]){
+      snap(59, a, [li, gr], [], phase, Object.assign({},base,{groesstes:li, links:li, rechts:re}));
+      gr = li;
+    }
+    snap(62, a, [idx, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    if(re < hg && a[re] > a[gr]){
+      snap(64, a, [re, gr], [], phase, Object.assign({},base,{groesstes:re, links:li, rechts:re}));
+      gr = re;
+    }
+    snap(68, a, [idx, gr], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
     if(gr !== idx){
-      snap(69, a, [idx, gr], [idx, gr], phase);
+      snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
       let t = a[idx]; a[idx] = a[gr]; a[gr] = t;
-      snap(69, a, [idx, gr], [idx, gr], phase);
-      snap(77, a, [idx, gr], [idx, gr], phase);
-      snap(78, a, [idx, gr], [idx, gr], phase);
-      snap(79, a, [idx, gr], [idx, gr], phase);
-      snap(71, a, [gr], [], phase);
-      versickere(a, hg, gr, phase);
+      snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+      // Tauschen method
+      snap(79, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
+      snap(80, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
+      snap(81, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
+      snap(73, a, [gr], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+      versickere(a, hg, gr, phase, Object.assign({},base,{groesstes:gr}));
     }
   }
 
   for(let i = Math.floor(n/2)-1; i >= 0; i--){
-    snap(36, a, [i], [], 'heap-aufbau');
-    versickere(a, n, i, 'heap-aufbau');
+    snap(37, a, [i], [], 'heap-aufbau', {n, i});
+    versickere(a, n, i, 'heap-aufbau', {n, i});
   }
 
-  snap(40, a, [], [], 'sortieren');
+  snap(41, a, [], [], 'sortieren', {n});
   for(let i = n-1; i > 0; i--){
-    snap(43, a, [0, i], [0, i], 'sortieren');
+    snap(44, a, [0, i], [0, i], 'sortieren', {n, i});
     let t = a[0]; a[0] = a[i]; a[i] = t;
     sorted.add(i);
-    snap(43, a, [0, i], [0, i], 'sortieren');
-    snap(46, a, [0], [], 'sortieren');
-    versickere(a, i, 0, 'sortieren');
+    snap(44, a, [0, i], [0, i], 'sortieren', {n, i});
+    snap(47, a, [0], [], 'sortieren', {n, i});
+    versickere(a, i, 0, 'sortieren', {n, i});
   }
   sorted.add(0);
-  snap(24, a, [], [], 'fertig');
+  snap(24, a, [], [], 'fertig', {n});
 }
 
 const svgEl = document.getElementById('tree-svg');
@@ -355,6 +389,24 @@ function drawTree(s){
   if(s.phase==='sortieren'){pb.style.color='#fcd34d';pb.style.borderColor='#78350f';pb.style.background='#1a0e00';}
   else if(s.phase==='fertig'){pb.style.color='#86efac';pb.style.borderColor='#14532d';pb.style.background='#031a0e';}
   else{pb.style.color='#c4b5fd';pb.style.borderColor='#3730a3';pb.style.background='#0f0d24';}
+
+  updateVars(s.vars||{});
+}
+
+function updateVars(vars){
+  const list = document.getElementById('vars-list');
+  const order = ['n','anzahl','i','heapGroesse','index','groesstes','links','rechts','aktuell','groesste','temp'];
+  const keys = [...new Set([...order.filter(k => k in vars), ...Object.keys(vars).filter(k => !order.includes(k))])];
+  if(keys.length === 0){
+    list.innerHTML = '<div class="var-row"><span class="var-val undef">—</span></div>';
+    return;
+  }
+  list.innerHTML = keys.map(k => {
+    const v = vars[k];
+    const display = v === undefined || v === null ? '—' : String(v);
+    const cls = (v === undefined || v === null) ? 'var-val undef' : 'var-val';
+    return `<div class="var-row"><span class="var-name">${k}</span><span class="${cls}">${display}</span></div>`;
+  }).join('');
 }
 
 function edge(p1, p2, nr){
