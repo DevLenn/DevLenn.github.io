@@ -26,7 +26,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #file-path span{color:var(--txt2);}
 .title-badge{margin-left:auto;font-size:10px;padding:3px 10px;border-radius:20px;background:#1a1540;color:#a5b4fc;border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;}
 #main{display:flex;flex:1;overflow:hidden;min-height:0;}
-#code-panel{width:52%;border-right:1px solid var(--border);overflow-y:auto;background:var(--bg);padding:8px 0;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
+
+/* LEFT PANEL with tabs */
+#left-panel{width:52%;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+
+/* Tab bar */
+#tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;height:36px;}
+.tab{display:flex;align-items:center;gap:6px;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt3);cursor:pointer;border-right:1px solid var(--border);position:relative;user-select:none;transition:color 0.15s,background 0.15s;white-space:nowrap;}
+.tab:hover{color:var(--txt2);background:var(--bg3);}
+.tab.active{color:var(--accent3);background:var(--bg);border-bottom:2px solid var(--accent);}
+.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--bg);}
+.tab-icon{font-size:10px;opacity:0.7;}
+
+/* Code panel */
+#code-panel{flex:1;overflow-y:auto;background:var(--bg);padding:8px 0;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
+#code-panel.visible{display:block;}
 #code-panel::-webkit-scrollbar{width:4px;}
 #code-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 .cl{display:flex;align-items:center;padding:0;line-height:1.65;white-space:pre;font-size:12px;font-family:'JetBrains Mono',monospace;transition:background 0.1s;}
@@ -36,13 +50,103 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cl.active .ln{color:var(--accent);font-weight:600;}
 .cl.active .ct{color:#ffffff;}
 .kw{color:#818cf8;}.cm{color:#364a62;font-style:italic;}.nu{color:#34d399;}.fn{color:#60a5fa;}.str{color:#f9a8d4;}.tp{color:#a78bfa;}
+
+/* Struktogramm panel */
+#strukt-panel{flex:1;overflow-y:auto;overflow-x:auto;background:var(--bg);padding:14px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
+#strukt-panel.visible{display:block;}
+#strukt-panel::-webkit-scrollbar{width:4px;}
+#strukt-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ── STRUKTOGRAMM STYLES ── */
+.sk-wrap{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt);min-width:500px;}
+.sk-title{font-size:10px;color:var(--txt3);margin-bottom:10px;letter-spacing:0.08em;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--border2);}
+
+/* Color tokens — mirrors code syntax colors */
+.sk-c-seq   { color:#e2e8f0; }   /* plain code: white */
+.sk-c-kw    { color:#818cf8; }   /* keywords / if / for: indigo */
+.sk-c-fn    { color:#60a5fa; }   /* function calls: blue */
+.sk-c-fn-hd { color:#c4b5fd; }   /* function headers: violet */
+.sk-c-nu    { color:#34d399; }   /* numbers in labels: green */
+
+/* Function block */
+.sk-fn-wrap{border:1px solid var(--border2);margin-top:10px;}
+.sk-fn-wrap:first-of-type{margin-top:0;}
+.sk-fn-header{padding:6px 10px;background:#0e1120;border-bottom:1px solid var(--border2);font-weight:600;font-size:11px;display:flex;align-items:center;gap:6px;}
+.sk-fn-header::before{content:'fn';font-size:8px;padding:1px 5px;border-radius:3px;background:#1e1b4b;border:1px solid #3730a3;color:#818cf8;flex-shrink:0;}
+
+/* Plain sequence row */
+.sk-seq{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;transition:background 0.15s,border-color 0.15s;}
+.sk-fn-wrap > .sk-seq:first-of-type, .sk-fn-header + .sk-seq{border-top:none;}
+
+/* Function call row */
+.sk-call{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;background:#08101e;transition:background 0.15s,border-color 0.15s;}
+.sk-call::before{content:'→';color:#60a5fa;font-size:10px;flex-shrink:0;}
+
+/* ── FOR LOOP ── */
+.sk-for-wrap{border:1px solid var(--border2);border-top:none;}
+.sk-for-header{padding:5px 10px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:6px;background:#0a0f1c;transition:background 0.15s,border-color 0.15s;}
+.sk-for-header::before{content:'↻';color:#818cf8;font-size:12px;flex-shrink:0;}
+.sk-for-body{margin-left:16px;border-left:2px solid #2a3a5a;}
+
+/* ── IF BLOCK — proper Nassi-Shneiderman diagonal style ── */
+.sk-if-wrap{border:1px solid var(--border2);border-top:none;display:flex;flex-direction:column;}
+
+/* Condition row with diagonal triangle indicator */
+.sk-if-cond-row{position:relative;min-height:34px;border-bottom:1px solid var(--border2);display:flex;align-items:stretch;}
+/* The condition text sits at top, diagonals fill bottom portion */
+.sk-if-cond-text{
+  flex:1;padding:8px 10px 28px 10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  text-align:center;gap:3px;line-height:1.5;
+  transition:background 0.15s;position:relative;z-index:1;
+}
+/* The diagonal triangle lines are drawn via SVG overlay — bottom half only */
+.sk-if-cond-row{min-height:60px;position:relative;}
+.sk-if-cond-row .sk-diag-svg{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:28px;
+  width:100%;
+  pointer-events:none;
+  overflow:visible;
+}
+
+/* Branch row: two columns side by side */
+.sk-if-branches{display:flex;min-height:30px;}
+.sk-branch-ja{flex:1;border-right:1px solid var(--border2);display:flex;flex-direction:column;}
+.sk-branch-nein{flex:1;display:flex;flex-direction:column;}
+.sk-branch-label{font-size:9px;letter-spacing:0.06em;padding:2px 6px;}
+.sk-branch-label.ja-lbl{color:#34d399;}
+.sk-branch-label.nein-lbl{color:#f87171;text-align:right;}
+.sk-branch-body{flex:1;}
+/* nested elements inside branches lose their top border redundancy */
+.sk-branch-body .sk-seq{border-top:none;}
+.sk-branch-body .sk-call{border-top:none;}
+.sk-branch-body .sk-for-wrap{border-top:none;}
+.sk-branch-body .sk-if-wrap{border-top:none;}
+.sk-branch-body > *:first-child{border-top:none;}
+
+/* Empty branch placeholder */
+.sk-branch-empty{padding:5px 10px;color:var(--txt3);font-size:10px;font-style:italic;min-height:24px;display:flex;align-items:center;}
+
+/* ── HIGHLIGHT states ── */
+.sk-hl-seq  {background:rgba(129,140,248,0.15)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
+.sk-hl-kw   {background:rgba(129,140,248,0.22)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
+.sk-hl-fn   {background:rgba(96,165,250,0.18)!important;border-color:#60a5fa!important;outline:1px solid #60a5fa40;}
+
+/* ensure borders between adjacent blocks don't double up */
+.sk-for-wrap + .sk-seq,.sk-for-wrap + .sk-for-wrap,.sk-for-wrap + .sk-if-wrap,
+.sk-if-wrap + .sk-seq,.sk-if-wrap + .sk-for-wrap,.sk-if-wrap + .sk-if-wrap,
+.sk-seq + .sk-seq,.sk-seq + .sk-for-wrap,.sk-seq + .sk-if-wrap,
+.sk-call + .sk-seq,.sk-call + .sk-for-wrap,.sk-call + .sk-if-wrap,
+.sk-seq + .sk-call,.sk-call + .sk-call,.sk-for-wrap + .sk-call,.sk-if-wrap + .sk-call
+{border-top:none;}
+
 #divider{width:1px;flex-shrink:0;background:linear-gradient(to bottom,transparent,var(--accent) 15%,var(--border3) 50%,var(--accent) 85%,transparent);opacity:0.35;}
 #tree-panel{flex:1;display:flex;flex-direction:column;background:var(--bg);min-width:0;}
 #tree-svg-wrap{flex:1;overflow:hidden;position:relative;min-height:0;}
 #phase-badge{position:absolute;top:12px;left:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:#0f0d24;color:var(--accent3);border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;transition:all 0.3s;z-index:2;}
 #step-counter{position:absolute;top:12px;right:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:var(--bg3);color:var(--txt3);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;}
 #tree-svg{display:block;}
-/* Variablen-Panel */
 #vars-panel{
   position:absolute;bottom:10px;right:10px;
   background:#0a0d16;border:1px solid var(--border2);border-radius:8px;
@@ -69,6 +173,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #legend{display:flex;gap:14px;padding:7px 14px;background:var(--bg2);border-top:1px solid var(--border);flex-wrap:wrap;}
 .leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt3);}
 .leg-dot{width:9px;height:9px;border-radius:50%;}
+
+/* Timeline slider */
+#timeline-wrap{padding:6px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+#timeline-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;min-width:52px;}
+#timeline{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+#timeline::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent2);cursor:pointer;border:2px solid var(--bg2);}
+#timeline::-webkit-slider-runnable-track{border-radius:2px;}
+
 #controls{padding:10px 14px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;}
 .btn{font-size:11px;padding:6px 14px;cursor:pointer;border-radius:20px;font-family:'JetBrains Mono',monospace;transition:all 0.15s;border:1px solid var(--border2);background:var(--bg3);color:var(--txt2);}
 .btn:hover:not(:disabled){background:var(--bg5);border-color:var(--border3);color:var(--txt);}
@@ -90,7 +202,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
     <span class="title-badge">C# · Heapsort Visualizer</span>
   </div>
   <div id="main">
-    <div id="code-panel"></div>
+    <div id="left-panel">
+      <div id="tab-bar">
+        <div class="tab active" id="tab-code" onclick="switchTab('code')">
+          <span class="tab-icon">⌨</span> Code
+        </div>
+        <div class="tab" id="tab-strukt" onclick="switchTab('strukt')">
+          <span class="tab-icon">⊞</span> Struktogramm
+        </div>
+      </div>
+      <div id="code-panel" class="visible"></div>
+      <div id="strukt-panel"></div>
+    </div>
     <div id="divider"></div>
     <div id="tree-panel">
       <div id="tree-svg-wrap">
@@ -109,8 +232,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         <div class="leg"><div class="leg-dot" style="background:#14532d;border:1px solid #4ade80"></div>sortiert</div>
         <div class="leg"><div class="leg-dot" style="background:#111827;border:1px solid #2a3a5a"></div>inaktiv</div>
       </div>
+      <div id="timeline-wrap">
+        <span id="timeline-label">Timeline</span>
+        <input type="range" id="timeline" min="0" max="100" value="0" step="1">
+      </div>
       <div id="controls">
         <button class="btn primary" id="btn-play">&#9654; Start</button>
+        <button class="btn" id="btn-back" disabled>&#8592; Zurück</button>
         <button class="btn" id="btn-step" disabled>&#8594; Schritt</button>
         <button class="btn" id="btn-reset">&#8635; Reset</button>
         <div id="speed-wrap">
@@ -124,6 +252,23 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
   </div>
 </div>
 <script>
+// ── TAB SWITCHING ──────────────────────────────────────────────────────────
+let currentTab = 'code';
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-code').classList.toggle('active', tab === 'code');
+  document.getElementById('tab-strukt').classList.toggle('active', tab === 'strukt');
+  document.getElementById('code-panel').classList.toggle('visible', tab === 'code');
+  document.getElementById('strukt-panel').classList.toggle('visible', tab === 'strukt');
+  // Re-apply current highlight in the newly shown tab
+  if (stepIdx > 0 && steps.length > 0) {
+    const s = steps[stepIdx - 1];
+    if (tab === 'code') setLine(s.line);
+    else setStruktLine(s.line);
+  }
+}
+
+// ── CODE DATA ──────────────────────────────────────────────────────────────
 const CODE = [
   {n:1,   t:'<span class="kw">using</span> System;'},
   {n:2,   t:'<span class="kw">namespace</span> HeapsortProjekt'},
@@ -219,9 +364,10 @@ function buildCode(){
 }
 buildCode();
 
+// ── CODE HIGHLIGHTING ──────────────────────────────────────────────────────
 let lastLine = -1;
 function setLine(n){
-  if(lastLine === n) return;
+  if(lastLine === n && currentTab === 'code') return;
   document.querySelectorAll('.cl').forEach(e => e.classList.remove('active'));
   if(n > 0){
     const el = document.getElementById('cl'+n);
@@ -230,6 +376,165 @@ function setLine(n){
   lastLine = n;
 }
 
+// ── STRUKTOGRAMM ──────────────────────────────────────────────────────────
+// Map from line numbers to struktogramm element IDs
+// We'll build a mapping after rendering
+
+// Helper: build a proper Nassi-Shneiderman IF block with diagonal triangle lines
+// condHtml: inner HTML for condition, lines: data-lines value, id: element id
+// jaHtml / neinHtml: inner HTML for each branch body
+function skIf(condHtml, dataLines, elId, jaHtml, neinHtml) {
+  return `
+<div class="sk-if-wrap">
+  <div class="sk-if-cond-row sk-id" data-lines="${dataLines}" id="${elId}">
+    <div class="sk-if-cond-text">
+      <span class="sk-c-kw">wenn</span>
+      <span class="sk-c-seq">${condHtml} <span class="sk-c-kw">?</span></span>
+    </div>
+    <!-- diagonal lines drawn only in the bottom corners, not crossing the text -->
+    <svg class="sk-diag-svg" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="100%" x2="50%" y2="0" stroke="#2a3a5a" stroke-width="1"/>
+      <line x1="100%" y1="100%" x2="50%" y2="0" stroke="#2a3a5a" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="sk-if-branches">
+    <div class="sk-branch-ja">
+      <div class="sk-branch-label ja-lbl">ja</div>
+      <div class="sk-branch-body">${jaHtml}</div>
+    </div>
+    <div class="sk-branch-nein">
+      <div class="sk-branch-label nein-lbl">nein</div>
+      <div class="sk-branch-body">${neinHtml}</div>
+    </div>
+  </div>
+</div>`;}
+
+// Helper: for loop block
+function skFor(labelHtml, dataLines, elId, bodyHtml) {
+  return `
+<div class="sk-for-wrap">
+  <div class="sk-for-header sk-id" data-lines="${dataLines}" id="${elId}">
+    <span class="sk-c-kw">für</span>&nbsp;<span class="sk-c-seq">${labelHtml}</span>
+  </div>
+  <div class="sk-for-body">${bodyHtml}</div>
+</div>`;}
+
+// Helper: plain sequence row
+function skSeq(html, dataLines, elId) {
+  return `<div class="sk-seq sk-id sk-c-seq" data-lines="${dataLines}" id="${elId}">${html}</div>`;}
+
+// Helper: function call row
+function skCall(html, dataLines, elId) {
+  return `<div class="sk-call sk-id" data-lines="${dataLines}" id="${elId}"><span class="sk-c-fn">${html}</span></div>`;}
+
+// Helper: empty branch
+const skEmpty = `<div class="sk-branch-empty sk-c-seq">—</div>`;
+
+function buildStruktogramm() {
+  const panel = document.getElementById('strukt-panel');
+  panel.innerHTML = `
+<div class="sk-wrap">
+  <div class="sk-title">Struktogramm — Heapsort Algorithmus (C#)</div>
+
+  <!-- ══ Main() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Main</span><span class="sk-c-seq">(string[] args)</span></div>
+    ${skSeq('<span class="sk-c-kw">Random</span> rnd = <span class="sk-c-kw">new</span> Random();&nbsp; <span class="sk-c-kw">int</span> anzahl = <span class="sk-c-nu">10</span>;&nbsp; <span class="sk-c-kw">int</span>[] zahlen = <span class="sk-c-kw">new int</span>[anzahl]', '9,10,11', 'sk-init')}
+    ${skFor('i = <span class="sk-c-nu">0</span>; i &lt; anzahl; i++', '12', 'sk-for-init',
+      skSeq('zahlen[i] = rnd.Next(<span class="sk-c-nu">1</span>, <span class="sk-c-nu">100</span>)', '14', 'sk-fill')
+    )}
+    ${skSeq('Console.WriteLine(<span style="color:#f9a8d4">"Unsortierte Zahlenfolge:"</span>) + Ausgabe', '17,18,19', 'sk-print-unsorted')}
+    ${skCall('Heapsort(zahlen)', '21', 'sk-call-heapsort')}
+    ${skSeq('Console.WriteLine(<span style="color:#f9a8d4">"Sortierte Zahlenfolge:"</span>) + Ausgabe', '23,24', 'sk-print-sorted')}
+    ${skSeq('Console.ReadLine()', '26', 'sk-readline')}
+  </div>
+
+  <!-- ══ Heapsort() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Heapsort</span><span class="sk-c-seq">(<span class="sk-c-kw">int</span>[] arr)</span></div>
+    ${skSeq('<span class="sk-c-kw">int</span> n = arr.Length', '31', 'sk-n')}
+    ${skFor('i = n/<span class="sk-c-nu">2</span>−<span class="sk-c-nu">1</span>; i ≥ <span class="sk-c-nu">0</span>; i−− <span style="color:var(--txt3);font-size:9px">(Max-Heap aufbauen)</span>', '35', 'sk-for-heap',
+      skCall('Versickere(arr, n, i)', '37', 'sk-call-versickere-heap')
+    )}
+    ${skFor('i = n−<span class="sk-c-nu">1</span>; i &gt; <span class="sk-c-nu">0</span>; i−− <span style="color:var(--txt3);font-size:9px">(Sortieren)</span>', '41', 'sk-for-sort',
+      skCall('Tauschen(arr, 0, i)', '44', 'sk-call-tauschen-sort') +
+      skCall('Versickere(arr, i, 0)', '47', 'sk-call-versickere-sort')
+    )}
+  </div>
+
+  <!-- ══ Versickere() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Versickere</span><span class="sk-c-seq">(<span class="sk-c-kw">int</span>[] arr, <span class="sk-c-kw">int</span> heapGroesse, <span class="sk-c-kw">int</span> index)</span></div>
+    ${skSeq('<span class="sk-c-kw">int</span> groesstes = index', '53', 'sk-groesstes')}
+    ${skSeq('<span class="sk-c-kw">int</span> links = <span class="sk-c-nu">2</span> * index + <span class="sk-c-nu">1</span>', '54', 'sk-links')}
+    ${skSeq('<span class="sk-c-kw">int</span> rechts = <span class="sk-c-nu">2</span> * index + <span class="sk-c-nu">2</span>', '55', 'sk-rechts')}
+    ${skIf('links &lt; heapGroesse &amp;&amp; arr[links] &gt; arr[groesstes]', '57', 'sk-if-links',
+      skSeq('groesstes = links', '59', 'sk-set-groesstes-links'),
+      skEmpty
+    )}
+    ${skIf('rechts &lt; heapGroesse &amp;&amp; arr[rechts] &gt; arr[groesstes]', '62', 'sk-if-rechts',
+      skSeq('groesstes = rechts', '64', 'sk-set-groesstes-rechts'),
+      skEmpty
+    )}
+    ${skIf('groesstes ≠ index', '68', 'sk-if-groesstes',
+      skCall('Tauschen(arr, index, groesstes)', '70', 'sk-call-tauschen-versickere') +
+      skCall('Versickere(arr, heapGroesse, groesstes) <span style="color:var(--txt3);font-size:9px">(rekursiv)</span>', '73', 'sk-call-versickere-rec'),
+      skEmpty
+    )}
+  </div>
+
+  <!-- ══ Tauschen() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Tauschen</span><span class="sk-c-seq">(<span class="sk-c-kw">int</span>[] arr, <span class="sk-c-kw">int</span> aktuell, <span class="sk-c-kw">int</span> groesste)</span></div>
+    ${skSeq('<span class="sk-c-kw">int</span> temp = arr[aktuell]', '79', 'sk-temp')}
+    ${skSeq('arr[aktuell] = arr[groesste]', '80', 'sk-swap1')}
+    ${skSeq('arr[groesste] = temp', '81', 'sk-swap2')}
+  </div>
+</div>`;
+}
+buildStruktogramm();
+
+// Build line → struktogramm element map
+function buildLineMap() {
+  const map = {}; // line → [element, ...]
+  document.querySelectorAll('.sk-id').forEach(el => {
+    const lines = el.dataset.lines.split(',').map(Number);
+    lines.forEach(l => {
+      if (!map[l]) map[l] = [];
+      map[l].push(el);
+    });
+  });
+  return map;
+}
+
+let struktLineMap = null;
+let lastStruktLine = -1;
+
+function setStruktLine(n) {
+  if (!struktLineMap) struktLineMap = buildLineMap();
+  if (lastStruktLine === n && currentTab === 'strukt') return;
+  // Clear all highlights
+  document.querySelectorAll('.sk-id').forEach(e => {
+    e.classList.remove('sk-hl-seq','sk-hl-kw','sk-hl-fn');
+  });
+  // Highlight matching elements with appropriate color
+  if (n > 0 && struktLineMap[n]) {
+    struktLineMap[n].forEach(el => {
+      // Pick highlight class based on element type
+      if (el.classList.contains('sk-call') || el.classList.contains('sk-fn-header')) {
+        el.classList.add('sk-hl-fn');
+      } else if (el.classList.contains('sk-for-header') || el.classList.contains('sk-if-cond-row')) {
+        el.classList.add('sk-hl-kw');
+      } else {
+        el.classList.add('sk-hl-seq');
+      }
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+  }
+  lastStruktLine = n;
+}
+
+// ── ALGORITHM ─────────────────────────────────────────────────────────────
 let arr = [], steps = [], stepIdx = 0, running = false, timer = null;
 
 function rand(a,b){ return Math.floor(Math.random()*(b-a))+a; }
@@ -275,7 +580,6 @@ function buildSteps(a){
       snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
       let t = a[idx]; a[idx] = a[gr]; a[gr] = t;
       snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
-      // Tauschen method
       snap(79, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
       snap(80, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
       snap(81, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
@@ -302,6 +606,7 @@ function buildSteps(a){
   snap(24, a, [], [], 'fertig', {n});
 }
 
+// ── TREE DRAWING (unchanged) ───────────────────────────────────────────────
 const svgEl = document.getElementById('tree-svg');
 
 function getPos(){
@@ -434,17 +739,51 @@ function updateBar(s){
   });
 }
 
+// ── TIMELINE SLIDER ────────────────────────────────────────────────────────
+const timelineEl = document.getElementById('timeline');
+let timelineDragging = false;
+
+timelineEl.addEventListener('input', () => {
+  stop();
+  const val = parseInt(timelineEl.value);
+  const idx = Math.round((val / 1000) * (steps.length - 1));
+  stepIdx = Math.max(0, Math.min(steps.length, idx + 1));
+  applyStepAt(stepIdx - 1);
+});
+
+function updateTimeline() {
+  if (steps.length === 0) return;
+  const pct = stepIdx > 0 ? (stepIdx - 1) / (steps.length - 1) : 0;
+  timelineEl.value = Math.round(pct * 1000);
+}
+
+// ── PLAYBACK ───────────────────────────────────────────────────────────────
 function speedMs(){ return [700,380,200,100,45][+document.getElementById('speed').value-1]; }
+
+function applyStepAt(idx) {
+  if (idx < 0 || idx >= steps.length) return;
+  const s = steps[idx];
+  setLine(s.line);
+  setStruktLine(s.line);
+  drawTree(s);
+  updateBar(s);
+  document.getElementById('step-counter').textContent = (idx+1)+' / '+steps.length;
+  document.getElementById('status').textContent = (idx+1)+' / '+steps.length;
+  updateTimeline();
+  updateNavButtons();
+}
 
 function applyStep(){
   if(stepIdx >= steps.length){ stop(); document.getElementById('status').textContent='fertig \u2713'; return; }
-  const s = steps[stepIdx];
-  setLine(s.line);
-  drawTree(s);
-  updateBar(s);
-  document.getElementById('step-counter').textContent = (stepIdx+1)+' / '+steps.length;
-  document.getElementById('status').textContent = (stepIdx+1)+' / '+steps.length;
+  applyStepAt(stepIdx);
   stepIdx++;
+}
+
+function stepBack(){
+  stop();
+  if(stepIdx <= 1) return;
+  stepIdx--;
+  applyStepAt(stepIdx - 1);
 }
 
 function play(){ if(stepIdx>=steps.length){stop();return;} applyStep(); timer=setTimeout(play,speedMs()); }
@@ -454,6 +793,7 @@ function stop(){
   document.getElementById('btn-play').textContent='\u25b6 Start';
   document.getElementById('btn-play').classList.add('primary');
   document.getElementById('btn-step').disabled=false;
+  document.getElementById('btn-back').disabled=(stepIdx<=1);
 }
 
 function startPlay(){
@@ -462,29 +802,44 @@ function startPlay(){
   document.getElementById('btn-play').textContent='\u23f8 Pause';
   document.getElementById('btn-play').classList.remove('primary');
   document.getElementById('btn-step').disabled=true;
+  document.getElementById('btn-back').disabled=true;
   play();
+}
+
+function updateNavButtons(){
+  document.getElementById('btn-back').disabled = (stepIdx <= 1);
+  document.getElementById('btn-step').disabled = (stepIdx >= steps.length);
 }
 
 function reset(){
   stop(); stepIdx=0; initArr();
-  drawTree(steps[0]); updateBar(steps[0]); setLine(-1);
+  struktLineMap = null; // rebuild map after re-render
+  lastLine = -1; lastStruktLine = -1;
+  drawTree(steps[0]); updateBar(steps[0]); setLine(-1); setStruktLine(-1);
   document.getElementById('status').textContent='bereit';
   document.getElementById('step-counter').textContent='0 / '+steps.length;
   document.getElementById('btn-step').disabled=false;
+  document.getElementById('btn-back').disabled=true;
+  timelineEl.max = 1000;
+  timelineEl.value = 0;
 }
 
-document.getElementById('btn-play').onclick=startPlay;
-document.getElementById('btn-step').onclick=()=>{stop();applyStep();};
-document.getElementById('btn-reset').onclick=reset;
+document.getElementById('btn-play').onclick = startPlay;
+document.getElementById('btn-step').onclick = ()=>{ stop(); applyStep(); };
+document.getElementById('btn-back').onclick = stepBack;
+document.getElementById('btn-reset').onclick = reset;
 window.addEventListener('resize',()=>{
   if(stepIdx>0) drawTree(steps[stepIdx-1]);
   else if(steps.length>0) drawTree(steps[0]);
 });
 
+// ── INIT ───────────────────────────────────────────────────────────────────
 initArr();
 drawTree(steps[0]);
 updateBar(steps[0]);
 document.getElementById('step-counter').textContent='0 / '+steps.length;
+timelineEl.max = 1000;
+timelineEl.value = 0;
 </script>
 </body>
 </html>
