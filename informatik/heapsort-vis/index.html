@@ -27,10 +27,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .title-badge{margin-left:auto;font-size:10px;padding:3px 10px;border-radius:20px;background:#1a1540;color:#a5b4fc;border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;}
 #main{display:flex;flex:1;overflow:hidden;min-height:0;}
 
-/* LEFT PANEL with tabs */
+
 #left-panel{width:52%;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
 
-/* Tab bar */
+
 #tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;height:36px;}
 .tab{display:flex;align-items:center;gap:6px;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt3);cursor:pointer;border-right:1px solid var(--border);position:relative;user-select:none;transition:color 0.15s,background 0.15s;white-space:nowrap;}
 .tab:hover{color:var(--txt2);background:var(--bg3);}
@@ -38,7 +38,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--bg);}
 .tab-icon{font-size:10px;opacity:0.7;}
 
-/* Code panel */
+
 #code-panel{flex:1;overflow-y:auto;background:var(--bg);padding:8px 0;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
 #code-panel.visible{display:block;}
 #code-panel::-webkit-scrollbar{width:4px;}
@@ -51,55 +51,47 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cl.active .ct{color:#ffffff;}
 .kw{color:#818cf8;}.cm{color:#364a62;font-style:italic;}.nu{color:#34d399;}.fn{color:#60a5fa;}.str{color:#f9a8d4;}.tp{color:#a78bfa;}
 
-/* Struktogramm panel */
+
 #strukt-panel{flex:1;overflow-y:auto;overflow-x:auto;background:var(--bg);padding:14px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
 #strukt-panel.visible{display:block;}
 #strukt-panel::-webkit-scrollbar{width:4px;}
 #strukt-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 
-/* ── STRUKTOGRAMM STYLES ── */
+
 .sk-wrap{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt);min-width:500px;}
 .sk-title{font-size:10px;color:var(--txt3);margin-bottom:10px;letter-spacing:0.08em;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--border2);}
 
-/* Color tokens — mirrors code syntax colors */
-.sk-c-seq   { color:#e2e8f0; }   /* plain code: white */
-.sk-c-kw    { color:#818cf8; }   /* keywords / if / for: indigo */
-.sk-c-fn    { color:#60a5fa; }   /* function calls: blue */
-.sk-c-fn-hd { color:#c4b5fd; }   /* function headers: violet */
-.sk-c-nu    { color:#34d399; }   /* numbers in labels: green */
+.sk-c-seq   { color:#e2e8f0; }
+.sk-c-kw    { color:#818cf8; }
+.sk-c-fn    { color:#60a5fa; }
+.sk-c-fn-hd { color:#c4b5fd; }
+.sk-c-nu    { color:#34d399; }
 
-/* Function block */
 .sk-fn-wrap{border:1px solid var(--border2);margin-top:10px;}
 .sk-fn-wrap:first-of-type{margin-top:0;}
 .sk-fn-header{padding:6px 10px;background:#0e1120;border-bottom:1px solid var(--border2);font-weight:600;font-size:11px;display:flex;align-items:center;gap:6px;}
 .sk-fn-header::before{content:'fn';font-size:8px;padding:1px 5px;border-radius:3px;background:#1e1b4b;border:1px solid #3730a3;color:#818cf8;flex-shrink:0;}
 
-/* Plain sequence row */
 .sk-seq{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;transition:background 0.15s,border-color 0.15s;}
 .sk-fn-wrap > .sk-seq:first-of-type, .sk-fn-header + .sk-seq{border-top:none;}
 
-/* Function call row */
 .sk-call{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;background:#08101e;transition:background 0.15s,border-color 0.15s;}
 .sk-call::before{content:'→';color:#60a5fa;font-size:10px;flex-shrink:0;}
 
-/* ── FOR LOOP ── */
 .sk-for-wrap{border:1px solid var(--border2);border-top:none;}
 .sk-for-header{padding:5px 10px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:6px;background:#0a0f1c;transition:background 0.15s,border-color 0.15s;}
 .sk-for-header::before{content:'↻';color:#818cf8;font-size:12px;flex-shrink:0;}
 .sk-for-body{margin-left:16px;border-left:2px solid #2a3a5a;}
 
-/* ── IF BLOCK — proper Nassi-Shneiderman diagonal style ── */
 .sk-if-wrap{border:1px solid var(--border2);border-top:none;display:flex;flex-direction:column;}
 
-/* Condition row with diagonal triangle indicator */
 .sk-if-cond-row{position:relative;min-height:34px;border-bottom:1px solid var(--border2);display:flex;align-items:stretch;}
-/* The condition text sits at top, diagonals fill bottom portion */
 .sk-if-cond-text{
   flex:1;padding:8px 10px 28px 10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   text-align:center;gap:3px;line-height:1.5;
   transition:background 0.15s;position:relative;z-index:1;
 }
-/* The diagonal triangle lines are drawn via SVG overlay — bottom half only */
+
 .sk-if-cond-row{min-height:60px;position:relative;}
 .sk-if-cond-row .sk-diag-svg{
   position:absolute;
@@ -110,7 +102,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   overflow:visible;
 }
 
-/* Branch row: two columns side by side */
 .sk-if-branches{display:flex;min-height:30px;}
 .sk-branch-ja{flex:1;border-right:1px solid var(--border2);display:flex;flex-direction:column;}
 .sk-branch-nein{flex:1;display:flex;flex-direction:column;}
@@ -118,22 +109,19 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .sk-branch-label.ja-lbl{color:#34d399;}
 .sk-branch-label.nein-lbl{color:#f87171;text-align:right;}
 .sk-branch-body{flex:1;}
-/* nested elements inside branches lose their top border redundancy */
+
 .sk-branch-body .sk-seq{border-top:none;}
 .sk-branch-body .sk-call{border-top:none;}
 .sk-branch-body .sk-for-wrap{border-top:none;}
 .sk-branch-body .sk-if-wrap{border-top:none;}
 .sk-branch-body > *:first-child{border-top:none;}
 
-/* Empty branch placeholder */
 .sk-branch-empty{padding:5px 10px;color:var(--txt3);font-size:10px;font-style:italic;min-height:24px;display:flex;align-items:center;}
 
-/* ── HIGHLIGHT states ── */
 .sk-hl-seq  {background:rgba(129,140,248,0.15)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
 .sk-hl-kw   {background:rgba(129,140,248,0.22)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
 .sk-hl-fn   {background:rgba(96,165,250,0.18)!important;border-color:#60a5fa!important;outline:1px solid #60a5fa40;}
 
-/* ensure borders between adjacent blocks don't double up */
 .sk-for-wrap + .sk-seq,.sk-for-wrap + .sk-for-wrap,.sk-for-wrap + .sk-if-wrap,
 .sk-if-wrap + .sk-seq,.sk-if-wrap + .sk-for-wrap,.sk-if-wrap + .sk-if-wrap,
 .sk-seq + .sk-seq,.sk-seq + .sk-for-wrap,.sk-seq + .sk-if-wrap,
@@ -174,7 +162,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt3);}
 .leg-dot{width:9px;height:9px;border-radius:50%;}
 
-/* Timeline slider */
 #timeline-wrap{padding:6px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
 #timeline-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;min-width:52px;}
 #timeline{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
@@ -252,7 +239,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
   </div>
 </div>
 <script>
-// ── TAB SWITCHING ──────────────────────────────────────────────────────────
+
 let currentTab = 'code';
 function switchTab(tab) {
   currentTab = tab;
@@ -268,7 +255,6 @@ function switchTab(tab) {
   }
 }
 
-// ── CODE DATA ──────────────────────────────────────────────────────────────
 const CODE = [
   {n:1,   t:'<span class="kw">using</span> System;'},
   {n:2,   t:'<span class="kw">namespace</span> HeapsortProjekt'},
@@ -364,7 +350,6 @@ function buildCode(){
 }
 buildCode();
 
-// ── CODE HIGHLIGHTING ──────────────────────────────────────────────────────
 let lastLine = -1;
 function setLine(n){
   if(lastLine === n && currentTab === 'code') return;
@@ -376,13 +361,7 @@ function setLine(n){
   lastLine = n;
 }
 
-// ── STRUKTOGRAMM ──────────────────────────────────────────────────────────
-// Map from line numbers to struktogramm element IDs
-// We'll build a mapping after rendering
 
-// Helper: build a proper Nassi-Shneiderman IF block with diagonal triangle lines
-// condHtml: inner HTML for condition, lines: data-lines value, id: element id
-// jaHtml / neinHtml: inner HTML for each branch body
 function skIf(condHtml, dataLines, elId, jaHtml, neinHtml) {
   return `
 <div class="sk-if-wrap">
@@ -409,7 +388,6 @@ function skIf(condHtml, dataLines, elId, jaHtml, neinHtml) {
   </div>
 </div>`;}
 
-// Helper: for loop block
 function skFor(labelHtml, dataLines, elId, bodyHtml) {
   return `
 <div class="sk-for-wrap">
@@ -419,15 +397,12 @@ function skFor(labelHtml, dataLines, elId, bodyHtml) {
   <div class="sk-for-body">${bodyHtml}</div>
 </div>`;}
 
-// Helper: plain sequence row
 function skSeq(html, dataLines, elId) {
   return `<div class="sk-seq sk-id sk-c-seq" data-lines="${dataLines}" id="${elId}">${html}</div>`;}
 
-// Helper: function call row
 function skCall(html, dataLines, elId) {
   return `<div class="sk-call sk-id" data-lines="${dataLines}" id="${elId}"><span class="sk-c-fn">${html}</span></div>`;}
 
-// Helper: empty branch
 const skEmpty = `<div class="sk-branch-empty sk-c-seq">—</div>`;
 
 function buildStruktogramm() {
@@ -494,7 +469,6 @@ function buildStruktogramm() {
 }
 buildStruktogramm();
 
-// Build line → struktogramm element map
 function buildLineMap() {
   const map = {}; // line → [element, ...]
   document.querySelectorAll('.sk-id').forEach(el => {
@@ -513,11 +487,10 @@ let lastStruktLine = -1;
 function setStruktLine(n) {
   if (!struktLineMap) struktLineMap = buildLineMap();
   if (lastStruktLine === n && currentTab === 'strukt') return;
-  // Clear all highlights
   document.querySelectorAll('.sk-id').forEach(e => {
     e.classList.remove('sk-hl-seq','sk-hl-kw','sk-hl-fn');
   });
-  // Highlight matching elements with appropriate color
+
   if (n > 0 && struktLineMap[n]) {
     struktLineMap[n].forEach(el => {
       // Pick highlight class based on element type
@@ -534,7 +507,6 @@ function setStruktLine(n) {
   lastStruktLine = n;
 }
 
-// ── ALGORITHM ─────────────────────────────────────────────────────────────
 let arr = [], steps = [], stepIdx = 0, running = false, timer = null;
 
 function rand(a,b){ return Math.floor(Math.random()*(b-a))+a; }
@@ -606,7 +578,6 @@ function buildSteps(a){
   snap(24, a, [], [], 'fertig', {n});
 }
 
-// ── TREE DRAWING (unchanged) ───────────────────────────────────────────────
 const svgEl = document.getElementById('tree-svg');
 
 function getPos(){
@@ -739,7 +710,6 @@ function updateBar(s){
   });
 }
 
-// ── TIMELINE SLIDER ────────────────────────────────────────────────────────
 const timelineEl = document.getElementById('timeline');
 let timelineDragging = false;
 
@@ -757,7 +727,6 @@ function updateTimeline() {
   timelineEl.value = Math.round(pct * 1000);
 }
 
-// ── PLAYBACK ───────────────────────────────────────────────────────────────
 function speedMs(){ return [700,380,200,100,45][+document.getElementById('speed').value-1]; }
 
 function applyStepAt(idx) {
@@ -833,7 +802,6 @@ window.addEventListener('resize',()=>{
   else if(steps.length>0) drawTree(steps[0]);
 });
 
-// ── INIT ───────────────────────────────────────────────────────────────────
 initArr();
 drawTree(steps[0]);
 updateBar(steps[0]);
