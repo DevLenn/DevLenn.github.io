@@ -26,19 +26,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #file-path span{color:var(--txt2);}
 .title-badge{margin-left:auto;font-size:10px;padding:3px 10px;border-radius:20px;background:#1a1540;color:#a5b4fc;border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;}
 #main{display:flex;flex:1;overflow:hidden;min-height:0;}
-
-
 #left-panel{width:52%;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
-
-
 #tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;height:36px;}
 .tab{display:flex;align-items:center;gap:6px;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt3);cursor:pointer;border-right:1px solid var(--border);position:relative;user-select:none;transition:color 0.15s,background 0.15s;white-space:nowrap;}
 .tab:hover{color:var(--txt2);background:var(--bg3);}
 .tab.active{color:var(--accent3);background:var(--bg);border-bottom:2px solid var(--accent);}
 .tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--bg);}
 .tab-icon{font-size:10px;opacity:0.7;}
-
-
 #code-panel{flex:1;overflow-y:auto;background:var(--bg);padding:8px 0;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
 #code-panel.visible{display:block;}
 #code-panel::-webkit-scrollbar{width:4px;}
@@ -50,58 +44,51 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cl.active .ln{color:var(--accent);font-weight:600;}
 .cl.active .ct{color:#ffffff;}
 .kw{color:#818cf8;}.cm{color:#364a62;font-style:italic;}.nu{color:#34d399;}.fn{color:#60a5fa;}.str{color:#f9a8d4;}.tp{color:#a78bfa;}
-
-
 #strukt-panel{flex:1;overflow-y:auto;overflow-x:auto;background:var(--bg);padding:14px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
 #strukt-panel.visible{display:block;}
 #strukt-panel::-webkit-scrollbar{width:4px;}
 #strukt-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-
-
 .sk-wrap{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt);min-width:500px;}
 .sk-title{font-size:10px;color:var(--txt3);margin-bottom:10px;letter-spacing:0.08em;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--border2);}
-
-.sk-c-seq   { color:#e2e8f0; }
-.sk-c-kw    { color:#818cf8; }
-.sk-c-fn    { color:#60a5fa; }
-.sk-c-fn-hd { color:#c4b5fd; }
-.sk-c-nu    { color:#34d399; }
-
+.sk-c-seq{color:#e2e8f0;}.sk-c-kw{color:#818cf8;}.sk-c-fn{color:#60a5fa;}.sk-c-fn-hd{color:#c4b5fd;}.sk-c-nu{color:#34d399;}
 .sk-fn-wrap{border:1px solid var(--border2);margin-top:10px;}
 .sk-fn-wrap:first-of-type{margin-top:0;}
 .sk-fn-header{padding:6px 10px;background:#0e1120;border-bottom:1px solid var(--border2);font-weight:600;font-size:11px;display:flex;align-items:center;gap:6px;}
 .sk-fn-header::before{content:'fn';font-size:8px;padding:1px 5px;border-radius:3px;background:#1e1b4b;border:1px solid #3730a3;color:#818cf8;flex-shrink:0;}
-
 .sk-seq{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;transition:background 0.15s,border-color 0.15s;}
-.sk-fn-wrap > .sk-seq:first-of-type, .sk-fn-header + .sk-seq{border-top:none;}
-
 .sk-call{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;background:#08101e;transition:background 0.15s,border-color 0.15s;}
 .sk-call::before{content:'→';color:#60a5fa;font-size:10px;flex-shrink:0;}
-
 .sk-for-wrap{border:1px solid var(--border2);border-top:none;}
 .sk-for-header{padding:5px 10px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:6px;background:#0a0f1c;transition:background 0.15s,border-color 0.15s;}
 .sk-for-header::before{content:'↻';color:#818cf8;font-size:12px;flex-shrink:0;}
 .sk-for-body{margin-left:16px;border-left:2px solid #2a3a5a;}
 
+/* ── IF block: triangle pointing DOWN (∨) ── */
 .sk-if-wrap{border:1px solid var(--border2);border-top:none;display:flex;flex-direction:column;}
-
-.sk-if-cond-row{position:relative;min-height:34px;border-bottom:1px solid var(--border2);display:flex;align-items:stretch;}
-.sk-if-cond-text{
-  flex:1;padding:8px 10px 28px 10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  text-align:center;gap:3px;line-height:1.5;
-  transition:background 0.15s;position:relative;z-index:1;
+.sk-if-cond-row{
+  position:relative;
+  min-height:54px;
+  border-bottom:1px solid var(--border2);
+  display:flex;
+  align-items:stretch;
+  overflow:hidden;
 }
-
-.sk-if-cond-row{min-height:60px;position:relative;}
-.sk-if-cond-row .sk-diag-svg{
+.sk-if-cond-text{
+  flex:1;
+  padding:6px 10px 6px 10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:3px;line-height:1.5;
+  position:relative;z-index:1;
+}
+/* SVG diagonal lines: from top-left → bottom-center, and top-right → bottom-center */
+.sk-diag-svg{
   position:absolute;
   left:0;right:0;bottom:0;
-  height:28px;
+  height:22px;
   width:100%;
   pointer-events:none;
   overflow:visible;
 }
-
 .sk-if-branches{display:flex;min-height:30px;}
 .sk-branch-ja{flex:1;border-right:1px solid var(--border2);display:flex;flex-direction:column;}
 .sk-branch-nein{flex:1;display:flex;flex-direction:column;}
@@ -109,24 +96,26 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .sk-branch-label.ja-lbl{color:#34d399;}
 .sk-branch-label.nein-lbl{color:#f87171;text-align:right;}
 .sk-branch-body{flex:1;}
-
 .sk-branch-body .sk-seq{border-top:none;}
 .sk-branch-body .sk-call{border-top:none;}
 .sk-branch-body .sk-for-wrap{border-top:none;}
 .sk-branch-body .sk-if-wrap{border-top:none;}
-.sk-branch-body > *:first-child{border-top:none;}
-
+.sk-branch-body>*:first-child{border-top:none;}
 .sk-branch-empty{padding:5px 10px;color:var(--txt3);font-size:10px;font-style:italic;min-height:24px;display:flex;align-items:center;}
 
+/* highlight classes */
 .sk-hl-seq  {background:rgba(129,140,248,0.15)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
 .sk-hl-kw   {background:rgba(129,140,248,0.22)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
 .sk-hl-fn   {background:rgba(96,165,250,0.18)!important;border-color:#60a5fa!important;outline:1px solid #60a5fa40;}
+/* branch-level highlights */
+.sk-hl-branch-ja  {background:rgba(52,211,153,0.12)!important;border-color:#34d399!important;outline:1px solid #34d39940;}
+.sk-hl-branch-nein{background:rgba(248,113,113,0.12)!important;border-color:#f87171!important;outline:1px solid #f8717140;}
 
-.sk-for-wrap + .sk-seq,.sk-for-wrap + .sk-for-wrap,.sk-for-wrap + .sk-if-wrap,
-.sk-if-wrap + .sk-seq,.sk-if-wrap + .sk-for-wrap,.sk-if-wrap + .sk-if-wrap,
-.sk-seq + .sk-seq,.sk-seq + .sk-for-wrap,.sk-seq + .sk-if-wrap,
-.sk-call + .sk-seq,.sk-call + .sk-for-wrap,.sk-call + .sk-if-wrap,
-.sk-seq + .sk-call,.sk-call + .sk-call,.sk-for-wrap + .sk-call,.sk-if-wrap + .sk-call
+.sk-for-wrap+.sk-seq,.sk-for-wrap+.sk-for-wrap,.sk-for-wrap+.sk-if-wrap,
+.sk-if-wrap+.sk-seq,.sk-if-wrap+.sk-for-wrap,.sk-if-wrap+.sk-if-wrap,
+.sk-seq+.sk-seq,.sk-seq+.sk-for-wrap,.sk-seq+.sk-if-wrap,
+.sk-call+.sk-seq,.sk-call+.sk-for-wrap,.sk-call+.sk-if-wrap,
+.sk-seq+.sk-call,.sk-call+.sk-call,.sk-for-wrap+.sk-call,.sk-if-wrap+.sk-call
 {border-top:none;}
 
 #divider{width:1px;flex-shrink:0;background:linear-gradient(to bottom,transparent,var(--accent) 15%,var(--border3) 50%,var(--accent) 85%,transparent);opacity:0.35;}
@@ -135,23 +124,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #phase-badge{position:absolute;top:12px;left:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:#0f0d24;color:var(--accent3);border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;transition:all 0.3s;z-index:2;}
 #step-counter{position:absolute;top:12px;right:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:var(--bg3);color:var(--txt3);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;}
 #tree-svg{display:block;}
-#vars-panel{
-  position:absolute;bottom:10px;right:10px;
-  background:#0a0d16;border:1px solid var(--border2);border-radius:8px;
-  padding:8px 10px;min-width:160px;max-width:220px;
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  z-index:3;
-}
-#vars-panel .vp-title{
-  color:var(--txt3);font-size:9px;letter-spacing:0.1em;
-  border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:6px;
-  text-transform:uppercase;
-}
+#vars-panel{position:absolute;bottom:10px;right:10px;background:#0a0d16;border:1px solid var(--border2);border-radius:8px;padding:8px 10px;min-width:160px;max-width:220px;font-family:'JetBrains Mono',monospace;font-size:10px;z-index:3;}
+#vars-panel .vp-title{color:var(--txt3);font-size:9px;letter-spacing:0.1em;border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:6px;text-transform:uppercase;}
 #vars-list{display:flex;flex-direction:column;gap:3px;}
 .var-row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
-.var-name{color:#818cf8;}
-.var-val{color:#34d399;font-weight:600;}
-.var-val.undef{color:var(--txt3);font-weight:400;}
+.var-name{color:#818cf8;}.var-val{color:#34d399;font-weight:600;}.var-val.undef{color:var(--txt3);font-weight:400;}
 #array-bar{padding:8px 14px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:5px;overflow:hidden;}
 #array-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;margin-right:6px;}
 .arr-cell{height:28px;min-width:28px;padding:0 4px;border-radius:6px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--txt2);transition:all 0.2s;flex:1;}
@@ -161,13 +138,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #legend{display:flex;gap:14px;padding:7px 14px;background:var(--bg2);border-top:1px solid var(--border);flex-wrap:wrap;}
 .leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt3);}
 .leg-dot{width:9px;height:9px;border-radius:50%;}
-
 #timeline-wrap{padding:6px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
 #timeline-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;min-width:52px;}
 #timeline{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
 #timeline::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent2);cursor:pointer;border:2px solid var(--bg2);}
 #timeline::-webkit-slider-runnable-track{border-radius:2px;}
-
 #controls{padding:10px 14px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;}
 .btn{font-size:11px;padding:6px 14px;cursor:pointer;border-radius:20px;font-family:'JetBrains Mono',monospace;transition:all 0.15s;border:1px solid var(--border2);background:var(--bg3);color:var(--txt2);}
 .btn:hover:not(:disabled){background:var(--bg5);border-color:var(--border3);color:var(--txt);}
@@ -191,12 +166,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
   <div id="main">
     <div id="left-panel">
       <div id="tab-bar">
-        <div class="tab active" id="tab-code" onclick="switchTab('code')">
-          <span class="tab-icon">⌨</span> Code
-        </div>
-        <div class="tab" id="tab-strukt" onclick="switchTab('strukt')">
-          <span class="tab-icon">⊞</span> Struktogramm
-        </div>
+        <div class="tab active" id="tab-code" onclick="switchTab('code')"><span class="tab-icon">⌨</span> Code</div>
+        <div class="tab" id="tab-strukt" onclick="switchTab('strukt')"><span class="tab-icon">⊞</span> Struktogramm</div>
       </div>
       <div id="code-panel" class="visible"></div>
       <div id="strukt-panel"></div>
@@ -247,11 +218,10 @@ function switchTab(tab) {
   document.getElementById('tab-strukt').classList.toggle('active', tab === 'strukt');
   document.getElementById('code-panel').classList.toggle('visible', tab === 'code');
   document.getElementById('strukt-panel').classList.toggle('visible', tab === 'strukt');
-  // Re-apply current highlight in the newly shown tab
   if (stepIdx > 0 && steps.length > 0) {
     const s = steps[stepIdx - 1];
     if (tab === 'code') setLine(s.line);
-    else setStruktLine(s.line);
+    else setStruktLine(s.line, s.branchResult);
   }
 }
 
@@ -273,20 +243,20 @@ const CODE = [
   {n:15,  t:'            }'},
   {n:16,  t:'            <span class="cm">// 2. Unsortierte Zahlenfolge ausgeben</span>'},
   {n:17,  t:'            Console.WriteLine(<span class="str">"Unsortierte Zahlenfolge:"</span>);'},
-  {n:18,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen)); <span class="cm">// Kommas zwischen den Elementen des Arrays einf\u00fcgen</span>'},
+  {n:18,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen));'},
   {n:19,  t:'            Console.WriteLine();'},
   {n:20,  t:'            <span class="cm">// 3. Heapsort aufrufen</span>'},
-  {n:21,  t:'            <span class="fn">Heapsort</span>(zahlen);   <span class="cm">// Den Array mit den Zufallszahlen an die Sortierfunktion \u00fcbergeben</span>'},
+  {n:21,  t:'            <span class="fn">Heapsort</span>(zahlen);   <span class="cm">// Den Array an die Sortierfunktion \u00fcbergeben</span>'},
   {n:22,  t:'            <span class="cm">// 4. Sortierte Zahlenfolge ausgeben</span>'},
   {n:23,  t:'            Console.WriteLine(<span class="str">"\\nSortierte Zahlenfolge:"</span>);'},
-  {n:24,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen)); <span class="cm">// Kommas zwischen den Elementen des Arrays einf\u00fcgen</span>'},
-  {n:25,  t:'            <span class="cm">// 5. Programm aktiv halten; Schlie\u00dfen sowie komische Fehlermeldungen verhindern</span>'},
+  {n:24,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen));'},
+  {n:25,  t:'            <span class="cm">// 5. Programm aktiv halten</span>'},
   {n:26,  t:'            Console.ReadLine(); '},
   {n:27,  t:'        }'},
   {n:28,  t:'        <span class="cm">// Hauptmethode f\u00fcr den Heapsort-Algorithmus</span>'},
-  {n:29,  t:'        <span class="kw">static void</span> <span class="fn">Heapsort</span>(<span class="kw">int</span>[] arr) <span class="cm">// Den Array mit den Zufallszahlen entgegennehmen und als "arr" verf\u00fcgbar machen</span>'},
+  {n:29,  t:'        <span class="kw">static void</span> <span class="fn">Heapsort</span>(<span class="kw">int</span>[] arr)'},
   {n:30,  t:'        {'},
-  {n:31,  t:'            <span class="kw">int</span> n = arr.Length; <span class="cm">// n ist die L\u00e4nge des Arrays bzw. die Anzahl der Elemente im Array</span>'},
+  {n:31,  t:'            <span class="kw">int</span> n = arr.Length; <span class="cm">// L\u00e4nge des Arrays</span>'},
   {n:32,  t:'            <span class="cm">// Max-Heap aufbauen</span>'},
   {n:33,  t:'            <span class="cm">// Wir starten beim letzten Elternknoten und arbeiten uns zur Wurzel vor.</span>'},
   {n:34,  t:'            <span class="cm">// Index des letzten Elternknotens ist (n / 2) - 1.</span>'},
@@ -300,13 +270,13 @@ const CODE = [
   {n:42,  t:'            {'},
   {n:43,  t:'                <span class="cm">// Wurzel (gr\u00f6\u00dfstes Element) mit dem letzten unsortierten Element vertauschen</span>'},
   {n:44,  t:'                <span class="fn">Tauschen</span>(arr, <span class="nu">0</span>, i);'},
-  {n:45,  t:'                <span class="cm">// Die Heap-Gr\u00f6\u00dfe verringert sich (i wird kleiner), </span>'},
+  {n:45,  t:'                <span class="cm">// Die Heap-Gr\u00f6\u00dfe verringert sich (i wird kleiner),</span>'},
   {n:46,  t:'                <span class="cm">// die neue Wurzel muss an ihre richtige Position "versickert" werden</span>'},
   {n:47,  t:'                <span class="fn">Versickere</span>(arr, i, <span class="nu">0</span>);'},
   {n:48,  t:'            }'},
   {n:49,  t:'        }'},
   {n:50,  t:'        <span class="cm">// Versickert ein Element im Heap nach unten, bis die Max-Heap-Eigenschaft wiederhergestellt ist.</span>'},
-  {n:51,  t:'        <span class="kw">static void</span> <span class="fn">Versickere</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> heapGroesse, <span class="kw">int</span> index) <span class="cm">// Entgegennehmen von Array mit Zufallszahlen, L\u00e4nge des Arrays und aktueller Index</span>'},
+  {n:51,  t:'        <span class="kw">static void</span> <span class="fn">Versickere</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> heapGroesse, <span class="kw">int</span> index)'},
   {n:52,  t:'        {'},
   {n:53,  t:'            <span class="kw">int</span> groesstes = index;        <span class="cm">// Nehme an, das aktuelle Element ist das gr\u00f6\u00dfte</span>'},
   {n:54,  t:'            <span class="kw">int</span> links = <span class="nu">2</span> * index + <span class="nu">1</span>;    <span class="cm">// Index des linken Kindes</span>'},
@@ -314,20 +284,20 @@ const CODE = [
   {n:56,  t:'            <span class="cm">// Ist das linke Kind gr\u00f6\u00dfer als das aktuelle Element?</span>'},
   {n:57,  t:'            <span class="kw">if</span> (links &lt; heapGroesse &amp;&amp; arr[links] &gt; arr[groesstes])'},
   {n:58,  t:'            {'},
-  {n:59,  t:'                groesstes = links; <span class="cm">// "groesstes" auf das aktuell als gr\u00f6\u00dfte angenommene Element setzten</span>'},
+  {n:59,  t:'                groesstes = links; <span class="cm">// "groesstes" aktualisieren</span>'},
   {n:60,  t:'            }'},
   {n:61,  t:'            <span class="cm">// Ist das rechte Kind gr\u00f6\u00dfer als das bisher gr\u00f6\u00dfte Element?</span>'},
   {n:62,  t:'            <span class="kw">if</span> (rechts &lt; heapGroesse &amp;&amp; arr[rechts] &gt; arr[groesstes])'},
   {n:63,  t:'            {'},
-  {n:64,  t:'                groesstes = rechts; <span class="cm">// "groesstes" auf das aktuell als gr\u00f6\u00dfte angenommene Element setzten</span>'},
+  {n:64,  t:'                groesstes = rechts; <span class="cm">// "groesstes" aktualisieren</span>'},
   {n:65,  t:'            }'},
-  {n:66,  t:'            <span class="cm">// Wenn das gr\u00f6\u00dfte Element nicht mehr das urspr\u00fcngliche Element ist,</span>'},
+  {n:66,  t:'            <span class="cm">// Wenn das gr\u00f6\u00dfte Element nicht mehr das urspr\u00fcngliche ist,</span>'},
   {n:67,  t:'            <span class="cm">// m\u00fcssen wir tauschen und im Unterbaum weiter versickern.</span>'},
   {n:68,  t:'            <span class="kw">if</span> (groesstes != index)'},
   {n:69,  t:'            {'},
   {n:70,  t:'                <span class="fn">Tauschen</span>(arr, index, groesstes);'},
   {n:71,  t:'                <span class="cm">// Rekursiver Aufruf um im Baum weiter nach unten zu gehen</span>'},
-  {n:72,  t:'                <span class="cm">// Heapsort im ganzen ist iterativ, das wird hier nicht ge\u00e4ndert, Teiloperationen sind jedoch rekursiv einfacher umzusetzen</span>'},
+  {n:72,  t:'                <span class="cm">// Heapsort im ganzen ist iterativ, Teiloperationen sind rekursiv</span>'},
   {n:73,  t:'                <span class="fn">Versickere</span>(arr, heapGroesse, groesstes);'},
   {n:74,  t:'            }'},
   {n:75,  t:'        }'},
@@ -361,27 +331,29 @@ function setLine(n){
   lastLine = n;
 }
 
+// ── Struktogramm builder ──────────────────────────────────────────────
 
+// IF: triangle points DOWN (∨)
+// SVG lines: top-left corner → bottom-center, top-right corner → bottom-center
 function skIf(condHtml, dataLines, elId, jaHtml, neinHtml) {
   return `
 <div class="sk-if-wrap">
-  <div class="sk-if-cond-row sk-id" data-lines="${dataLines}" id="${elId}">
+  <div class="sk-if-cond-row sk-id sk-if-cond" data-lines="${dataLines}" id="${elId}">
     <div class="sk-if-cond-text">
       <span class="sk-c-kw">wenn</span>
       <span class="sk-c-seq">${condHtml} <span class="sk-c-kw">?</span></span>
     </div>
-    <!-- diagonal lines drawn only in the bottom corners, not crossing the text -->
     <svg class="sk-diag-svg" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="0" y1="100%" x2="50%" y2="0" stroke="#2a3a5a" stroke-width="1"/>
-      <line x1="100%" y1="100%" x2="50%" y2="0" stroke="#2a3a5a" stroke-width="1"/>
+      <line x1="0" y1="0" x2="50%" y2="100%" stroke="#2a3a5a" stroke-width="1"/>
+      <line x1="100%" y1="0" x2="50%" y2="100%" stroke="#2a3a5a" stroke-width="1"/>
     </svg>
   </div>
   <div class="sk-if-branches">
-    <div class="sk-branch-ja">
+    <div class="sk-branch-ja sk-if-branch-ja" data-if="${elId}">
       <div class="sk-branch-label ja-lbl">ja</div>
       <div class="sk-branch-body">${jaHtml}</div>
     </div>
-    <div class="sk-branch-nein">
+    <div class="sk-branch-nein sk-if-branch-nein" data-if="${elId}">
       <div class="sk-branch-label nein-lbl">nein</div>
       <div class="sk-branch-body">${neinHtml}</div>
     </div>
@@ -470,7 +442,7 @@ function buildStruktogramm() {
 buildStruktogramm();
 
 function buildLineMap() {
-  const map = {}; // line → [element, ...]
+  const map = {};
   document.querySelectorAll('.sk-id').forEach(el => {
     const lines = el.dataset.lines.split(',').map(Number);
     lines.forEach(l => {
@@ -483,29 +455,48 @@ function buildLineMap() {
 
 let struktLineMap = null;
 let lastStruktLine = -1;
+let lastBranchResult = undefined;
 
-function setStruktLine(n) {
+// branchResult: true = ja-Zweig, false = nein-Zweig, undefined = kein IF
+function setStruktLine(n, branchResult) {
   if (!struktLineMap) struktLineMap = buildLineMap();
-  if (lastStruktLine === n && currentTab === 'strukt') return;
+  if (lastStruktLine === n && lastBranchResult === branchResult && currentTab === 'strukt') return;
+
+  // Alle Highlights entfernen
   document.querySelectorAll('.sk-id').forEach(e => {
     e.classList.remove('sk-hl-seq','sk-hl-kw','sk-hl-fn');
+  });
+  document.querySelectorAll('.sk-if-branch-ja, .sk-if-branch-nein').forEach(e => {
+    e.classList.remove('sk-hl-branch-ja','sk-hl-branch-nein');
   });
 
   if (n > 0 && struktLineMap[n]) {
     struktLineMap[n].forEach(el => {
-      // Pick highlight class based on element type
       if (el.classList.contains('sk-call') || el.classList.contains('sk-fn-header')) {
         el.classList.add('sk-hl-fn');
-      } else if (el.classList.contains('sk-for-header') || el.classList.contains('sk-if-cond-row')) {
+      } else if (el.classList.contains('sk-for-header') || el.classList.contains('sk-if-cond')) {
         el.classList.add('sk-hl-kw');
+        // Bei IF-Bedingung: den aktiven Branch hervorheben
+        if (el.classList.contains('sk-if-cond') && branchResult !== undefined) {
+          if (branchResult === true) {
+            const branch = el.closest('.sk-if-wrap')?.querySelector('.sk-if-branch-ja');
+            if (branch) branch.classList.add('sk-hl-branch-ja');
+          } else {
+            const branch = el.closest('.sk-if-wrap')?.querySelector('.sk-if-branch-nein');
+            if (branch) branch.classList.add('sk-hl-branch-nein');
+          }
+        }
       } else {
         el.classList.add('sk-hl-seq');
       }
-      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      el.scrollIntoView({block:'nearest', behavior:'smooth'});
     });
   }
   lastStruktLine = n;
+  lastBranchResult = branchResult;
 }
+
+// ── Algorithm simulation ──────────────────────────────────────────────
 
 let arr = [], steps = [], stepIdx = 0, running = false, timer = null;
 
@@ -521,8 +512,9 @@ function buildSteps(a){
   const n = a.length;
   const sorted = new Set();
 
-  function snap(line, arr, hl, sw, phase, vars){
-    steps.push({line, arr:[...arr], hl:[...hl], sw:[...sw], sorted:[...sorted], phase, vars: vars||{}});
+  // branchResult: undefined = kein IF, true = ja-Zweig, false = nein-Zweig
+  function snap(line, arr, hl, sw, phase, vars, branchResult){
+    steps.push({line, arr:[...arr], hl:[...hl], sw:[...sw], sorted:[...sorted], phase, vars:vars||{}, branchResult});
   }
 
   snap(21, a, [], [], 'init', {anzahl:n});
@@ -537,18 +529,27 @@ function buildSteps(a){
     let gr = idx, li = 2*idx+1, re = 2*idx+2;
     snap(54, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li}));
     snap(55, a, [idx, li, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
-    snap(57, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
-    if(li < hg && a[li] > a[gr]){
+
+    // if (links < hg && arr[links] > arr[gr])
+    const branchLinks = li < hg && a[li] > a[gr];
+    snap(57, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}), branchLinks);
+    if(branchLinks){
       snap(59, a, [li, gr], [], phase, Object.assign({},base,{groesstes:li, links:li, rechts:re}));
       gr = li;
     }
-    snap(62, a, [idx, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
-    if(re < hg && a[re] > a[gr]){
+
+    // if (rechts < hg && arr[rechts] > arr[gr])
+    const branchRechts = re < hg && a[re] > a[gr];
+    snap(62, a, [idx, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}), branchRechts);
+    if(branchRechts){
       snap(64, a, [re, gr], [], phase, Object.assign({},base,{groesstes:re, links:li, rechts:re}));
       gr = re;
     }
-    snap(68, a, [idx, gr], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
-    if(gr !== idx){
+
+    // if (gr !== idx)
+    const branchSwap = gr !== idx;
+    snap(68, a, [idx, gr], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}), branchSwap);
+    if(branchSwap){
       snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
       let t = a[idx]; a[idx] = a[gr]; a[gr] = t;
       snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
@@ -578,6 +579,7 @@ function buildSteps(a){
   snap(24, a, [], [], 'fertig', {n});
 }
 
+// ── Tree rendering ────────────────────────────────────────────────────
 const svgEl = document.getElementById('tree-svg');
 
 function getPos(){
@@ -599,6 +601,17 @@ function mk(tag, attrs){
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
   for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
   return el;
+}
+
+function edge(p1, p2, nr){
+  const dx=p2[0]-p1[0], dy=p2[1]-p1[1], d=Math.sqrt(dx*dx+dy*dy);
+  if(!d) return;
+  const ux=dx/d, uy=dy/d;
+  svgEl.appendChild(mk('line',{
+    x1:p1[0]+ux*nr, y1:p1[1]+uy*nr,
+    x2:p2[0]-ux*nr, y2:p2[1]-uy*nr,
+    stroke:'#1a2a40','stroke-width':'1'
+  }));
 }
 
 function drawTree(s){
@@ -685,33 +698,8 @@ function updateVars(vars){
   }).join('');
 }
 
-function edge(p1, p2, nr){
-  const dx=p2[0]-p1[0], dy=p2[1]-p1[1], d=Math.sqrt(dx*dx+dy*dy);
-  if(!d) return;
-  const ux=dx/d, uy=dy/d;
-  svgEl.appendChild(mk('line',{
-    x1:p1[0]+ux*nr, y1:p1[1]+uy*nr,
-    x2:p2[0]-ux*nr, y2:p2[1]-uy*nr,
-    stroke:'#1a2a40','stroke-width':'1'
-  }));
-}
-
-function updateBar(s){
-  const bar = document.getElementById('array-bar');
-  bar.innerHTML = '<span id="array-label">arr[]</span>';
-  s.arr.forEach((v,i)=>{
-    const c = document.createElement('div');
-    c.className = 'arr-cell' +
-      (s.sorted.includes(i)?' sorted':'') +
-      (s.sw.includes(i)?' sw':'') +
-      (s.hl.includes(i)&&!s.sw.includes(i)?' hl':'');
-    c.textContent = v;
-    bar.appendChild(c);
-  });
-}
-
+// ── Timeline ──────────────────────────────────────────────────────────
 const timelineEl = document.getElementById('timeline');
-let timelineDragging = false;
 
 timelineEl.addEventListener('input', () => {
   stop();
@@ -733,7 +721,7 @@ function applyStepAt(idx) {
   if (idx < 0 || idx >= steps.length) return;
   const s = steps[idx];
   setLine(s.line);
-  setStruktLine(s.line);
+  setStruktLine(s.line, s.branchResult);
   drawTree(s);
   updateBar(s);
   document.getElementById('step-counter').textContent = (idx+1)+' / '+steps.length;
@@ -780,10 +768,24 @@ function updateNavButtons(){
   document.getElementById('btn-step').disabled = (stepIdx >= steps.length);
 }
 
+function updateBar(s){
+  const bar = document.getElementById('array-bar');
+  bar.innerHTML = '<span id="array-label">arr[]</span>';
+  s.arr.forEach((v,i)=>{
+    const c = document.createElement('div');
+    c.className = 'arr-cell' +
+      (s.sorted.includes(i)?' sorted':'') +
+      (s.sw.includes(i)?' sw':'') +
+      (s.hl.includes(i)&&!s.sw.includes(i)?' hl':'');
+    c.textContent = v;
+    bar.appendChild(c);
+  });
+}
+
 function reset(){
   stop(); stepIdx=0; initArr();
-  struktLineMap = null; // rebuild map after re-render
-  lastLine = -1; lastStruktLine = -1;
+  struktLineMap = null;
+  lastLine = -1; lastStruktLine = -1; lastBranchResult = undefined;
   drawTree(steps[0]); updateBar(steps[0]); setLine(-1); setStruktLine(-1);
   document.getElementById('status').textContent='bereit';
   document.getElementById('step-counter').textContent='0 / '+steps.length;
