@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heapsort</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b12;--bg2:#0d1117;--bg3:#111827;--bg4:#1a2236;--bg5:#1e2a40;
+  --accent:#7c6af7;--accent2:#a78bfa;--accent3:#c4b5fd;
+  --border:#1e2a40;--border2:#2a3a5a;--border3:#3d4f70;
+  --txt:#e2e8f0;--txt2:#94a3b8;--txt3:#475569;
+}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(124,106,247,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(124,106,247,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+#app{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;}
+#titlebar{height:44px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0;}
+#win-dots{display:flex;gap:7px;}
+#win-dots span{width:12px;height:12px;border-radius:50%;}
+#win-dots span:nth-child(1){background:#ff5f57;}
+#win-dots span:nth-child(2){background:#febc2e;}
+#win-dots span:nth-child(3){background:#28c840;}
+#file-path{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--txt3);margin-left:4px;}
+#file-path span{color:var(--txt2);}
+.title-badge{margin-left:auto;font-size:10px;padding:3px 10px;border-radius:20px;background:#1a1540;color:#a5b4fc;border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;}
+#main{display:flex;flex:1;overflow:hidden;min-height:0;}
+
+
+#left-panel{width:52%;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+
+
+#tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;height:36px;}
+.tab{display:flex;align-items:center;gap:6px;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt3);cursor:pointer;border-right:1px solid var(--border);position:relative;user-select:none;transition:color 0.15s,background 0.15s;white-space:nowrap;}
+.tab:hover{color:var(--txt2);background:var(--bg3);}
+.tab.active{color:var(--accent3);background:var(--bg);border-bottom:2px solid var(--accent);}
+.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--bg);}
+.tab-icon{font-size:10px;opacity:0.7;}
+
+
+#code-panel{flex:1;overflow-y:auto;background:var(--bg);padding:8px 0;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
+#code-panel.visible{display:block;}
+#code-panel::-webkit-scrollbar{width:4px;}
+#code-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.cl{display:flex;align-items:center;padding:0;line-height:1.65;white-space:pre;font-size:12px;font-family:'JetBrains Mono',monospace;transition:background 0.1s;}
+.cl .ln{min-width:36px;text-align:right;margin-right:12px;color:#1e2a3a;user-select:none;font-size:11px;flex-shrink:0;}
+.cl .ct{color:#e2e8f0;}
+.cl.active{background:rgba(124,106,247,0.15);border-left:2px solid var(--accent);}
+.cl.active .ln{color:var(--accent);font-weight:600;}
+.cl.active .ct{color:#ffffff;}
+.kw{color:#818cf8;}.cm{color:#364a62;font-style:italic;}.nu{color:#34d399;}.fn{color:#60a5fa;}.str{color:#f9a8d4;}.tp{color:#a78bfa;}
+
+
+#strukt-panel{flex:1;overflow-y:auto;overflow-x:auto;background:var(--bg);padding:14px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;display:none;}
+#strukt-panel.visible{display:block;}
+#strukt-panel::-webkit-scrollbar{width:4px;}
+#strukt-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+
+.sk-wrap{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--txt);min-width:500px;}
+.sk-title{font-size:10px;color:var(--txt3);margin-bottom:10px;letter-spacing:0.08em;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--border2);}
+
+.sk-c-seq   { color:#e2e8f0; }
+.sk-c-kw    { color:#818cf8; }
+.sk-c-fn    { color:#60a5fa; }
+.sk-c-fn-hd { color:#c4b5fd; }
+.sk-c-nu    { color:#34d399; }
+
+.sk-fn-wrap{border:1px solid var(--border2);margin-top:10px;}
+.sk-fn-wrap:first-of-type{margin-top:0;}
+.sk-fn-header{padding:6px 10px;background:#0e1120;border-bottom:1px solid var(--border2);font-weight:600;font-size:11px;display:flex;align-items:center;gap:6px;}
+.sk-fn-header::before{content:'fn';font-size:8px;padding:1px 5px;border-radius:3px;background:#1e1b4b;border:1px solid #3730a3;color:#818cf8;flex-shrink:0;}
+
+.sk-seq{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;transition:background 0.15s,border-color 0.15s;}
+.sk-fn-wrap > .sk-seq:first-of-type, .sk-fn-header + .sk-seq{border-top:none;}
+
+.sk-call{border:1px solid var(--border2);border-top:none;padding:5px 10px;min-height:26px;display:flex;align-items:center;gap:6px;background:#08101e;transition:background 0.15s,border-color 0.15s;}
+.sk-call::before{content:'→';color:#60a5fa;font-size:10px;flex-shrink:0;}
+
+.sk-for-wrap{border:1px solid var(--border2);border-top:none;}
+.sk-for-header{padding:5px 10px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:6px;background:#0a0f1c;transition:background 0.15s,border-color 0.15s;}
+.sk-for-header::before{content:'↻';color:#818cf8;font-size:12px;flex-shrink:0;}
+.sk-for-body{margin-left:16px;border-left:2px solid #2a3a5a;}
+
+.sk-if-wrap{border:1px solid var(--border2);border-top:none;display:flex;flex-direction:column;}
+
+.sk-if-cond-row{position:relative;min-height:34px;border-bottom:1px solid var(--border2);display:flex;align-items:stretch;}
+.sk-if-cond-text{
+  flex:1;padding:8px 10px 28px 10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  text-align:center;gap:3px;line-height:1.5;
+  transition:background 0.15s;position:relative;z-index:1;
+}
+
+.sk-if-cond-row{min-height:60px;position:relative;}
+.sk-if-cond-row .sk-diag-svg{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:28px;
+  width:100%;
+  pointer-events:none;
+  overflow:visible;
+}
+
+.sk-if-branches{display:flex;min-height:30px;}
+.sk-branch-ja{flex:1;border-right:1px solid var(--border2);display:flex;flex-direction:column;}
+.sk-branch-nein{flex:1;display:flex;flex-direction:column;}
+.sk-branch-label{font-size:9px;letter-spacing:0.06em;padding:2px 6px;}
+.sk-branch-label.ja-lbl{color:#34d399;}
+.sk-branch-label.nein-lbl{color:#f87171;text-align:right;}
+.sk-branch-body{flex:1;}
+
+.sk-branch-body .sk-seq{border-top:none;}
+.sk-branch-body .sk-call{border-top:none;}
+.sk-branch-body .sk-for-wrap{border-top:none;}
+.sk-branch-body .sk-if-wrap{border-top:none;}
+.sk-branch-body > *:first-child{border-top:none;}
+
+.sk-branch-empty{padding:5px 10px;color:var(--txt3);font-size:10px;font-style:italic;min-height:24px;display:flex;align-items:center;}
+
+.sk-hl-seq  {background:rgba(129,140,248,0.15)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
+.sk-hl-kw   {background:rgba(129,140,248,0.22)!important;border-color:#818cf8!important;outline:1px solid #818cf840;}
+.sk-hl-fn   {background:rgba(96,165,250,0.18)!important;border-color:#60a5fa!important;outline:1px solid #60a5fa40;}
+
+.sk-for-wrap + .sk-seq,.sk-for-wrap + .sk-for-wrap,.sk-for-wrap + .sk-if-wrap,
+.sk-if-wrap + .sk-seq,.sk-if-wrap + .sk-for-wrap,.sk-if-wrap + .sk-if-wrap,
+.sk-seq + .sk-seq,.sk-seq + .sk-for-wrap,.sk-seq + .sk-if-wrap,
+.sk-call + .sk-seq,.sk-call + .sk-for-wrap,.sk-call + .sk-if-wrap,
+.sk-seq + .sk-call,.sk-call + .sk-call,.sk-for-wrap + .sk-call,.sk-if-wrap + .sk-call
+{border-top:none;}
+
+#divider{width:1px;flex-shrink:0;background:linear-gradient(to bottom,transparent,var(--accent) 15%,var(--border3) 50%,var(--accent) 85%,transparent);opacity:0.35;}
+#tree-panel{flex:1;display:flex;flex-direction:column;background:var(--bg);min-width:0;}
+#tree-svg-wrap{flex:1;overflow:hidden;position:relative;min-height:0;}
+#phase-badge{position:absolute;top:12px;left:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:#0f0d24;color:var(--accent3);border:1px solid #3730a3;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;transition:all 0.3s;z-index:2;}
+#step-counter{position:absolute;top:12px;right:12px;font-size:10px;padding:4px 12px;border-radius:20px;background:var(--bg3);color:var(--txt3);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;}
+#tree-svg{display:block;}
+#vars-panel{
+  position:absolute;bottom:10px;right:10px;
+  background:#0a0d16;border:1px solid var(--border2);border-radius:8px;
+  padding:8px 10px;min-width:160px;max-width:220px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  z-index:3;
+}
+#vars-panel .vp-title{
+  color:var(--txt3);font-size:9px;letter-spacing:0.1em;
+  border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:6px;
+  text-transform:uppercase;
+}
+#vars-list{display:flex;flex-direction:column;gap:3px;}
+.var-row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.var-name{color:#818cf8;}
+.var-val{color:#34d399;font-weight:600;}
+.var-val.undef{color:var(--txt3);font-weight:400;}
+#array-bar{padding:8px 14px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:5px;overflow:hidden;}
+#array-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;margin-right:6px;}
+.arr-cell{height:28px;min-width:28px;padding:0 4px;border-radius:6px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--txt2);transition:all 0.2s;flex:1;}
+.arr-cell.hl{background:#1e1b4b;border-color:#818cf8;color:#c7d2fe;}
+.arr-cell.sw{background:#2d1a00;border-color:#f59e0b;color:#fcd34d;}
+.arr-cell.sorted{background:#052e16;border-color:#4ade80;color:#86efac;}
+#legend{display:flex;gap:14px;padding:7px 14px;background:var(--bg2);border-top:1px solid var(--border);flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt3);}
+.leg-dot{width:9px;height:9px;border-radius:50%;}
+
+#timeline-wrap{padding:6px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+#timeline-label{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex-shrink:0;min-width:52px;}
+#timeline{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+#timeline::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent2);cursor:pointer;border:2px solid var(--bg2);}
+#timeline::-webkit-slider-runnable-track{border-radius:2px;}
+
+#controls{padding:10px 14px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;}
+.btn{font-size:11px;padding:6px 14px;cursor:pointer;border-radius:20px;font-family:'JetBrains Mono',monospace;transition:all 0.15s;border:1px solid var(--border2);background:var(--bg3);color:var(--txt2);}
+.btn:hover:not(:disabled){background:var(--bg5);border-color:var(--border3);color:var(--txt);}
+.btn:active:not(:disabled){transform:scale(0.97);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn.primary{background:#1e1b4b;border-color:#4338ca;color:#a5b4fc;}
+.btn.primary:hover:not(:disabled){background:#2d2a6e;}
+#speed-wrap{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;}
+input[type=range]{-webkit-appearance:none;appearance:none;width:80px;height:3px;border-radius:2px;background:var(--bg5);outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent2);cursor:pointer;}
+#status{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;margin-left:auto;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="titlebar">
+    <div id="win-dots"><span></span><span></span><span></span></div>
+    <span id="file-path">HeapsortProjekt / <span>Program.cs</span></span>
+    <span class="title-badge">C# · Heapsort Visualizer</span>
+  </div>
+  <div id="main">
+    <div id="left-panel">
+      <div id="tab-bar">
+        <div class="tab active" id="tab-code" onclick="switchTab('code')">
+          <span class="tab-icon">⌨</span> Code
+        </div>
+        <div class="tab" id="tab-strukt" onclick="switchTab('strukt')">
+          <span class="tab-icon">⊞</span> Struktogramm
+        </div>
+      </div>
+      <div id="code-panel" class="visible"></div>
+      <div id="strukt-panel"></div>
+    </div>
+    <div id="divider"></div>
+    <div id="tree-panel">
+      <div id="tree-svg-wrap">
+        <div id="phase-badge">INITIALISIERUNG</div>
+        <div id="step-counter">0 / 0</div>
+        <svg id="tree-svg" width="100%" height="100%"></svg>
+        <div id="vars-panel">
+          <div class="vp-title">Variablen</div>
+          <div id="vars-list"></div>
+        </div>
+      </div>
+      <div id="array-bar"><span id="array-label">arr[]</span></div>
+      <div id="legend">
+        <div class="leg"><div class="leg-dot" style="background:#312e81;border:1px solid #818cf8"></div>verglichen</div>
+        <div class="leg"><div class="leg-dot" style="background:#78350f;border:1px solid #f59e0b"></div>tauscht</div>
+        <div class="leg"><div class="leg-dot" style="background:#14532d;border:1px solid #4ade80"></div>sortiert</div>
+        <div class="leg"><div class="leg-dot" style="background:#111827;border:1px solid #2a3a5a"></div>inaktiv</div>
+      </div>
+      <div id="timeline-wrap">
+        <span id="timeline-label">Timeline</span>
+        <input type="range" id="timeline" min="0" max="100" value="0" step="1">
+      </div>
+      <div id="controls">
+        <button class="btn primary" id="btn-play">&#9654; Start</button>
+        <button class="btn" id="btn-back" disabled>&#8592; Zurück</button>
+        <button class="btn" id="btn-step" disabled>&#8594; Schritt</button>
+        <button class="btn" id="btn-reset">&#8635; Reset</button>
+        <div id="speed-wrap">
+          <span>langsam</span>
+          <input type="range" id="speed" min="1" max="5" value="3" step="1">
+          <span>schnell</span>
+        </div>
+        <span id="status">bereit</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+let currentTab = 'code';
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-code').classList.toggle('active', tab === 'code');
+  document.getElementById('tab-strukt').classList.toggle('active', tab === 'strukt');
+  document.getElementById('code-panel').classList.toggle('visible', tab === 'code');
+  document.getElementById('strukt-panel').classList.toggle('visible', tab === 'strukt');
+  // Re-apply current highlight in the newly shown tab
+  if (stepIdx > 0 && steps.length > 0) {
+    const s = steps[stepIdx - 1];
+    if (tab === 'code') setLine(s.line);
+    else setStruktLine(s.line);
+  }
+}
+
+const CODE = [
+  {n:1,   t:'<span class="kw">using</span> System;'},
+  {n:2,   t:'<span class="kw">namespace</span> HeapsortProjekt'},
+  {n:3,   t:'{'},
+  {n:4,   t:'    <span class="kw">class</span> <span class="tp">Program</span>'},
+  {n:5,   t:'    {'},
+  {n:6,   t:'        <span class="kw">static void</span> <span class="fn">Main</span>(<span class="kw">string</span>[] args)'},
+  {n:7,   t:'        {'},
+  {n:8,   t:'            <span class="cm">// 1. Zuf\u00e4llige Zahlen erzeugen</span>'},
+  {n:9,   t:'            Random rnd = <span class="kw">new</span> Random();'},
+  {n:10,  t:'            <span class="kw">int</span> anzahl = <span class="nu">10</span>; <span class="cm">// Anzahl der zu sortierenden Zahlen</span>'},
+  {n:11,  t:'            <span class="kw">int</span>[] zahlen = <span class="kw">new int</span>[anzahl];'},
+  {n:12,  t:'            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nu">0</span>; i &lt; anzahl; i++)'},
+  {n:13,  t:'            {'},
+  {n:14,  t:'                zahlen[i] = rnd.Next(<span class="nu">1</span>, <span class="nu">100</span>); <span class="cm">// Zufallszahlen von 1 bis 99</span>'},
+  {n:15,  t:'            }'},
+  {n:16,  t:'            <span class="cm">// 2. Unsortierte Zahlenfolge ausgeben</span>'},
+  {n:17,  t:'            Console.WriteLine(<span class="str">"Unsortierte Zahlenfolge:"</span>);'},
+  {n:18,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen)); <span class="cm">// Kommas zwischen den Elementen des Arrays einf\u00fcgen</span>'},
+  {n:19,  t:'            Console.WriteLine();'},
+  {n:20,  t:'            <span class="cm">// 3. Heapsort aufrufen</span>'},
+  {n:21,  t:'            <span class="fn">Heapsort</span>(zahlen);   <span class="cm">// Den Array mit den Zufallszahlen an die Sortierfunktion \u00fcbergeben</span>'},
+  {n:22,  t:'            <span class="cm">// 4. Sortierte Zahlenfolge ausgeben</span>'},
+  {n:23,  t:'            Console.WriteLine(<span class="str">"\\nSortierte Zahlenfolge:"</span>);'},
+  {n:24,  t:'            Console.WriteLine(string.Join(<span class="str">", "</span>, zahlen)); <span class="cm">// Kommas zwischen den Elementen des Arrays einf\u00fcgen</span>'},
+  {n:25,  t:'            <span class="cm">// 5. Programm aktiv halten; Schlie\u00dfen sowie komische Fehlermeldungen verhindern</span>'},
+  {n:26,  t:'            Console.ReadLine(); '},
+  {n:27,  t:'        }'},
+  {n:28,  t:'        <span class="cm">// Hauptmethode f\u00fcr den Heapsort-Algorithmus</span>'},
+  {n:29,  t:'        <span class="kw">static void</span> <span class="fn">Heapsort</span>(<span class="kw">int</span>[] arr) <span class="cm">// Den Array mit den Zufallszahlen entgegennehmen und als "arr" verf\u00fcgbar machen</span>'},
+  {n:30,  t:'        {'},
+  {n:31,  t:'            <span class="kw">int</span> n = arr.Length; <span class="cm">// n ist die L\u00e4nge des Arrays bzw. die Anzahl der Elemente im Array</span>'},
+  {n:32,  t:'            <span class="cm">// Max-Heap aufbauen</span>'},
+  {n:33,  t:'            <span class="cm">// Wir starten beim letzten Elternknoten und arbeiten uns zur Wurzel vor.</span>'},
+  {n:34,  t:'            <span class="cm">// Index des letzten Elternknotens ist (n / 2) - 1.</span>'},
+  {n:35,  t:'            <span class="kw">for</span> (<span class="kw">int</span> i = n / <span class="nu">2</span> - <span class="nu">1</span>; i &gt;= <span class="nu">0</span>; i--)'},
+  {n:36,  t:'            {'},
+  {n:37,  t:'                <span class="fn">Versickere</span>(arr, n, i);'},
+  {n:38,  t:'            }'},
+  {n:39,  t:'            <span class="cm">// Sortieren</span>'},
+  {n:40,  t:'            <span class="cm">// Wir extrahieren elementweise das gr\u00f6\u00dfte Element (Wurzel)</span>'},
+  {n:41,  t:'            <span class="kw">for</span> (<span class="kw">int</span> i = n - <span class="nu">1</span>; i &gt; <span class="nu">0</span>; i--)'},
+  {n:42,  t:'            {'},
+  {n:43,  t:'                <span class="cm">// Wurzel (gr\u00f6\u00dfstes Element) mit dem letzten unsortierten Element vertauschen</span>'},
+  {n:44,  t:'                <span class="fn">Tauschen</span>(arr, <span class="nu">0</span>, i);'},
+  {n:45,  t:'                <span class="cm">// Die Heap-Gr\u00f6\u00dfe verringert sich (i wird kleiner), </span>'},
+  {n:46,  t:'                <span class="cm">// die neue Wurzel muss an ihre richtige Position "versickert" werden</span>'},
+  {n:47,  t:'                <span class="fn">Versickere</span>(arr, i, <span class="nu">0</span>);'},
+  {n:48,  t:'            }'},
+  {n:49,  t:'        }'},
+  {n:50,  t:'        <span class="cm">// Versickert ein Element im Heap nach unten, bis die Max-Heap-Eigenschaft wiederhergestellt ist.</span>'},
+  {n:51,  t:'        <span class="kw">static void</span> <span class="fn">Versickere</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> heapGroesse, <span class="kw">int</span> index) <span class="cm">// Entgegennehmen von Array mit Zufallszahlen, L\u00e4nge des Arrays und aktueller Index</span>'},
+  {n:52,  t:'        {'},
+  {n:53,  t:'            <span class="kw">int</span> groesstes = index;        <span class="cm">// Nehme an, das aktuelle Element ist das gr\u00f6\u00dfte</span>'},
+  {n:54,  t:'            <span class="kw">int</span> links = <span class="nu">2</span> * index + <span class="nu">1</span>;    <span class="cm">// Index des linken Kindes</span>'},
+  {n:55,  t:'            <span class="kw">int</span> rechts = <span class="nu">2</span> * index + <span class="nu">2</span>;   <span class="cm">// Index des rechten Kindes</span>'},
+  {n:56,  t:'            <span class="cm">// Ist das linke Kind gr\u00f6\u00dfer als das aktuelle Element?</span>'},
+  {n:57,  t:'            <span class="kw">if</span> (links &lt; heapGroesse &amp;&amp; arr[links] &gt; arr[groesstes])'},
+  {n:58,  t:'            {'},
+  {n:59,  t:'                groesstes = links; <span class="cm">// "groesstes" auf das aktuell als gr\u00f6\u00dfte angenommene Element setzten</span>'},
+  {n:60,  t:'            }'},
+  {n:61,  t:'            <span class="cm">// Ist das rechte Kind gr\u00f6\u00dfer als das bisher gr\u00f6\u00dfte Element?</span>'},
+  {n:62,  t:'            <span class="kw">if</span> (rechts &lt; heapGroesse &amp;&amp; arr[rechts] &gt; arr[groesstes])'},
+  {n:63,  t:'            {'},
+  {n:64,  t:'                groesstes = rechts; <span class="cm">// "groesstes" auf das aktuell als gr\u00f6\u00dfte angenommene Element setzten</span>'},
+  {n:65,  t:'            }'},
+  {n:66,  t:'            <span class="cm">// Wenn das gr\u00f6\u00dfte Element nicht mehr das urspr\u00fcngliche Element ist,</span>'},
+  {n:67,  t:'            <span class="cm">// m\u00fcssen wir tauschen und im Unterbaum weiter versickern.</span>'},
+  {n:68,  t:'            <span class="kw">if</span> (groesstes != index)'},
+  {n:69,  t:'            {'},
+  {n:70,  t:'                <span class="fn">Tauschen</span>(arr, index, groesstes);'},
+  {n:71,  t:'                <span class="cm">// Rekursiver Aufruf um im Baum weiter nach unten zu gehen</span>'},
+  {n:72,  t:'                <span class="cm">// Heapsort im ganzen ist iterativ, das wird hier nicht ge\u00e4ndert, Teiloperationen sind jedoch rekursiv einfacher umzusetzen</span>'},
+  {n:73,  t:'                <span class="fn">Versickere</span>(arr, heapGroesse, groesstes);'},
+  {n:74,  t:'            }'},
+  {n:75,  t:'        }'},
+  {n:76,  t:'        <span class="cm">// Hilfsmethode zum Vertauschen zweier Elemente im Array</span>'},
+  {n:77,  t:'        <span class="kw">static void</span> <span class="fn">Tauschen</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> aktuell, <span class="kw">int</span> groesste)'},
+  {n:78,  t:'        {'},
+  {n:79,  t:'            <span class="kw">int</span> temp = arr[aktuell];          <span class="cm">// Wert des aktuellen Elements zwischenspeichern</span>'},
+  {n:80,  t:'            arr[aktuell] = arr[groesste];    <span class="cm">// Gr\u00f6\u00dferes Element an die aktuelle Position setzen</span>'},
+  {n:81,  t:'            arr[groesste] = temp;            <span class="cm">// Zwischengespeicherten Wert an die andere Position setzen</span>'},
+  {n:82,  t:'        }'},
+  {n:83,  t:'    }'},
+  {n:84,  t:'}'},
+];
+
+function buildCode(){
+  const p = document.getElementById('code-panel');
+  p.innerHTML = CODE.map(l =>
+    `<div class="cl" id="cl${l.n}"><span class="ln">${l.n}</span><span class="ct">${l.t||' '}</span></div>`
+  ).join('');
+}
+buildCode();
+
+let lastLine = -1;
+function setLine(n){
+  if(lastLine === n && currentTab === 'code') return;
+  document.querySelectorAll('.cl').forEach(e => e.classList.remove('active'));
+  if(n > 0){
+    const el = document.getElementById('cl'+n);
+    if(el){ el.classList.add('active'); el.scrollIntoView({block:'nearest', behavior:'smooth'}); }
+  }
+  lastLine = n;
+}
+
+
+function skIf(condHtml, dataLines, elId, jaHtml, neinHtml) {
+  return `
+<div class="sk-if-wrap">
+  <div class="sk-if-cond-row sk-id" data-lines="${dataLines}" id="${elId}">
+    <div class="sk-if-cond-text">
+      <span class="sk-c-kw">wenn</span>
+      <span class="sk-c-seq">${condHtml} <span class="sk-c-kw">?</span></span>
+    </div>
+    <!-- diagonal lines drawn only in the bottom corners, not crossing the text -->
+    <svg class="sk-diag-svg" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="100%" x2="50%" y2="0" stroke="#2a3a5a" stroke-width="1"/>
+      <line x1="100%" y1="100%" x2="50%" y2="0" stroke="#2a3a5a" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="sk-if-branches">
+    <div class="sk-branch-ja">
+      <div class="sk-branch-label ja-lbl">ja</div>
+      <div class="sk-branch-body">${jaHtml}</div>
+    </div>
+    <div class="sk-branch-nein">
+      <div class="sk-branch-label nein-lbl">nein</div>
+      <div class="sk-branch-body">${neinHtml}</div>
+    </div>
+  </div>
+</div>`;}
+
+function skFor(labelHtml, dataLines, elId, bodyHtml) {
+  return `
+<div class="sk-for-wrap">
+  <div class="sk-for-header sk-id" data-lines="${dataLines}" id="${elId}">
+    <span class="sk-c-kw">für</span>&nbsp;<span class="sk-c-seq">${labelHtml}</span>
+  </div>
+  <div class="sk-for-body">${bodyHtml}</div>
+</div>`;}
+
+function skSeq(html, dataLines, elId) {
+  return `<div class="sk-seq sk-id sk-c-seq" data-lines="${dataLines}" id="${elId}">${html}</div>`;}
+
+function skCall(html, dataLines, elId) {
+  return `<div class="sk-call sk-id" data-lines="${dataLines}" id="${elId}"><span class="sk-c-fn">${html}</span></div>`;}
+
+const skEmpty = `<div class="sk-branch-empty sk-c-seq">—</div>`;
+
+function buildStruktogramm() {
+  const panel = document.getElementById('strukt-panel');
+  panel.innerHTML = `
+<div class="sk-wrap">
+  <div class="sk-title">Struktogramm — Heapsort Algorithmus (C#)</div>
+
+  <!-- ══ Main() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Main</span><span class="sk-c-seq">(string[] args)</span></div>
+    ${skSeq('<span class="sk-c-kw">Random</span> rnd = <span class="sk-c-kw">new</span> Random();&nbsp; <span class="sk-c-kw">int</span> anzahl = <span class="sk-c-nu">10</span>;&nbsp; <span class="sk-c-kw">int</span>[] zahlen = <span class="sk-c-kw">new int</span>[anzahl]', '9,10,11', 'sk-init')}
+    ${skFor('i = <span class="sk-c-nu">0</span>; i &lt; anzahl; i++', '12', 'sk-for-init',
+      skSeq('zahlen[i] = rnd.Next(<span class="sk-c-nu">1</span>, <span class="sk-c-nu">100</span>)', '14', 'sk-fill')
+    )}
+    ${skSeq('Console.WriteLine(<span style="color:#f9a8d4">"Unsortierte Zahlenfolge:"</span>) + Ausgabe', '17,18,19', 'sk-print-unsorted')}
+    ${skCall('Heapsort(zahlen)', '21', 'sk-call-heapsort')}
+    ${skSeq('Console.WriteLine(<span style="color:#f9a8d4">"Sortierte Zahlenfolge:"</span>) + Ausgabe', '23,24', 'sk-print-sorted')}
+    ${skSeq('Console.ReadLine()', '26', 'sk-readline')}
+  </div>
+
+  <!-- ══ Heapsort() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Heapsort</span><span class="sk-c-seq">(<span class="sk-c-kw">int</span>[] arr)</span></div>
+    ${skSeq('<span class="sk-c-kw">int</span> n = arr.Length', '31', 'sk-n')}
+    ${skFor('i = n/<span class="sk-c-nu">2</span>−<span class="sk-c-nu">1</span>; i ≥ <span class="sk-c-nu">0</span>; i−− <span style="color:var(--txt3);font-size:9px">(Max-Heap aufbauen)</span>', '35', 'sk-for-heap',
+      skCall('Versickere(arr, n, i)', '37', 'sk-call-versickere-heap')
+    )}
+    ${skFor('i = n−<span class="sk-c-nu">1</span>; i &gt; <span class="sk-c-nu">0</span>; i−− <span style="color:var(--txt3);font-size:9px">(Sortieren)</span>', '41', 'sk-for-sort',
+      skCall('Tauschen(arr, 0, i)', '44', 'sk-call-tauschen-sort') +
+      skCall('Versickere(arr, i, 0)', '47', 'sk-call-versickere-sort')
+    )}
+  </div>
+
+  <!-- ══ Versickere() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Versickere</span><span class="sk-c-seq">(<span class="sk-c-kw">int</span>[] arr, <span class="sk-c-kw">int</span> heapGroesse, <span class="sk-c-kw">int</span> index)</span></div>
+    ${skSeq('<span class="sk-c-kw">int</span> groesstes = index', '53', 'sk-groesstes')}
+    ${skSeq('<span class="sk-c-kw">int</span> links = <span class="sk-c-nu">2</span> * index + <span class="sk-c-nu">1</span>', '54', 'sk-links')}
+    ${skSeq('<span class="sk-c-kw">int</span> rechts = <span class="sk-c-nu">2</span> * index + <span class="sk-c-nu">2</span>', '55', 'sk-rechts')}
+    ${skIf('links &lt; heapGroesse &amp;&amp; arr[links] &gt; arr[groesstes]', '57', 'sk-if-links',
+      skSeq('groesstes = links', '59', 'sk-set-groesstes-links'),
+      skEmpty
+    )}
+    ${skIf('rechts &lt; heapGroesse &amp;&amp; arr[rechts] &gt; arr[groesstes]', '62', 'sk-if-rechts',
+      skSeq('groesstes = rechts', '64', 'sk-set-groesstes-rechts'),
+      skEmpty
+    )}
+    ${skIf('groesstes ≠ index', '68', 'sk-if-groesstes',
+      skCall('Tauschen(arr, index, groesstes)', '70', 'sk-call-tauschen-versickere') +
+      skCall('Versickere(arr, heapGroesse, groesstes) <span style="color:var(--txt3);font-size:9px">(rekursiv)</span>', '73', 'sk-call-versickere-rec'),
+      skEmpty
+    )}
+  </div>
+
+  <!-- ══ Tauschen() ══ -->
+  <div class="sk-fn-wrap">
+    <div class="sk-fn-header"><span class="sk-c-fn-hd">Tauschen</span><span class="sk-c-seq">(<span class="sk-c-kw">int</span>[] arr, <span class="sk-c-kw">int</span> aktuell, <span class="sk-c-kw">int</span> groesste)</span></div>
+    ${skSeq('<span class="sk-c-kw">int</span> temp = arr[aktuell]', '79', 'sk-temp')}
+    ${skSeq('arr[aktuell] = arr[groesste]', '80', 'sk-swap1')}
+    ${skSeq('arr[groesste] = temp', '81', 'sk-swap2')}
+  </div>
+</div>`;
+}
+buildStruktogramm();
+
+function buildLineMap() {
+  const map = {}; // line → [element, ...]
+  document.querySelectorAll('.sk-id').forEach(el => {
+    const lines = el.dataset.lines.split(',').map(Number);
+    lines.forEach(l => {
+      if (!map[l]) map[l] = [];
+      map[l].push(el);
+    });
+  });
+  return map;
+}
+
+let struktLineMap = null;
+let lastStruktLine = -1;
+
+function setStruktLine(n) {
+  if (!struktLineMap) struktLineMap = buildLineMap();
+  if (lastStruktLine === n && currentTab === 'strukt') return;
+  document.querySelectorAll('.sk-id').forEach(e => {
+    e.classList.remove('sk-hl-seq','sk-hl-kw','sk-hl-fn');
+  });
+
+  if (n > 0 && struktLineMap[n]) {
+    struktLineMap[n].forEach(el => {
+      // Pick highlight class based on element type
+      if (el.classList.contains('sk-call') || el.classList.contains('sk-fn-header')) {
+        el.classList.add('sk-hl-fn');
+      } else if (el.classList.contains('sk-for-header') || el.classList.contains('sk-if-cond-row')) {
+        el.classList.add('sk-hl-kw');
+      } else {
+        el.classList.add('sk-hl-seq');
+      }
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+  }
+  lastStruktLine = n;
+}
+
+let arr = [], steps = [], stepIdx = 0, running = false, timer = null;
+
+function rand(a,b){ return Math.floor(Math.random()*(b-a))+a; }
+
+function initArr(){
+  arr = Array.from({length:10}, () => rand(10,99));
+  steps = []; stepIdx = 0;
+  buildSteps([...arr]);
+}
+
+function buildSteps(a){
+  const n = a.length;
+  const sorted = new Set();
+
+  function snap(line, arr, hl, sw, phase, vars){
+    steps.push({line, arr:[...arr], hl:[...hl], sw:[...sw], sorted:[...sorted], phase, vars: vars||{}});
+  }
+
+  snap(21, a, [], [], 'init', {anzahl:n});
+  snap(29, a, [], [], 'init', {anzahl:n});
+  snap(31, a, [], [], 'init', {n, anzahl:n});
+  snap(35, a, [], [], 'heap-aufbau', {n});
+
+  function versickere(a, hg, idx, phase, outerVars){
+    const base = Object.assign({}, outerVars||{}, {heapGroesse:hg, index:idx});
+    snap(51, a, [idx], [], phase, base);
+    snap(53, a, [idx], [], phase, Object.assign({},base,{groesstes:idx}));
+    let gr = idx, li = 2*idx+1, re = 2*idx+2;
+    snap(54, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li}));
+    snap(55, a, [idx, li, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    snap(57, a, [idx, li], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    if(li < hg && a[li] > a[gr]){
+      snap(59, a, [li, gr], [], phase, Object.assign({},base,{groesstes:li, links:li, rechts:re}));
+      gr = li;
+    }
+    snap(62, a, [idx, re], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    if(re < hg && a[re] > a[gr]){
+      snap(64, a, [re, gr], [], phase, Object.assign({},base,{groesstes:re, links:li, rechts:re}));
+      gr = re;
+    }
+    snap(68, a, [idx, gr], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+    if(gr !== idx){
+      snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+      let t = a[idx]; a[idx] = a[gr]; a[gr] = t;
+      snap(70, a, [idx, gr], [idx, gr], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+      snap(79, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
+      snap(80, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
+      snap(81, a, [idx, gr], [idx, gr], phase, {aktuell:idx, groesste:gr, temp:t});
+      snap(73, a, [gr], [], phase, Object.assign({},base,{groesstes:gr, links:li, rechts:re}));
+      versickere(a, hg, gr, phase, Object.assign({},base,{groesstes:gr}));
+    }
+  }
+
+  for(let i = Math.floor(n/2)-1; i >= 0; i--){
+    snap(37, a, [i], [], 'heap-aufbau', {n, i});
+    versickere(a, n, i, 'heap-aufbau', {n, i});
+  }
+
+  snap(41, a, [], [], 'sortieren', {n});
+  for(let i = n-1; i > 0; i--){
+    snap(44, a, [0, i], [0, i], 'sortieren', {n, i});
+    let t = a[0]; a[0] = a[i]; a[i] = t;
+    sorted.add(i);
+    snap(44, a, [0, i], [0, i], 'sortieren', {n, i});
+    snap(47, a, [0], [], 'sortieren', {n, i});
+    versickere(a, i, 0, 'sortieren', {n, i});
+  }
+  sorted.add(0);
+  snap(24, a, [], [], 'fertig', {n});
+}
+
+const svgEl = document.getElementById('tree-svg');
+
+function getPos(){
+  const W = svgEl.clientWidth || 400;
+  const H = svgEl.clientHeight || 380;
+  const cx = W/2;
+  const y0=H*0.09, y1=H*0.27, y2=H*0.46, y3=H*0.67;
+  const g1=W*0.25, g2=W*0.135, g3=W*0.075;
+  return [
+    [cx, y0],
+    [cx-g1, y1], [cx+g1, y1],
+    [cx-g1-g2, y2], [cx-g2+g3*0.4, y2], [cx+g2-g3*0.4, y2], [cx+g1+g2, y2],
+    [cx-g1-g2-g3, y3], [cx-g1-g2+g3, y3],
+    [cx-g2+g3*0.4-g3, y3], [cx-g2+g3*0.4+g3, y3]
+  ];
+}
+
+function mk(tag, attrs){
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+
+function drawTree(s){
+  svgEl.innerHTML = '';
+  const pos = getPos();
+  const {arr:a, hl, sw, sorted} = s;
+  const W = svgEl.clientWidth || 400;
+  const H = svgEl.clientHeight || 380;
+  const nr = Math.max(15, Math.min(22, W*0.044));
+
+  const defs = mk('defs',{});
+  const f = mk('filter',{id:'glow',x:'-60%',y:'-60%',width:'220%',height:'220%'});
+  const fb = mk('feGaussianBlur',{in:'SourceGraphic',stdDeviation:'4',result:'b'});
+  const fm = mk('feMerge',{});
+  fm.appendChild(mk('feMergeNode',{in:'b'}));
+  fm.appendChild(mk('feMergeNode',{in:'SourceGraphic'}));
+  f.appendChild(fb); f.appendChild(fm); defs.appendChild(f);
+  svgEl.appendChild(defs);
+
+  for(let i=0;i<10;i++){
+    const li=2*i+1, ri=2*i+2;
+    if(li<10) edge(pos[i], pos[li], nr);
+    if(ri<10) edge(pos[i], pos[ri], nr);
+  }
+
+  for(let i=0;i<10;i++){
+    const [x,y] = pos[i];
+    const isSorted = sorted.includes(i);
+    const isSwap = sw.includes(i);
+    const isHl = hl.includes(i) && !isSwap;
+
+    let fill, stroke, sw2, tc, gc=null;
+    if(isSorted)    { fill='#052e16'; stroke='#4ade80'; sw2=1.5; tc='#86efac'; gc='#22c55e55'; }
+    else if(isSwap) { fill='#2d1a00'; stroke='#f59e0b'; sw2=2;   tc='#fcd34d'; gc='#f59e0b66'; }
+    else if(isHl)   { fill='#1e1b4b'; stroke='#818cf8'; sw2=1.5; tc='#c7d2fe'; gc='#7c6af755'; }
+    else            { fill='#111827'; stroke='#2a3a5a'; sw2=1;   tc='#64748b'; }
+
+    if(gc) svgEl.appendChild(mk('circle',{cx:x,cy:y,r:nr+6,fill:gc,filter:'url(#glow)'}));
+    svgEl.appendChild(mk('circle',{cx:x,cy:y,r:nr,fill,stroke,'stroke-width':sw2}));
+
+    const vt = mk('text',{x,y,'text-anchor':'middle','dominant-baseline':'central',
+      'font-size':nr<17?'10':'12','font-weight':'600',fill:tc,
+      'font-family':'JetBrains Mono,monospace'});
+    vt.textContent = a[i];
+    svgEl.appendChild(vt);
+
+    const it = mk('text',{x,y:y+nr+12,'text-anchor':'middle',
+      'font-size':'9',fill:'#1e2a3a','font-family':'JetBrains Mono,monospace'});
+    it.textContent = '['+i+']';
+    svgEl.appendChild(it);
+  }
+
+  if(sorted.length >= 10){
+    const ft = mk('text',{x:W/2,y:H-12,'text-anchor':'middle',
+      'font-size':'12',fill:'#4ade80','font-weight':'500',
+      'font-family':'JetBrains Mono,monospace'});
+    ft.textContent = '\u2713 vollst\u00e4ndig sortiert';
+    svgEl.appendChild(ft);
+  }
+
+  const pb = document.getElementById('phase-badge');
+  const pm = {'heap-aufbau':'MAX-HEAP AUFBAU','sortieren':'SORTIEREN','fertig':'FERTIG \u2713','init':'INITIALISIERUNG','':'VERARBEITUNG'};
+  pb.textContent = pm[s.phase]||'VERARBEITUNG';
+  if(s.phase==='sortieren'){pb.style.color='#fcd34d';pb.style.borderColor='#78350f';pb.style.background='#1a0e00';}
+  else if(s.phase==='fertig'){pb.style.color='#86efac';pb.style.borderColor='#14532d';pb.style.background='#031a0e';}
+  else{pb.style.color='#c4b5fd';pb.style.borderColor='#3730a3';pb.style.background='#0f0d24';}
+
+  updateVars(s.vars||{});
+}
+
+function updateVars(vars){
+  const list = document.getElementById('vars-list');
+  const order = ['n','anzahl','i','heapGroesse','index','groesstes','links','rechts','aktuell','groesste','temp'];
+  const keys = [...new Set([...order.filter(k => k in vars), ...Object.keys(vars).filter(k => !order.includes(k))])];
+  if(keys.length === 0){
+    list.innerHTML = '<div class="var-row"><span class="var-val undef">—</span></div>';
+    return;
+  }
+  list.innerHTML = keys.map(k => {
+    const v = vars[k];
+    const display = v === undefined || v === null ? '—' : String(v);
+    const cls = (v === undefined || v === null) ? 'var-val undef' : 'var-val';
+    return `<div class="var-row"><span class="var-name">${k}</span><span class="${cls}">${display}</span></div>`;
+  }).join('');
+}
+
+function edge(p1, p2, nr){
+  const dx=p2[0]-p1[0], dy=p2[1]-p1[1], d=Math.sqrt(dx*dx+dy*dy);
+  if(!d) return;
+  const ux=dx/d, uy=dy/d;
+  svgEl.appendChild(mk('line',{
+    x1:p1[0]+ux*nr, y1:p1[1]+uy*nr,
+    x2:p2[0]-ux*nr, y2:p2[1]-uy*nr,
+    stroke:'#1a2a40','stroke-width':'1'
+  }));
+}
+
+function updateBar(s){
+  const bar = document.getElementById('array-bar');
+  bar.innerHTML = '<span id="array-label">arr[]</span>';
+  s.arr.forEach((v,i)=>{
+    const c = document.createElement('div');
+    c.className = 'arr-cell' +
+      (s.sorted.includes(i)?' sorted':'') +
+      (s.sw.includes(i)?' sw':'') +
+      (s.hl.includes(i)&&!s.sw.includes(i)?' hl':'');
+    c.textContent = v;
+    bar.appendChild(c);
+  });
+}
+
+const timelineEl = document.getElementById('timeline');
+let timelineDragging = false;
+
+timelineEl.addEventListener('input', () => {
+  stop();
+  const val = parseInt(timelineEl.value);
+  const idx = Math.round((val / 1000) * (steps.length - 1));
+  stepIdx = Math.max(0, Math.min(steps.length, idx + 1));
+  applyStepAt(stepIdx - 1);
+});
+
+function updateTimeline() {
+  if (steps.length === 0) return;
+  const pct = stepIdx > 0 ? (stepIdx - 1) / (steps.length - 1) : 0;
+  timelineEl.value = Math.round(pct * 1000);
+}
+
+function speedMs(){ return [700,380,200,100,45][+document.getElementById('speed').value-1]; }
+
+function applyStepAt(idx) {
+  if (idx < 0 || idx >= steps.length) return;
+  const s = steps[idx];
+  setLine(s.line);
+  setStruktLine(s.line);
+  drawTree(s);
+  updateBar(s);
+  document.getElementById('step-counter').textContent = (idx+1)+' / '+steps.length;
+  document.getElementById('status').textContent = (idx+1)+' / '+steps.length;
+  updateTimeline();
+  updateNavButtons();
+}
+
+function applyStep(){
+  if(stepIdx >= steps.length){ stop(); document.getElementById('status').textContent='fertig \u2713'; return; }
+  applyStepAt(stepIdx);
+  stepIdx++;
+}
+
+function stepBack(){
+  stop();
+  if(stepIdx <= 1) return;
+  stepIdx--;
+  applyStepAt(stepIdx - 1);
+}
+
+function play(){ if(stepIdx>=steps.length){stop();return;} applyStep(); timer=setTimeout(play,speedMs()); }
+
+function stop(){
+  clearTimeout(timer); running=false;
+  document.getElementById('btn-play').textContent='\u25b6 Start';
+  document.getElementById('btn-play').classList.add('primary');
+  document.getElementById('btn-step').disabled=false;
+  document.getElementById('btn-back').disabled=(stepIdx<=1);
+}
+
+function startPlay(){
+  if(running){stop();return;}
+  running=true;
+  document.getElementById('btn-play').textContent='\u23f8 Pause';
+  document.getElementById('btn-play').classList.remove('primary');
+  document.getElementById('btn-step').disabled=true;
+  document.getElementById('btn-back').disabled=true;
+  play();
+}
+
+function updateNavButtons(){
+  document.getElementById('btn-back').disabled = (stepIdx <= 1);
+  document.getElementById('btn-step').disabled = (stepIdx >= steps.length);
+}
+
+function reset(){
+  stop(); stepIdx=0; initArr();
+  struktLineMap = null; // rebuild map after re-render
+  lastLine = -1; lastStruktLine = -1;
+  drawTree(steps[0]); updateBar(steps[0]); setLine(-1); setStruktLine(-1);
+  document.getElementById('status').textContent='bereit';
+  document.getElementById('step-counter').textContent='0 / '+steps.length;
+  document.getElementById('btn-step').disabled=false;
+  document.getElementById('btn-back').disabled=true;
+  timelineEl.max = 1000;
+  timelineEl.value = 0;
+}
+
+document.getElementById('btn-play').onclick = startPlay;
+document.getElementById('btn-step').onclick = ()=>{ stop(); applyStep(); };
+document.getElementById('btn-back').onclick = stepBack;
+document.getElementById('btn-reset').onclick = reset;
+window.addEventListener('resize',()=>{
+  if(stepIdx>0) drawTree(steps[stepIdx-1]);
+  else if(steps.length>0) drawTree(steps[0]);
+});
+
+initArr();
+drawTree(steps[0]);
+updateBar(steps[0]);
+document.getElementById('step-counter').textContent='0 / '+steps.length;
+timelineEl.max = 1000;
+timelineEl.value = 0;
+</script>
+</body>
+</html>
