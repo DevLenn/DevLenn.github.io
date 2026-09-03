@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="de" class="lenis">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KI-Report 2026 — Recherche zu fünf Themenfeldern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@400;600;700&family=Archivo:wght@400;600;800&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{font-size:17px;line-height:1.6;background:#0a0a0a;color:#eee;overflow-x:hidden}
+::selection{background:#fff;color:#111}
+a.q{color:inherit;text-decoration:none;cursor:pointer}
+a.q:hover{box-shadow:inset 0 -2px 0 rgba(128,128,128,.4)}
+html.lenis,body.lenis{height:auto;overflow-x:hidden}
+.lenis.lenis-smooth{scroll-behavior:auto !important}
+.lenis.lenis-stopped{overflow:hidden}
+
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#f4e9d4,#7fb069,#00e5ff,#c9a227,#9fb4c7);z-index:1000;pointer-events:none}
+#rail{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:14px}
+#rail a{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.6);display:block;transition:all .25s;position:relative}
+#rail a.active{background:#fff;transform:scale(1.35)}
+#rail a span{position:absolute;right:24px;white-space:nowrap;font:600 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.7);padding:5px 9px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s}
+#rail a:hover span{opacity:1}
+@media(max-width:760px){#rail{display:none}}
+
+/* ============ HERO ============ */
+
+/* --- CTA oben rechts auf der Landing Page --- */
+.hero-cta{
+  position:absolute;
+  top:28px;
+  right:28px;
+  z-index:20;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:10px 15px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  color:#eee;
+  background:rgba(13,13,15,.38);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  font:600 11px/1 system-ui,sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease;
+}
+.hero-cta::after{content:"↗";font-size:14px;line-height:1}
+.hero-cta:hover{
+  background:rgba(255,255,255,.1);
+  border-color:rgba(255,255,255,.5);
+  transform:translateY(-1px);
+}
+@media(max-width:760px){
+  .hero-cta{top:16px;right:16px;padding:9px 12px;font-size:10px;letter-spacing:.1em}
+}
+
+#hero{height:120vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:10vh 6vw;position:relative;overflow:hidden;
+ background:radial-gradient(1200px 600px at 20% 10%, rgba(244,233,212,.06), transparent),radial-gradient(900px 500px at 80% 85%, rgba(127,176,105,.08), transparent),#0d0d0f}
+#hero .kicker{font:600 12px/1 system-ui;letter-spacing:.45em;text-transform:uppercase;color:#9aa;margin-bottom:22px}
+#hero h1{font:900 clamp(2.8rem,9vw,7rem)/0.95 "Playfair Display",Georgia,serif;color:#f4f1e8;max-width:14ch;letter-spacing:-.03em}
+#hero h1 em{font-style:italic;color:#c9a227}
+#hero p.sub{margin-top:26px;max-width:64ch;color:#b9b9b3;font:400 1.05rem/1.7 "Source Serif 4",Georgia,serif}
+#hero .toc{margin-top:44px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+#hero .toc a{font:600 12px/1 system-ui;letter-spacing:.12em;text-transform:uppercase;color:#e8e4d8;border:1px solid rgba(255,255,255,.28);padding:11px 18px;border-radius:999px;transition:all .2s;text-decoration:none}
+#hero .toc a:hover{background:#fff;color:#111}
+#hero .scrollhint{margin-top:7vh;color:#777;font:400 12px/1 system-ui;letter-spacing:.3em;text-transform:uppercase}
+
+/* ============ CHAPTER ============ */
+
+/* --- Vertikale NEWS/PAPER-Typografie hinter Kapitel 01 --- */
+#zeitung .chapter-head .layer .deco.ink:first-child{
+  top:8%!important;left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;text-align:center;
+  width:100%;z-index:0;
+}
+#zeitung .chapter-head .layer .deco.ink:last-child{
+  top:22%!important;bottom:auto!important;left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;text-align:center;
+  width:100%;z-index:0;
+}
+
+.chapter{position:relative;overflow:hidden;overflow:clip}
+.chapter-head{position:relative;padding:16vh 6vw 8vh;text-align:center;z-index:2;perspective:1200px}
+.chapter-head .inner{will-change:transform,opacity;backface-visibility:hidden}
+.chapter-head .no{position:relative;z-index:3;font:700 13px/1 system-ui;letter-spacing:.5em;text-transform:uppercase;opacity:.65}
+.chapter-head h2{position:relative;z-index:3;font-size:clamp(2.6rem,8vw,6rem);line-height:0.95;margin:.35em 0 .3em;letter-spacing:-.03em;font-weight:900}
+.chapter-head .lead{position:relative;z-index:3;max-width:74ch;margin:1.2em auto 0;font-size:1.06rem;opacity:.9;line-height:1.65}
+
+/* ============ FACT (echter 3D-Raum) ============ */
+.fact{position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;padding:10vh 6vw;overflow:visible;isolation:isolate;perspective:1050px}
+.fact[data-pos~="l"]{justify-content:flex-start}
+.fact[data-pos~="r"]{justify-content:flex-end}
+.fact[data-pos~="hi"]{align-items:flex-start;padding-top:16vh}
+.fact[data-pos~="lo"]{align-items:flex-end;padding-bottom:16vh}
+.fact .content{position:relative;z-index:5;max-width:920px;width:100%;will-change:transform,opacity;backface-visibility:hidden}
+.fact[data-pos~="l"] .content,.fact[data-pos~="r"] .content{max-width:780px}
+.fact .eyebrow{font:600 12px/1 system-ui;letter-spacing:.3em;text-transform:uppercase;margin-bottom:22px;opacity:.7}
+.fact .statement{font-size:clamp(1.35rem,3.1vw,2.4rem);line-height:1.35;letter-spacing:-.012em;font-weight:500}
+.fact .statement strong,.fact .statement .stat{font-weight:800}
+.fact .statement em{font-style:italic;opacity:.88}
+.w{display:inline-block;will-change:transform,opacity;transform-origin:center bottom}
+
+/* ============ PARALLAX-LAYER mit Tiefenstufen ============ */
+.layer{position:absolute;inset:-4vh -1vw;pointer-events:none;will-change:transform,opacity;z-index:2}
+.layer.front{z-index:7;opacity:.82;transition:opacity .5s ease,filter .5s ease,transform .5s ease}
+.fact.reading .layer.front,.chapter-head.reading .layer.front{opacity:.08!important;pointer-events:none;filter:blur(2.5px);transform:translate3d(0,48vh,-140px) scale(.7)!important}
+.deco{position:absolute;font-weight:900;user-select:none;will-change:transform}
+
+/* Hintergrundeffekte: an Rändern weich ausblenden statt hart abschneiden, und im Zentrum (wo der Text sitzt) leicht abdunkeln statt komplett zu verschwinden */
+.layer:not(.front){
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7vw,#000 calc(100% - 7vw),transparent 100%),radial-gradient(ellipse 46% 52% at 50% 50%,rgba(0,0,0,.34) 0%,rgba(0,0,0,.34) 42%,#000 82%);
+ mask-image:linear-gradient(90deg,transparent 0,#000 7vw,#000 calc(100% - 7vw),transparent 100%),radial-gradient(ellipse 46% 52% at 50% 50%,rgba(0,0,0,.34) 0%,rgba(0,0,0,.34) 42%,#000 82%);
+ -webkit-mask-composite:source-in;mask-composite:intersect;
+}
+.bg-scene{
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6vw,#000 calc(100% - 6vw),transparent 100%);
+ mask-image:linear-gradient(90deg,transparent 0,#000 6vw,#000 calc(100% - 6vw),transparent 100%);
+}
+
+/* ============ VORDERGRUND-OBJEKTE (über dem Text) ============ */
+.fr-serif{font-family:"Playfair Display",Georgia,serif;font-weight:900;line-height:.8;color:#1c1a16;opacity:.09}
+.fr-paper{display:block;width:26vmin;height:34vmin;background:#fbf8ef;border:1px solid #d8d0bc;box-shadow:8px 8px 0 rgba(28,26,22,.12);opacity:.5;position:relative}
+.fr-paper::before{content:"";position:absolute;top:12%;left:10%;right:10%;height:44%;background:repeating-linear-gradient(0deg,#1c1a16 0 2px,transparent 2px 9px);opacity:.2}
+#zeitung .fr-leafx{display:none}
+.fr-leaf{line-height:.9;color:#a8e063;opacity:.28}
+.fr-chip{display:block;width:22vmin;height:22vmin;border:2px solid #00e5ff;opacity:.35;position:relative}
+.fr-chip::before{content:"";position:absolute;inset:20%;border:1px solid #00e5ff;background:repeating-linear-gradient(90deg,transparent 0 7px,#00e5ff 7px 8px),repeating-linear-gradient(0deg,transparent 0 7px,#00e5ff 7px 8px);opacity:.5}
+.fr-ram{display:block;width:34vmin;height:5vmin;border:2px solid #00e5ff;opacity:.4;background:repeating-linear-gradient(90deg,transparent 0 16px,#00e5ff 16px 18px)}
+.fr-mono{font-family:"IBM Plex Mono",monospace;font-weight:700;color:#00e5ff;opacity:.22;letter-spacing:.05em}
+.fr-drone{color:#efe9d3;opacity:.22;line-height:.9}
+.fr-xhair{display:block;width:26vmin;height:26vmin;border:2px solid #c9a227;border-radius:50%;opacity:.35;position:relative}
+.fr-xhair::before,.fr-xhair::after{content:"";position:absolute;background:#c9a227}
+.fr-xhair::before{left:50%;top:-25%;width:2px;height:150%;transform:translateX(-50%)}
+.fr-xhair::after{top:50%;left:-25%;height:2px;width:150%;transform:translateY(-50%)}
+.fr-bars{display:flex;gap:3.4vmin;height:78%;align-items:stretch}
+.fr-bars i{display:block;width:1.1vmin;background:linear-gradient(180deg,#b9c9da,#6d7d8e);border-radius:2px;opacity:.38}
+.fr-key{color:#9fb4c7;opacity:.3;line-height:.9}
+.fr-plex{font-family:"IBM Plex Sans",sans-serif;font-weight:700;color:#e8eef5;opacity:.1;line-height:.85}
+
+/* ============ GATES ============ */
+.gate{position:relative;height:190vh}
+.g-stick{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1400px;background:var(--from)}
+.g-bg{position:absolute;inset:0;background:var(--to);will-change:transform,opacity;backface-visibility:hidden}
+.g-title{position:absolute;left:0;right:0;bottom:12vh;text-align:center;z-index:6;font:900 clamp(1.6rem,5vw,3.6rem)/1.1 "Playfair Display",Georgia,serif;letter-spacing:.02em;will-change:transform,opacity;opacity:0}
+.g-title small{display:block;font:600 12px/1 system-ui;letter-spacing:.5em;text-transform:uppercase;margin-bottom:14px;opacity:.7}
+.g-fx{position:absolute;will-change:transform,opacity;pointer-events:none}
+.gate[data-gate="pageturn"] .g-bg{transform-origin:left center;transform:rotateY(-94deg)}
+.gate[data-gate="iris"] .g-bg{border-radius:50%;transform:scale(0)}
+.gate[data-gate="blinds"] .g-fx.slat{left:0;right:0;height:16.8%}
+.gate[data-gate="blinds"] .g-fx.slat:nth-child(odd){transform-origin:left center}
+.gate[data-gate="blinds"] .g-fx.slat:nth-child(even){transform-origin:right center}
+.gate[data-gate="flip"] .g-bg{transform-origin:center top;transform:rotateX(88deg)}
+.gate[data-gate="bars"] .g-fx.barv{top:-2%;bottom:-2%;width:15%}
+.gate[data-gate="lock"] .g-bg{opacity:0}
+.gate[data-gate="lock"] .g-fx.lockbig{left:50%;top:50%;width:34vmin;height:42vmin;border:1.2vmin solid #9fb4c7;border-radius:3vmin;transform:translate(-50%,-50%) scale(0)}
+.gate[data-gate="lock"] .g-fx.lockbig::before{content:"";position:absolute;top:-58%;left:14%;right:14%;height:58%;border:1.2vmin solid #9fb4c7;border-bottom:0;border-radius:50% 50% 0 0}
+
+/* ============ THEMEN (unverändert) ============ */
+#zeitung{--bg:#f4efe3;background:#f4efe3;color:#1c1a16;font-family:"Source Serif 4",Georgia,serif}
+#zeitung::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.022) 0 1px,transparent 1px 4px);pointer-events:none;z-index:1}
+#zeitung .chapter-head h2{font-family:"Playfair Display",Georgia,serif;font-weight:900}
+#zeitung .fact .eyebrow{color:#8a2b1d}
+#zeitung .fact .statement{font-family:"Playfair Display",Georgia,serif;font-weight:600}
+#zeitung .fact .statement em{color:#8a2b1d}
+#zeitung .deco{font-family:"Playfair Display",Georgia,serif;color:#1c1a16;opacity:.05;letter-spacing:-.04em}
+#zeitung .deco.ink{font-size:clamp(8rem,24vw,22rem);line-height:.85;font-weight:900}
+#zeitung .deco.rule{height:2px;background:#1c1a16;opacity:.15}
+#zeitung .deco.drop{font-size:clamp(14rem,40vw,38rem);font-weight:900;color:#8a2b1d;opacity:.07;line-height:.8}
+#zeitung .deco.paper{width:clamp(200px,30vw,380px);height:clamp(280px,42vw,520px);background:#fbf8ef;border:1px solid #d8d0bc;box-shadow:6px 6px 0 rgba(28,26,22,.12);opacity:.55}
+#zeitung .deco.paper::before{content:"";position:absolute;top:14px;left:14px;right:14px;height:40%;background:repeating-linear-gradient(0deg,#1c1a16 0 2px,transparent 2px 8px);opacity:.22}
+#zeitung .deco.stamp{width:clamp(120px,16vw,220px);height:clamp(120px,16vw,220px);border:4px double #8a2b1d;border-radius:50%;opacity:.25;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2vw,1.4rem);color:#8a2b1d;text-align:center;letter-spacing:.1em}
+#zeitung .deco.quot{font-family:"Playfair Display",serif;font-size:clamp(18rem,50vw,46rem);color:#1c1a16;opacity:.04;line-height:.7;font-style:italic}
+#zeitung .deco.pencil{width:clamp(180px,24vw,320px);height:14px;background:linear-gradient(90deg,#c9a227 0%,#c9a227 85%,#2a2a2a 85%,#2a2a2a 92%,#f4efe3 92%);opacity:.4;border-radius:0 3px 3px 0}
+#zeitung .deco.num{font-family:"Playfair Display",serif;font-size:clamp(12rem,30vw,28rem);font-weight:900;color:#8a2b1d;opacity:.06;line-height:.85}
+#zeitung .deco.byline{font:600 clamp(.7rem,1.1vw,.95rem)/1.4 system-ui;letter-spacing:.3em;text-transform:uppercase;color:#1c1a16;opacity:.22;border-top:1px solid #1c1a16;border-bottom:1px solid #1c1a16;padding:6px 0}
+
+#umwelt{--bg:#14301d;background:linear-gradient(180deg,#0e1f14 0%,#14301d 55%,#0e1f14 100%);color:#e6efe0;font-family:"Fraunces",Georgia,serif}
+#umwelt .chapter-head h2{color:#d9f2c8}
+#umwelt .fact .eyebrow{color:#a8e063}
+#umwelt .fact .statement strong,#umwelt .fact .statement .stat{color:#a8e063;font-weight:800}
+#umwelt .deco{color:#a8e063;opacity:.1}
+#umwelt .deco.leaf{font-size:clamp(8rem,22vw,20rem);line-height:.9}
+#umwelt .deco.leaf-large{font-size:clamp(18rem,50vw,44rem);line-height:.85;opacity:.05}
+#umwelt .deco.drop-water{font-size:clamp(14rem,36vw,32rem);color:#5a9fd4;opacity:.1;line-height:.9}
+#umwelt .deco.num{font-size:clamp(14rem,36vw,30rem);font-weight:900;opacity:.05;color:#d9f2c8;letter-spacing:-.05em}
+#umwelt .deco.num-accent{font-size:clamp(10rem,28vw,24rem);font-weight:900;opacity:.1;color:#a8e063;letter-spacing:-.04em}
+#umwelt .deco.smoke{width:clamp(300px,40vw,600px);height:clamp(300px,40vw,600px);background:radial-gradient(circle,rgba(168,224,99,.22) 0%,transparent 65%);border-radius:50%;filter:blur(20px)}
+#umwelt .deco.smoke-blue{width:clamp(280px,36vw,560px);height:clamp(280px,36vw,560px);background:radial-gradient(circle,rgba(90,159,212,.28) 0%,transparent 65%);border-radius:50%;filter:blur(20px)}
+#umwelt .deco.vine{width:clamp(100px,14vw,200px);height:clamp(400px,60vh,700px);background:linear-gradient(180deg,transparent 0%,rgba(127,176,105,.4) 30%,rgba(127,176,105,.4) 70%,transparent 100%);border-radius:50%;filter:blur(8px);opacity:.35}
+#umwelt .deco.ring{width:clamp(200px,26vw,360px);height:clamp(200px,26vw,360px);border:3px solid #7fb069;border-radius:50%;opacity:.2}
+#umwelt .deco.tree{font-size:clamp(10rem,26vw,22rem);opacity:.08;color:#7fb069}
+#umwelt .deco.unit{font-size:clamp(4rem,10vw,9rem);font-weight:400;font-style:italic;opacity:.18;letter-spacing:.05em}
+
+#hardware{--bg:#0a0e14;background:#0a0e14;color:#cfe3ef;font-family:"IBM Plex Mono",ui-monospace,monospace}
+#hardware::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,229,255,.045) 0 1px,transparent 1px 42px),repeating-linear-gradient(0deg,rgba(0,229,255,.035) 0 1px,transparent 1px 42px);pointer-events:none;z-index:1}
+#hardware .chapter-head h2{color:#eaf9ff;text-shadow:0 0 18px rgba(0,229,255,.35);font-weight:600}
+#hardware .fact .eyebrow{color:#00e5ff;letter-spacing:.2em}
+#hardware .fact .statement{font-family:"IBM Plex Mono",monospace;font-weight:400}
+#hardware .fact .statement strong,#hardware .fact .statement .stat{color:#ff5470;font-weight:700}
+#hardware .deco{color:#00e5ff;opacity:.1;font-family:"IBM Plex Mono",monospace}
+#hardware .deco.chip{width:clamp(180px,22vw,300px);height:clamp(180px,22vw,300px);border:2px solid #00e5ff;opacity:.18;position:relative}
+#hardware .deco.chip::before{content:"";position:absolute;inset:18%;border:1px solid #00e5ff;background:repeating-linear-gradient(90deg,transparent 0 8px,#00e5ff 8px 9px),repeating-linear-gradient(0deg,transparent 0 8px,#00e5ff 8px 9px);opacity:.5}
+#hardware .deco.chip::after{content:"";position:absolute;inset:-14px;background:repeating-linear-gradient(90deg,#00e5ff 0 3px,transparent 3px 24px) top left/100% 3px no-repeat,repeating-linear-gradient(90deg,#00e5ff 0 3px,transparent 3px 24px) bottom left/100% 3px no-repeat,repeating-linear-gradient(0deg,#00e5ff 0 3px,transparent 3px 24px) top left/3px 100% no-repeat,repeating-linear-gradient(0deg,#00e5ff 0 3px,transparent 3px 24px) top right/3px 100% no-repeat;opacity:.35}
+#hardware .deco.hex{font-size:clamp(5rem,14vw,12rem);font-weight:700;opacity:.08;color:#eaf9ff;letter-spacing:.05em}
+#hardware .deco.up{font-size:clamp(10rem,28vw,24rem);color:#ff5470;opacity:.12;font-weight:900;letter-spacing:-.05em}
+#hardware .deco.up-large{font-size:clamp(16rem,44vw,40rem);color:#ff5470;opacity:.08;font-weight:900;letter-spacing:-.06em}
+#hardware .deco.ram{width:clamp(220px,28vw,360px);height:clamp(40px,5vw,70px);border:2px solid #00e5ff;opacity:.25;background:repeating-linear-gradient(90deg,#0a0e14 0 18px,#00e5ff 18px 20px)}
+#hardware .deco.gpu{width:clamp(280px,36vw,480px);height:clamp(140px,18vw,240px);border:2px solid #00e5ff;opacity:.2;position:relative;background:linear-gradient(90deg,rgba(0,229,255,.15) 0%,transparent 100%)}
+#hardware .deco.gpu::before{content:"";position:absolute;top:20%;bottom:20%;left:20%;right:60%;border:1px solid #00e5ff;background:repeating-linear-gradient(45deg,transparent 0 6px,#00e5ff 6px 7px);opacity:.4}
+#hardware .deco.ssd{width:clamp(160px,20vw,260px);height:clamp(100px,12vw,160px);border:2px solid #00e5ff;opacity:.22;border-radius:4px;position:relative}
+#hardware .deco.ssd::before{content:"";position:absolute;top:10%;left:10%;right:70%;bottom:60%;border:1px solid #00e5ff;opacity:.6}
+#hardware .deco.num{font-size:clamp(10rem,26vw,22rem);font-weight:900;opacity:.06;color:#eaf9ff;letter-spacing:-.04em}
+#hardware .deco.arrow{font-size:clamp(12rem,32vw,28rem);color:#ff5470;opacity:.14;font-weight:900}
+#hardware .deco.console{width:clamp(180px,22vw,300px);height:clamp(90px,11vw,150px);border:2px solid #00e5ff;opacity:.2;border-radius:50%/30%;position:relative}
+#hardware .deco.console::before{content:"";position:absolute;top:30%;left:30%;width:20%;height:20%;border-radius:50%;background:#00e5ff;opacity:.5}
+#hardware .deco.year{font-size:clamp(8rem,20vw,16rem);font-weight:900;opacity:.07;color:#00e5ff;letter-spacing:-.03em}
+
+#krieg{--bg:#181a14;background:#181a14;color:#d8d6c8;font-family:"Archivo",system-ui,sans-serif}
+#krieg .chapter-head h2{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.01em;color:#efe9d3}
+#krieg .fact .eyebrow{color:#c9a227;font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:.25em}
+#krieg .fact .statement{font-family:"Archivo",sans-serif;font-weight:500}
+#krieg .fact .statement strong,#krieg .fact .statement .stat{color:#c9a227;font-weight:800}
+#krieg .deco{color:#c9a227;opacity:.12;font-family:"Oswald",sans-serif}
+#krieg .deco.xhair{width:clamp(200px,28vw,380px);height:clamp(200px,28vw,380px);border:2px solid #c9a227;border-radius:50%;opacity:.18}
+#krieg .deco.xhair::before,.krieg .deco.xhair::after{content:"";position:absolute;background:#c9a227}
+#krieg .deco.xhair::before{left:50%;top:-30%;width:2px;height:160%;transform:translateX(-50%)}
+#krieg .deco.xhair::after{top:50%;left:-30%;height:2px;width:160%;transform:translateY(-50%)}
+#krieg .deco.stripe{height:14px;background:repeating-linear-gradient(-45deg,#c9a227 0 16px,#181a14 16px 32px);opacity:.4}
+#krieg .deco.coord{font-size:clamp(6rem,16vw,14rem);font-weight:700;opacity:.08;color:#efe9d3;letter-spacing:.05em}
+#krieg .deco.drone{font-size:clamp(10rem,26vw,22rem);opacity:.1;color:#efe9d3}
+#krieg .deco.alert{font-size:clamp(5rem,14vw,12rem);font-weight:900;color:#c9a227;opacity:.15;letter-spacing:.02em}
+#krieg .deco.alert-large{font-size:clamp(10rem,28vw,24rem);font-weight:900;color:#c9a227;opacity:.08;letter-spacing:-.02em}
+#krieg .deco.num{font-size:clamp(10rem,26vw,22rem);font-weight:900;opacity:.06;color:#efe9d3;letter-spacing:-.04em}
+#krieg .deco.num-accent{font-size:clamp(10rem,26vw,22rem);font-weight:900;opacity:.12;color:#c9a227;letter-spacing:-.04em}
+#krieg .deco.flag{font-size:clamp(8rem,20vw,16rem);opacity:.18}
+#krieg .deco.eye{font-size:clamp(10rem,24vw,20rem);opacity:.12;color:#c9a227}
+#krieg .deco.swarm{font-size:clamp(4rem,10vw,8rem);opacity:.14;color:#efe9d3;letter-spacing:.3em}
+#krieg .deco.grid{width:clamp(240px,30vw,400px);height:clamp(240px,30vw,400px);background:repeating-linear-gradient(0deg,#c9a227 0 1px,transparent 1px 20px),repeating-linear-gradient(90deg,#c9a227 0 1px,transparent 1px 20px);opacity:.15}
+#krieg .deco.scope{width:clamp(240px,30vw,400px);height:clamp(240px,30vw,400px);border:3px solid #c9a227;border-radius:50%;opacity:.22;position:relative}
+#krieg .deco.scope::before{content:"";position:absolute;top:50%;left:50%;width:14px;height:14px;border-radius:50%;background:#c9a227;transform:translate(-50%,-50%)}
+
+#haft{--bg:#12161c;background:#12161c;color:#d7dee7;font-family:"IBM Plex Sans",system-ui,sans-serif}
+#haft .chapter-head h2{color:#e8eef5;font-weight:700}
+#haft .fact .eyebrow{color:#9fb4c7;font-weight:700;letter-spacing:.3em}
+#haft .fact .statement strong,#haft .fact .statement .stat{color:#e8eef5;font-weight:700}
+#haft .deco{color:#9fb4c7;opacity:.12}
+#haft .deco.bar{width:8px;height:clamp(400px,60vh,800px);background:linear-gradient(180deg,#9fb4c7 0%,#6d7d8e 100%);border-radius:2px;opacity:.28}
+#haft .deco.cuff{width:clamp(180px,22vw,280px);height:clamp(90px,11vw,140px);border:3px solid #9fb4c7;border-radius:50% 50% 40% 40%;opacity:.2;position:relative}
+#haft .deco.cuff::before{content:"";position:absolute;top:50%;left:-18%;right:-18%;height:3px;background:#9fb4c7;transform:translateY(-50%)}
+#haft .deco.section{font-size:clamp(14rem,38vw,34rem);font-weight:900;opacity:.06;color:#e8eef5;letter-spacing:-.04em}
+#haft .deco.section-accent{font-size:clamp(14rem,38vw,34rem);font-weight:900;opacity:.12;color:#9fb4c7;letter-spacing:-.04em}
+#haft .deco.key{font-size:clamp(8rem,20vw,16rem);opacity:.18}
+#haft .deco.lock{width:clamp(180px,22vw,300px);height:clamp(220px,28vw,380px);border:4px solid #9fb4c7;border-radius:12px 12px 8px 8px;opacity:.22;position:relative}
+#haft .deco.lock::before{content:"";position:absolute;top:-40%;left:15%;right:15%;height:40%;border:4px solid #9fb4c7;border-bottom:0;border-radius:50% 50% 0 0}
+#haft .deco.lock::after{content:"";position:absolute;top:40%;left:50%;width:22%;height:22%;background:#9fb4c7;border-radius:50%;transform:translateX(-50%)}
+#haft .deco.x{width:clamp(160px,22vw,280px);height:clamp(160px,22vw,280px);position:relative;opacity:.2}
+#haft .deco.x::before,#haft .deco.x::after{content:"";position:absolute;inset:0;background:#7e2f38}
+#haft .deco.x::before{transform:rotate(45deg)}
+#haft .deco.x::after{transform:rotate(-45deg)}
+#haft .deco.fine{font-size:clamp(10rem,26vw,22rem);font-weight:900;opacity:.12;color:#7e2f38;letter-spacing:-.04em}
+#haft .deco.fine-large{font-size:clamp(16rem,44vw,40rem);font-weight:900;opacity:.07;color:#7e2f38;letter-spacing:-.05em}
+#haft .deco.num{font-size:clamp(10rem,26vw,22rem);font-weight:900;opacity:.06;color:#e8eef5;letter-spacing:-.04em}
+#haft .deco.hand{font-size:clamp(8rem,20vw,16rem);opacity:.15;color:#9fb4c7}
+
+footer{background:#050506;color:#8a8a86;padding:14vh 6vw 10vh;text-align:center;font-size:.9rem;position:relative;overflow:hidden}
+footer .marke{font:900 clamp(3rem,14vw,12rem)/.9 "Playfair Display",Georgia,serif;color:#111;letter-spacing:-.04em;margin-bottom:36px}
+footer .marke em{font-style:italic;color:#c9a227}
+footer .small{max-width:60ch;margin:0 auto 14px}
+footer a.top{display:inline-block;margin-top:26px;color:#eee;text-decoration:none;border:1px solid #444;padding:12px 22px;border-radius:999px;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase}
+footer a.top:hover{background:#eee;color:#111}
+
+@media (prefers-reduced-motion:reduce){
+ .layer,.deco,.fact .content,.chapter-head .inner,.w{transform:none !important;opacity:1 !important}
+}
+
+/* ============ 3D-HINTERGRUND-SZENEN ============ */
+.bg-scene{position:absolute;inset:0;pointer-events:none;overflow:hidden;perspective:1600px;z-index:1}
+.bg-scene .scene3d{position:absolute;transform-style:preserve-3d;will-change:transform}
+@keyframes floatSlow{0%,100%{transform:translate3d(0,0,0) rotateX(0) rotateY(0)}50%{transform:translate3d(0,-2vh,0) rotateX(3deg) rotateY(-4deg)}}
+@keyframes spinSlow{0%{transform:rotateZ(0) rotateY(0)}100%{transform:rotateZ(360deg) rotateY(360deg)}}
+@keyframes drift{0%{transform:translate3d(-4vw,0,-200px) rotateY(-8deg)}50%{transform:translate3d(2vw,-3vh,100px) rotateY(12deg)}100%{transform:translate3d(-4vw,0,-200px) rotateY(-8deg)}}
+@keyframes zoomPulse{0%,100%{transform:scale3d(1,1,1)}50%{transform:scale3d(1.06,1.06,1.06)}}
+
+/* --- 3D-Zeitung (blätternde Seiten) --- */
+#zeitung .bg-scene{background:linear-gradient(135deg,#f4efe3 0%,#e8dfc7 50%,#f4efe3 100%)}
+#zeitung .bg-scene::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.015) 0 1px,transparent 1px 4px);pointer-events:none}
+.news3d{width:38vmin;height:52vmin;background:linear-gradient(135deg,#fbf8ef,#f0ead5);border:1px solid #d8d0bc;box-shadow:14px 18px 36px rgba(28,26,22,.18),-2px 4px 14px rgba(28,26,22,.08)}
+.news3d::before{content:"";position:absolute;inset:8% 10% 40% 10%;background:repeating-linear-gradient(0deg,#1c1a16 0 1px,transparent 1px 6px);opacity:.18}
+.news3d::after{content:"NEWS";position:absolute;top:6%;left:8%;right:8%;font:900 7vmin/1 "Playfair Display",serif;color:#1c1a16;letter-spacing:-.04em;opacity:.22;text-align:center;border-bottom:3px double #1c1a16;padding-bottom:4%}
+#zeitung .news3d.p1{top:8%;left:8%;transform:rotateY(-22deg) rotateX(8deg) rotateZ(-4deg);animation:drift 14s ease-in-out infinite}
+#zeitung .news3d.p2{top:14%;right:10%;transform:rotateY(18deg) rotateX(-6deg) rotateZ(5deg);animation:drift 17s ease-in-out infinite reverse;animation-delay:-3s}
+#zeitung .news3d.p3{bottom:10%;left:14%;transform:rotateY(-14deg) rotateX(14deg) rotateZ(-7deg);animation:drift 19s ease-in-out infinite;animation-delay:-6s}
+#zeitung .news3d.p4{bottom:14%;right:12%;transform:rotateY(26deg) rotateX(-10deg) rotateZ(8deg);animation:drift 15s ease-in-out infinite reverse;animation-delay:-8s}
+
+/* --- 3D-Urwald (Bäume/Urwald) --- */
+#umwelt .bg-scene{background:linear-gradient(180deg,#0a1a10 0%,#0e2616 35%,#14381f 65%,#0a1a10 100%)}
+#umwelt .bg-scene::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(168,224,99,.08) 0%,transparent 60%);pointer-events:none}
+.tree3d{position:absolute;bottom:0;width:0;height:0;border-left:clamp(40px,7vmin,110px) solid transparent;border-right:clamp(40px,7vmin,110px) solid transparent;border-bottom:clamp(180px,28vmin,400px) solid rgba(99,152,63,.3);filter:drop-shadow(0 10px 20px rgba(0,0,0,.4))}
+.tree3d::before{content:"";position:absolute;top:30%;left:clamp(-28px,-4.8vmin,-76px);width:0;height:0;border-left:clamp(28px,4.8vmin,76px) solid transparent;border-right:clamp(28px,4.8vmin,76px) solid transparent;border-bottom:clamp(130px,20vmin,280px) solid rgba(127,176,105,.35)}
+.tree3d::after{content:"";position:absolute;top:55%;left:clamp(-20px,-3.5vmin,-54px);width:0;height:0;border-left:clamp(20px,3.5vmin,54px) solid transparent;border-right:clamp(20px,3.5vmin,54px) solid transparent;border-bottom:clamp(90px,14vmin,180px) solid rgba(168,224,99,.42)}
+#umwelt .tree3d.t1{left:5%;transform:translateZ(-400px) scale(.7);animation:floatSlow 11s ease-in-out infinite}
+#umwelt .tree3d.t2{left:18%;transform:translateZ(-250px) scale(1);animation:floatSlow 13s ease-in-out infinite reverse;animation-delay:-2s}
+#umwelt .tree3d.t3{right:20%;transform:translateZ(-300px) scale(.85);animation:floatSlow 9s ease-in-out infinite;animation-delay:-4s}
+#umwelt .tree3d.t4{right:6%;transform:translateZ(-450px) scale(.65);animation:floatSlow 15s ease-in-out infinite reverse;animation-delay:-6s}
+#umwelt .tree3d.t5{left:32%;bottom:10%;transform:translateZ(-150px) scale(1.2);animation:floatSlow 10s ease-in-out infinite;animation-delay:-3s}
+#umwelt .tree3d.t6{right:34%;bottom:12%;transform:translateZ(-200px) scale(1.1);animation:floatSlow 12s ease-in-out infinite reverse;animation-delay:-5s}
+.water-ripple{position:absolute;border-radius:50%;border:2px solid rgba(90,159,212,.4);pointer-events:none;transform:translate(-50%,-50%);animation:rippleAnim 1.4s ease-out forwards}
+@keyframes rippleAnim{0%{width:0;height:0;opacity:1}100%{width:240px;height:240px;opacity:0}}
+
+/* --- 3D-PC-Komponenten --- */
+#hardware .bg-scene{background:linear-gradient(135deg,#06080c 0%,#0a1420 40%,#080f18 60%,#06080c 100%)}
+#hardware .bg-scene::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,229,255,.035) 0 1px,transparent 1px 60px),repeating-linear-gradient(0deg,rgba(0,229,255,.025) 0 1px,transparent 1px 60px);pointer-events:none}
+.chip3d{width:22vmin;height:22vmin;background:linear-gradient(135deg,#0a1820,#0d2230);border:2px solid rgba(0,229,255,.5);position:relative;transform-style:preserve-3d;box-shadow:0 0 40px rgba(0,229,255,.15),inset 0 0 20px rgba(0,229,255,.08)}
+.chip3d::before{content:"";position:absolute;inset:18%;border:1px solid rgba(0,229,255,.6);background:repeating-linear-gradient(90deg,transparent 0 6px,rgba(0,229,255,.45) 6px 7px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,229,255,.45) 6px 7px)}
+.chip3d::after{content:"";position:absolute;inset:-12px;background:repeating-linear-gradient(90deg,rgba(0,229,255,.55) 0 3px,transparent 3px 20px) top/100% 2px no-repeat,repeating-linear-gradient(90deg,rgba(0,229,255,.55) 0 3px,transparent 3px 20px) bottom/100% 2px no-repeat,repeating-linear-gradient(0deg,rgba(0,229,255,.55) 0 3px,transparent 3px 20px) left/2px 100% no-repeat,repeating-linear-gradient(0deg,rgba(0,229,255,.55) 0 3px,transparent 3px 20px) right/2px 100% no-repeat}
+#hardware .chip3d.c1{top:12%;left:10%;transform:rotateX(18deg) rotateY(-22deg) translateZ(-200px);animation:floatSlow 9s ease-in-out infinite}
+#hardware .chip3d.c2{top:20%;right:12%;transform:rotateX(-14deg) rotateY(28deg) translateZ(-300px);animation:floatSlow 11s ease-in-out infinite reverse;animation-delay:-2s}
+#hardware .chip3d.c3{bottom:16%;left:14%;transform:rotateX(22deg) rotateY(14deg) translateZ(-150px);animation:floatSlow 8s ease-in-out infinite;animation-delay:-4s}
+.gpu3d{width:36vmin;height:18vmin;background:linear-gradient(135deg,#0d2230,#143448);border:2px solid rgba(0,229,255,.35);box-shadow:0 0 50px rgba(0,229,255,.12);position:relative}
+.gpu3d::before{content:"";position:absolute;inset:18% 45% 18% 10%;border:1px solid rgba(0,229,255,.5);background:repeating-linear-gradient(45deg,transparent 0 5px,rgba(0,229,255,.35) 5px 6px)}
+.gpu3d::after{content:"";position:absolute;inset:20% 10% 20% 60%;background:radial-gradient(circle,rgba(255,84,112,.6) 0%,transparent 70%)}
+#hardware .gpu3d.g1{bottom:18%;right:10%;transform:rotateX(-10deg) rotateY(-18deg) translateZ(-250px);animation:floatSlow 12s ease-in-out infinite reverse}
+.ram3d{width:30vmin;height:4.5vmin;background:linear-gradient(180deg,#0d2230,#0a1820);border:2px solid rgba(0,229,255,.4);background-image:repeating-linear-gradient(90deg,transparent 0 14px,rgba(0,229,255,.4) 14px 16px)}
+#hardware .ram3d.r1{top:50%;left:8%;transform:rotateY(-10deg) rotateZ(-4deg) translateZ(-350px);animation:floatSlow 10s ease-in-out infinite}
+
+/* --- 3D-Kriegsgebiet --- */
+#krieg .bg-scene{background:linear-gradient(180deg,#0f110c 0%,#1a1810 40%,#221e14 65%,#0f110c 100%)}
+#krieg .bg-scene::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(201,162,39,.08) 0%,transparent 50%);pointer-events:none}
+.drone3d{font-size:16vmin;color:#efe9d3;opacity:.4;text-shadow:0 0 20px rgba(201,162,39,.3);filter:drop-shadow(0 8px 20px rgba(0,0,0,.6))}
+#krieg .drone3d.d1{top:14%;left:12%;transform:translateZ(-250px) rotateX(6deg) rotateY(-8deg);animation:drift 12s ease-in-out infinite}
+#krieg .drone3d.d2{top:22%;right:16%;transform:translateZ(-400px) scale(.7) rotateX(-4deg) rotateY(14deg);animation:drift 15s ease-in-out infinite reverse;animation-delay:-3s}
+#krieg .drone3d.d3{top:55%;left:8%;transform:translateZ(-180px) scale(1.1) rotateX(10deg) rotateY(-12deg);animation:drift 10s ease-in-out infinite;animation-delay:-5s}
+.crosshair3d{width:28vmin;height:28vmin;border:2px solid rgba(201,162,39,.45);border-radius:50%;position:relative;box-shadow:0 0 40px rgba(201,162,39,.15)}
+.crosshair3d::before,.crosshair3d::after{content:"";position:absolute;background:rgba(201,162,39,.55)}
+.crosshair3d::before{left:50%;top:-30%;width:2px;height:160%;transform:translateX(-50%)}
+.crosshair3d::after{top:50%;left:-30%;height:2px;width:160%;transform:translateY(-50%)}
+#krieg .crosshair3d.x1{bottom:20%;right:14%;transform:rotateX(8deg) rotateY(-10deg) translateZ(-200px);animation:zoomPulse 8s ease-in-out infinite}
+#krieg .crosshair3d.x2{top:40%;left:10%;transform:rotateX(-6deg) rotateY(16deg) translateZ(-350px) scale(.7);animation:zoomPulse 11s ease-in-out infinite reverse}
+.rubble3d{width:0;height:0;border-left:clamp(50px,9vmin,140px) solid transparent;border-right:clamp(60px,10vmin,160px) solid transparent;border-bottom:clamp(70px,11vmin,150px) solid rgba(120,100,60,.35);filter:drop-shadow(4px 10px 14px rgba(0,0,0,.5))}
+#krieg .rubble3d.r1{bottom:8%;left:18%;transform:translateZ(-300px) rotateZ(4deg)}
+#krieg .rubble3d.r2{bottom:10%;right:22%;transform:translateZ(-200px) scale(1.2) rotateZ(-6deg)}
+
+/* --- 3D-Gefängniszelle --- */
+#haft .bg-scene{background:linear-gradient(180deg,#0a0d12 0%,#10141a 40%,#0e1218 65%,#0a0d12 100%)}
+#haft .bg-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(159,180,199,.06) 0%,transparent 30%,transparent 70%,rgba(159,180,199,.04) 100%);pointer-events:none}
+.cellbar3d{width:10px;height:100%;background:linear-gradient(180deg,#9fb4c7,#6d7d8e,#536273,#6d7d8e,#9fb4c7);border-radius:4px 4px 2px 2px;box-shadow:inset -2px 0 3px rgba(0,0,0,.4),0 0 18px rgba(159,180,199,.12)}
+#haft .cellbar3d{position:absolute;top:0;bottom:0;transform-origin:top center}
+#haft .cellbar3d.b1{left:8%;transform:rotateY(14deg) translateZ(-150px);animation:floatSlow 14s ease-in-out infinite}
+#haft .cellbar3d.b2{left:16%;transform:rotateY(10deg) translateZ(-250px) scaleY(.95);animation:floatSlow 16s ease-in-out infinite reverse;animation-delay:-2s}
+#haft .cellbar3d.b3{left:24%;transform:rotateY(6deg) translateZ(-350px) scaleY(.9);animation:floatSlow 13s ease-in-out infinite;animation-delay:-4s}
+#haft .cellbar3d.b4{right:24%;transform:rotateY(-6deg) translateZ(-350px) scaleY(.9);animation:floatSlow 17s ease-in-out infinite reverse;animation-delay:-1s}
+#haft .cellbar3d.b5{right:16%;transform:rotateY(-10deg) translateZ(-250px) scaleY(.95);animation:floatSlow 12s ease-in-out infinite;animation-delay:-3s}
+#haft .cellbar3d.b6{right:8%;transform:rotateY(-14deg) translateZ(-150px);animation:floatSlow 15s ease-in-out infinite reverse;animation-delay:-5s}
+.lock3d{width:20vmin;height:26vmin;border:4px solid rgba(159,180,199,.45);border-radius:10px 10px 6px 6px;position:relative;box-shadow:0 0 30px rgba(159,180,199,.15)}
+.lock3d::before{content:"";position:absolute;top:-48%;left:15%;right:15%;height:48%;border:4px solid rgba(159,180,199,.45);border-bottom:0;border-radius:50% 50% 0 0}
+.lock3d::after{content:"";position:absolute;top:40%;left:50%;width:22%;height:22%;background:rgba(159,180,199,.5);border-radius:50%;transform:translateX(-50%)}
+#haft .lock3d.l1{top:20%;left:12%;transform:rotateX(8deg) rotateY(-18deg) translateZ(-300px);animation:floatSlow 13s ease-in-out infinite}
+#haft .lock3d.l2{bottom:16%;right:14%;transform:rotateX(-10deg) rotateY(16deg) translateZ(-200px);animation:floatSlow 11s ease-in-out infinite reverse;animation-delay:-4s}
+
+/* ============ GATE-HÖHEN ANPASSEN (weniger schwarz) ============ */
+.gate{position:relative;height:130vh}
+.gate[data-gate="pageturn"] .g-bg{backface-visibility:hidden;transform-style:preserve-3d}
+
+/* ============ HOVER-EFFEKTE: ZEITUNG PAPIER-KNITTER ============ */
+body.zeitung-hover{cursor:crosshair}
+body.zeitung-hover .crumple{position:fixed;inset:0;pointer-events:none;z-index:999;background-image:
+  repeating-linear-gradient(12deg,transparent 0 2px,rgba(140,110,60,.05) 2px 3px),
+  repeating-linear-gradient(-24deg,transparent 0 3px,rgba(140,110,60,.04) 3px 4px),
+  repeating-linear-gradient(58deg,transparent 0 1px,rgba(100,80,40,.03) 1px 2px);
+  mix-blend-mode:multiply;opacity:0;transition:opacity .3s ease;filter:contrast(1.3)}
+body.zeitung-hover .crumple{opacity:1}
+
+/* ============ HOVER-EFFEKTE: UMWELT WASSERTROPFEN ============ */
+.water-cursor{position:fixed;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.85),rgba(90,159,212,.6) 50%,rgba(60,120,190,.45));pointer-events:none;z-index:9999;transform:translate(-50%,-50%) scale(0);mix-blend-mode:screen;box-shadow:inset -4px -6px 10px rgba(0,30,80,.3),0 2px 14px rgba(90,159,212,.35);transition:transform .15s cubic-bezier(.3,1.4,.5,1)}
+.water-cursor.on{transform:translate(-50%,-50%) scale(1)}
+body.water-hover{cursor:none}
+
+/* ============ HARDWARE-GLÜHEN bei Hover ============ */
+.hw-glow{position:fixed;inset:0;pointer-events:none;z-index:998;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,229,255,.12) 0%,transparent 20%);opacity:0;transition:opacity .3s ease}
+body.hw-hover .hw-glow{opacity:1}
+body.hw-hover{cursor:cell}
+
+/* ============ KRIEG-FADENKREUZ bei Hover ============ */
+.krieg-xhair{position:fixed;width:48px;height:48px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;transition:opacity .25s ease}
+.krieg-xhair::before,.krieg-xhair::after{content:"";position:absolute;background:rgba(201,162,39,.85)}
+.krieg-xhair::before{left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%)}
+.krieg-xhair::after{top:50%;left:0;right:0;height:2px;transform:translateY(-50%)}
+.krieg-xhair i{position:absolute;inset:0;border:2px solid rgba(201,162,39,.85);border-radius:50%}
+body.krieg-hover{cursor:none}
+body.krieg-hover .krieg-xhair{opacity:1}
+
+/* ============ HAFT-HANDSCHELLEN-EFFEKT ============ */
+.haft-shackles{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%) scale(0);transition:transform .2s cubic-bezier(.3,1.4,.5,1);font-size:22px;color:#9fb4c7;opacity:.8;text-shadow:0 0 8px rgba(159,180,199,.4)}
+body.haft-hover{cursor:grab}
+body.haft-hover .haft-shackles{transform:translate(-50%,-50%) scale(1) rotate(-10deg)}
+
+/* ============ LESBARKEITS-HALO (Text bleibt lesbar, egal welche Deko-Farbe darunterliegt) ============ */
+.fact .statement,.fact .eyebrow,.chapter-head h2,.chapter-head .lead,.chapter-head .no{text-shadow:0 0 4px var(--bg,#0a0a0a),0 0 14px var(--bg,#0a0a0a),0 0 26px var(--bg,#0a0a0a)}
+
+/* ============ FINAL POLISH ============ */
+.chapter{isolation:isolate;background-color:#111}
+.g-stick{background:linear-gradient(135deg,var(--from) 0%,color-mix(in srgb,var(--from) 72%,var(--to)) 46%,var(--to) 100%)}
+.g-stick::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.025),transparent 30%,rgba(0,0,0,.08) 70%,transparent);pointer-events:none;z-index:1}
+.g-bg{z-index:0;background:linear-gradient(135deg,var(--to) 0%,color-mix(in srgb,var(--from) 18%,var(--to)) 100%)}
+.g-title{z-index:8;text-shadow:0 10px 40px rgba(0,0,0,.25)}
+.bg-scene{z-index:0;contain:paint}
+.bg-scene::before{content:"";position:absolute;inset:-12%;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.035),transparent 55%);transform:translateZ(-500px);pointer-events:none}
+.scene3d{transform-style:preserve-3d}
+.news3d,.chip3d,.gpu3d,.ram3d,.tree3d,.drone3d,.crosshair3d,.cellbar3d,.lock3d{backface-visibility:hidden}
+.news3d{position:absolute;transform-style:preserve-3d;overflow:visible}
+.news3d::before{transform:translateZ(2px)}
+.news3d::after{transform:translateZ(3px)}
+.news3d .page-edge{position:absolute;inset:7px 5px 7px auto;width:7px;background:repeating-linear-gradient(0deg,#d3c8ad 0 3px,#eee7d7 3px 6px);transform:translateZ(-7px) rotateY(-2deg);box-shadow:10px 12px 20px rgba(0,0,0,.12)}
+.jungle-floor{position:absolute;left:-8%;right:-8%;bottom:-16%;height:42%;background:radial-gradient(ellipse at 50% 30%,rgba(40,90,45,.6),transparent 64%),linear-gradient(180deg,#1d4928,#09130b);transform:rotateX(72deg) translateZ(-280px);transform-origin:center bottom;border-radius:50%;box-shadow:0 -30px 80px rgba(0,0,0,.28) inset}
+.jungle-mist{position:absolute;inset:18% 8% 20%;background:radial-gradient(ellipse at 50% 55%,rgba(205,245,185,.09),transparent 65%);filter:blur(18px);transform:translateZ(-160px);animation:mistDrift 18s ease-in-out infinite}
+@keyframes mistDrift{0%,100%{transform:translate3d(-2vw,0,-160px) scale(1)}50%{transform:translate3d(3vw,-2vh,-90px) scale(1.06)}}
+.tree3d{transform-style:preserve-3d}
+.tree3d::marker{display:none}
+.tree3d{border-bottom-color:rgba(78,124,52,.46)}
+.tree3d::before{filter:drop-shadow(18px 0 0 rgba(36,75,35,.22));}
+.tree3d::after{filter:drop-shadow(-16px 8px 0 rgba(44,93,39,.18));}
+.pc-floor{position:absolute;left:-10%;right:-10%;bottom:-18%;height:42%;background:linear-gradient(180deg,#0f1f2b,#02050a);transform:rotateX(72deg) translateZ(-360px);box-shadow:0 -28px 80px rgba(0,0,0,.6) inset}
+.pc-grid3d{position:absolute;inset:10%;border:1px solid rgba(0,229,255,.12);background:repeating-linear-gradient(90deg,transparent 0 6vmin,rgba(0,229,255,.08) 6vmin 6.2vmin),repeating-linear-gradient(0deg,transparent 0 6vmin,rgba(0,229,255,.06) 6vmin 6.2vmin);transform:rotateX(64deg) translateZ(-240px);transform-origin:center bottom}
+.ground3d{position:absolute;left:-12%;right:-12%;bottom:-22%;height:56%;background:linear-gradient(180deg,#3d3a29 0%,#1c1b13 64%,#0c0d0a 100%);transform:rotateX(70deg) translateZ(-330px);transform-origin:center bottom;clip-path:polygon(0 30%,15% 25%,28% 40%,44% 22%,61% 38%,79% 18%,100% 28%,100% 100%,0 100%);box-shadow:0 -40px 90px rgba(0,0,0,.5) inset}
+.building3d{position:absolute;width:18vmin;height:18vmin;background:linear-gradient(135deg,#57513c,#25251b);border:1px solid rgba(239,233,211,.14);box-shadow:18px 24px 30px rgba(0,0,0,.38);transform-style:preserve-3d}
+.building3d::before,.building3d::after{content:"";position:absolute;background:linear-gradient(180deg,#665f46,#24241a)}
+.building3d::before{left:100%;top:8%;width:42%;height:92%;transform:skewY(28deg);transform-origin:left top;opacity:.8}
+.building3d::after{left:12%;top:-18%;width:88%;height:24%;transform:skewX(-28deg);transform-origin:left bottom;background:#6a644d;opacity:.9}
+.bunker3d{position:absolute;left:36%;bottom:16%;width:28vmin;height:13vmin;background:linear-gradient(135deg,#454232,#1d1d16);border:1px solid rgba(239,233,211,.15);transform:translateZ(-120px) rotateX(8deg) rotateY(-18deg);box-shadow:20px 24px 34px rgba(0,0,0,.45)}
+.bunker3d::after{content:"";position:absolute;left:15%;right:15%;top:-22%;height:40%;background:#55503d;transform:skewX(-28deg);box-shadow:12px -2px 0 rgba(0,0,0,.18)}
+.cellfloor3d{position:absolute;left:-8%;right:-8%;bottom:-22%;height:46%;background:repeating-linear-gradient(90deg,#171c22 0 12vw,#20262d 12vw 12.3vw);transform:rotateX(70deg) translateZ(-320px);transform-origin:center bottom;box-shadow:0 -36px 80px rgba(0,0,0,.55) inset}
+.cellwall3d{position:absolute;left:7%;right:7%;top:11%;height:62%;background:linear-gradient(135deg,#161b22,#0d1117);border:1px solid rgba(159,180,199,.08);transform:translateZ(-420px) rotateX(4deg);box-shadow:0 40px 80px rgba(0,0,0,.45)}
+.celllight3d{position:absolute;top:5%;left:50%;width:34vw;height:36vh;transform:translateX(-50%) translateZ(-260px);background:radial-gradient(ellipse,rgba(215,230,245,.12),transparent 68%);filter:blur(7px)}
+/* Edge-safe giant decorative numerals and words */
+.chapter .deco.ink,.chapter .deco.num,.chapter .deco.drop,.chapter .deco.quot,.chapter .deco.section,.chapter .deco.section-accent,.chapter .deco.fine,.chapter .deco.fine-large,.chapter .deco.coord,.chapter .deco.alert,.chapter .deco.alert-large,.chapter .deco.up,.chapter .deco.up-large{max-width:86vw}
+.chapter .deco.byline,.chapter .deco.stamp,.chapter .deco.paper,.chapter .deco.rule,.chapter .deco.stripe,.chapter .deco.ring,.chapter .deco.grid,.chapter .deco.scope{max-width:84vw}
+/* Source interactions */
+.q{position:relative;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}
+.q::after{content:"";position:absolute;left:0;right:0;bottom:-.12em;height:2px;transform:scaleX(.2);transform-origin:center;transition:transform .22s ease}
+.q:hover{transform:translateY(-1px)}
+.q:hover::after{transform:scaleX(1)}
+body.zeitung-hover .crumple{mix-blend-mode:multiply;filter:url(#none);}
+.crumple{background-image:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(120,96,54,.18) 0 8%,transparent 23%),repeating-linear-gradient(12deg,transparent 0 2px,rgba(140,110,60,.07) 2px 3px),repeating-linear-gradient(-24deg,transparent 0 3px,rgba(140,110,60,.055) 3px 4px),repeating-linear-gradient(58deg,transparent 0 1px,rgba(100,80,40,.04) 1px 2px)!important;}
+.water-cursor{width:34px;height:34px}
+.water-cursor::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(130,210,255,.22);transform:scale(.35);opacity:0;animation:none}
+.water-cursor.on::after{animation:cursorRing .9s ease-out infinite}
+@keyframes cursorRing{0%{transform:scale(.35);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+body.hw-hover .q:hover{filter:drop-shadow(0 0 9px rgba(0,229,255,.7))}
+body.krieg-hover .q:hover{letter-spacing:.02em}
+body.haft-hover .q:hover{text-decoration-thickness:3px}
+@media(max-width:760px){.bg-scene{perspective:1100px}.chapter .deco.ink,.chapter .deco.num,.chapter .deco.drop,.chapter .deco.quot,.chapter .deco.section,.chapter .deco.section-accent,.chapter .deco.fine,.chapter .deco.fine-large,.chapter .deco.coord,.chapter .deco.alert,.chapter .deco.alert-large,.chapter .deco.up,.chapter .deco.up-large{max-width:78vw}.fact .content{max-width:min(92vw,760px)!important}}
+</style>
+</head>
+<body class="lenis">
+
+<div id="progress"></div>
+<nav id="rail" aria-label="Kapitel">
+  <a href="#zeitung"><span>1 · Zeitung</span></a>
+  <a href="#umwelt"><span>2 · Umwelt</span></a>
+  <a href="#hardware"><span>3 · Hardware</span></a>
+  <a href="#krieg"><span>4 · Krieg</span></a>
+  <a href="#haft"><span>5 · Gefängnis</span></a>
+</nav>
+
+<div class="crumple" aria-hidden="true"></div>
+<div class="water-cursor" aria-hidden="true"></div>
+<div class="hw-glow" aria-hidden="true"></div>
+<div class="krieg-xhair" aria-hidden="true"><i></i></div>
+<div class="haft-shackles" aria-hidden="true">⚿ ⚷</div>
+
+<header id="hero">
+  <a class="hero-cta" href="https://devlenn.github.io/ai-o-mat/" target="_blank" rel="noopener noreferrer" aria-label="AI-O-Mat öffnen">AI-O-Mat</a>
+  <p class="kicker">Recherche · September 2026</p>
+  <h1>Fünf Themenfelder<br>künstlicher <em>Intelligenz</em>.</h1>
+  <p class="sub">Dokumentierte Recherche zu Quellenpräferenzen, Umweltbelastung, Auswirkungen auf Consumer Hardware &amp; Inflation, staatlicher KI Nutzung und Datenschutz. Recherchestand: September 2026.</p>
+  <nav class="toc">
+    <a href="#zeitung">01 · Quellen Präferenzen</a><a href="#umwelt">02 · Umweltbelastung</a><a href="#hardware">03 · Auswirkungen auf Consumer Hardware &amp; Inflation</a><a href="#krieg">04 · staatliche KI Nutzung</a><a href="#haft">05 · Datenschutz</a>
+  </nav>
+  <p class="scrollhint">▼ Zur Recherche</p>
+</header>
+
+<div class="gate" data-gate="pageturn" style="--from:#0d0d0f;--to:#f4efe3">
+  <div class="g-stick">
+    <div class="g-bg"></div>
+    <div class="g-title" style="color:#1c1a16"><small>Kapitel 01 · Quellen Präferenzen</small>Wer die Quellen wählt, wählt die Wahrheit.</div>
+  </div>
+</div>
+
+<!-- ================= KAPITEL 1: ZEITUNG ================= -->
+<section class="chapter" id="zeitung">
+  <div class="bg-scene" aria-hidden="true">
+    <div class="scene3d news3d p1"></div>
+    <div class="scene3d news3d p2"></div>
+    <div class="scene3d news3d p3"></div>
+    <div class="scene3d news3d p4"></div>
+  </div>
+  <div class="chapter-head" data-hin="door" data-hout="recede">
+    <div class="inner">
+      <div class="layer" data-depth="-0.3"><div class="deco ink" style="top:10%;left:1%">NEWS</div><div class="deco ink" style="bottom:10%;right:1%">PAPER</div></div>
+      <p class="no">Kapitel 01 · Quellen Präferenzen</p>
+      <h2>Wer die Quellen wählt,<br>wählt die Wahrheit.</h2>
+      <p class="lead">Live-Search-Quellenpräferenzen von ChatGPT, Gemini, Claude, Kimi, DeepSeek, Qwen und Grok — jedes große KI-Modell zapft eine andere Nachrichtenquelle an.</p>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco drop" style="top:8%;left:3%">B</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="top:18%;right:8%;transform:rotate(6deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stamp" style="bottom:14%;left:10%">OPEN<br>AI</div></div>
+    <div class="content"><p class="eyebrow">ChatGPT · Zuordnung</p>
+      <p class="statement">Die Microsoft-OpenAI-Partnerschaft macht <a class="q" href="https://www.iea.org/reports/energy-and-ai/executive-summary" target="_blank" rel="noopener">Bing zum default search experience</a> für ChatGPT. Jede URL, die ChatGPT zitiert, wurde zuerst durch die <a class="q" href="https://arxiv.org/pdf/2307.03826.pdf" target="_blank" rel="noopener">Bing Search API</a> entdeckt. Seit Dezember 2025 ignoriert der eigene <a class="q" href="https://arxiv.org/pdf/2307.03826.pdf" target="_blank" rel="noopener">ChatGPT-User Bot</a> zudem robots.txt-Direktiven.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="top:10%;right:5%">73</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="top:50%;left:-10%;width:120%;transform:rotate(-2deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco byline" style="bottom:16%;left:10%">2–3 Sub-Queries · live fetch</div></div>
+    <div class="content"><p class="eyebrow">ChatGPT · Auswahl</p>
+      <p class="statement">Ein interner <a class="q" href="https://arxiv.org/pdf/2307.03826.pdf" target="_blank" rel="noopener">Classifier</a> bestimmt, ob eine Suche nötig ist: Discovery-Queries triggern Suche zu <strong class="stat">~73 %</strong>, Informational-Queries nur zu <strong class="stat">~10 %</strong>. ChatGPT generiert <strong class="stat">2–3 Sub-Queries</strong> für die Bing API. Bing liefert ranked URLs als Candidate Pool. Der <a class="q" href="https://arxiv.org/pdf/2307.03826.pdf" target="_blank" rel="noopener">ChatGPT-User Bot</a> fetched die Seiten live — kein JavaScript, kein Caching.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco num" style="top:5%;right:4%">87</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco paper" style="bottom:14%;left:8%;transform:rotate(-8deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco quot" style="top:18%;left:10%">&ldquo;</div></div>
+    <div class="content"><p class="eyebrow">ChatGPT · Ranking</p>
+      <p class="statement">Studien zeigen, dass ca. <a class="q" href="https://www.capconvert.com/learn/blog/what-1000-chatgpt-citations-reveal-about-openai-s-hidden-ranking-signals" target="_blank" rel="noopener"><strong class="stat">87 % der ChatGPT-Zitationen mit Bings Top-Ergebnissen übereinstimmen</strong></a>; die finale Citation-Entscheidung liegt jedoch beim Modell — nur <strong class="stat">~50 %</strong> der retrieved Pages werden tatsächlich zitiert. <a class="q" href="https://ar5iv.labs.arxiv.org/html/2604.27790v1" target="_blank" rel="noopener">Front-loaded Content (erste 30 % der Seite)</a> und Listicle-Formate werden stark bevorzugt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco paper" style="top:8%;left:5%;transform:rotate(4deg)"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="top:22%;left:16%;transform:rotate(-3deg)"></div></div>
+    <div class="layer" data-depth="0.35"><div class="deco stamp" style="bottom:12%;right:10%">LICENSED</div></div>
+    <div class="content"><p class="eyebrow">ChatGPT · Partnerschaften</p>
+      <p class="statement">OpenAI hat umfangreiche <a class="q" href="https://apnews.com/article/openai-news-corp-a49144d381796df5729c746f52fbef19" target="_blank" rel="noopener">Content-Licensing-Deals</a> mit zahlreichen Presseverlagen geschlossen — u. a. Associated Press, Axel Springer, News Corp/Wall Street Journal, Condé Nast, Hearst, Vox Media, The Atlantic, The Guardian, Washington Post. Publisher mit solchen Deals verzeichnen <a class="q" href="https://everything-pr.com/ai-licensing-tracker" target="_blank" rel="noopener">deutlich höhere Referral-Traffic-Raten</a> aus ChatGPT.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco drop" style="top:6%;left:3%;opacity:.05;color:#1c1a16">G</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="top:50%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco pencil" style="bottom:18%;right:10%;transform:rotate(-4deg)"></div></div>
+    <div class="content"><p class="eyebrow">Gemini · Zuordnung</p>
+      <p class="statement">Gemini nutzt <a class="q" href="https://ar5iv.labs.arxiv.org/html/2604.27790v1" target="_blank" rel="noopener">Google Search</a> als nativen, fest integrierten Such-Backend. Die Suche ist direkt in das Modell eingebettet und greift auf den vollständigen Google-Index zurück. Gemini groundet Antworten über Query-Fan-out (Zerlegung in mehrere Suchqueries), die jeweils gegen den Google-Index laufen.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco num" style="top:8%;right:4%;opacity:.05">20</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco paper" style="top:18%;left:8%;transform:rotate(5deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stamp" style="bottom:14%;right:10%">YT</div></div>
+    <div class="content"><p class="eyebrow">Gemini · Ranking</p>
+      <p class="statement">Studien zeigen <a class="q" href="https://web.njit.edu/~borcea/papers/acm-sigir26.pdf" target="_blank" rel="noopener">geringe Überlappung mit klassischen Top-10-SERPs</a> (oft &lt; <strong class="stat">20–30 %</strong>); Gemini und AI Overviews tendieren stärker zu <a class="q" href="https://ar5iv.labs.arxiv.org/html/2604.27790v1" target="_blank" rel="noopener">Google-eigenen Properties (YouTube, google.com)</a> und zu weniger populären, nischenhaften Domains als die klassische Suche.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco drop" style="top:6%;right:4%;opacity:.05;color:#1c1a16">C</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="bottom:40%;left:-10%;width:120%;transform:rotate(-1deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco byline" style="top:18%;right:10%">Brave Subprocessor</div></div>
+    <div class="content"><p class="eyebrow">Claude · Zuordnung</p>
+      <p class="statement">Anthropic listet <a class="q" href="https://brave.com/search/api/guides/" target="_blank" rel="noopener">Brave Search offiziell als Subprocessor</a> im Trust Center. Die <code>web_search</code>-Tool-Definition enthält explizit den Parameter-Namen <a class="q" href="https://brave.com/search/api/guides/" target="_blank" rel="noopener">BraveSearchParams</a>. Tests zeigen eine <a class="q" href="https://xponent21.com/insights/claude-web-search-brave-turbopuffer/" target="_blank" rel="noopener"><strong class="stat">86,7 %ige Übereinstimmung</strong></a> zwischen Claudes zitierten Ergebnissen und Braves Top-Ergebnissen.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num" style="top:8%;left:3%;opacity:.06">86,7</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="bottom:18%;right:8%;transform:rotate(7deg)"></div></div>
+    <div class="layer" data-depth="0.35"><div class="deco quot" style="top:20%;right:10%">&rdquo;</div></div>
+    <div class="content"><p class="eyebrow">Claude · Ranking</p>
+      <p class="statement">Claude übernimmt weitgehend Braves Ranking (<a class="q" href="https://xponent21.com/insights/claude-web-search-brave-turbopuffer/" target="_blank" rel="noopener"><strong class="stat">86,7 % Overlap</strong></a> mit Braves Top-Organic-Results; wenig bis kein aggressives Re-Ranking). Claude bewertet die ~10 gelieferten Results zusätzlich nach Extractability, Struktur, Traceability von Claims und Multi-Source-Corroboration. Lange, gut organisierte Guides werden gegenüber dünnen Seiten bevorzugt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco byline" style="top:10%;left:3%;opacity:.18">NYT · WSJ · Bloomberg</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="top:18%;right:10%;transform:rotate(-5deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stamp" style="bottom:14%;left:10%">NICHE &gt; MAINSTREAM</div></div>
+    <div class="content"><p class="eyebrow">Claude · Quellenpräferenzen</p>
+      <p class="statement">Empirische Tests zeigen eher eine <a class="q" href="https://xponent21.com/insights/claude-web-search-brave-turbopuffer/" target="_blank" rel="noopener">Unterrepräsentation klassischer Mainstream-Medien</a> (Forbes, NYT, WSJ, Bloomberg) und UGC-Plattformen (Reddit, YouTube, Medium) zugunsten nischenjournalistischer, akademischer und research-orientierter Quellen. Anthropic hat vereinzelt Content-Partnerschaften (u. a. mit <a class="q" href="https://www.brookings.edu/articles/global-energy-demands-within-the-ai-regulatory-landscape/" target="_blank" rel="noopener">Le Monde</a>).</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco drop" style="top:6%;right:4%;opacity:.06">100+</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="top:18%;left:8%;transform:rotate(4deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stamp" style="bottom:12%;right:10%">AGENTIC</div></div>
+    <div class="content"><p class="eyebrow">Kimi · Agentic Search</p>
+      <p class="statement">Kimi nutzt eine eigene <a class="q" href="https://www.kimi.ai/help/features/search" target="_blank" rel="noopener">Agentic Search</a> mit End-to-End-Agentic-RL-Architektur. Das System greift auf <a class="q" href="https://www.kimi.ai/help/features/search" target="_blank" rel="noopener"><strong class="stat">über 100 verifizierte Quellen</strong></a> zurück, darunter Mainstream-Medien, Regierungsankündigungen, Finanzdatenplattformen und akademische Datenbanken. Kimi entscheidet autonom, wann es sucht, welche Tools es aufruft und wie es die Strategie anpasst.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="top:8%;left:3%;opacity:.05">3000+</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="top:55%;left:-10%;width:120%;transform:rotate(-1deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco byline" style="bottom:16%;right:10%">LONG-FORM</div></div>
+    <div class="content"><p class="eyebrow">Kimi · Ranking</p>
+      <p class="statement">Kimi filtert Quellen nach drei Dimensionen: Relevanz, Authority und Freshness. <a class="q" href="https://www.kimi.ai/help/features/search" target="_blank" rel="noopener">Low-Quality-Aggregator-Sites, unverifizierte Self-Media und abgelaufene Cached Pages werden ausgefiltert</a>. Long-form Content (<strong class="stat">3.000+ Wörter</strong>) wird signifikant bevorzugt; das System zitiert oft ganze Abschnitte aus tiefgehenden Artikeln.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco drop" style="top:6%;left:3%;opacity:.06">D</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="bottom:18%;right:8%;transform:rotate(6deg)"></div></div>
+    <div class="layer" data-depth="0.35"><div class="deco stamp" style="top:18%;right:12%">API</div></div>
+    <div class="content"><p class="eyebrow">DeepSeek · Flexible API-Integration</p>
+      <p class="statement">DeepSeek verfügt über keine fest eingebaute Live-Suche im Modell selbst. Stattdessen wird Web-Suche über externe <a class="q" href="https://api-docs.deepseek.com/news/news250821/" target="_blank" rel="noopener">Suchmaschinen-APIs</a> realisiert — darunter Google Search API, Bing Search API und Quark Search. DeepSeek nutzt ein <a class="q" href="https://unifuncs.com/s/wicqBLuW" target="_blank" rel="noopener">weighted scoring framework</a>: Relevanz <strong class="stat">30 %</strong>, Reviews <strong class="stat">25 %</strong>, Authority <strong class="stat">20 %</strong>, Recency <strong class="stat">15 %</strong>, Local Presence <strong class="stat">10 %</strong>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="bottom:10%;left:3%;opacity:.05">75</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="top:45%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco byline" style="top:18%;right:10%">200–300 TOKENS</div></div>
+    <div class="content"><p class="eyebrow">DeepSeek · Token-Gewichtung</p>
+      <p class="statement">Die <a class="q" href="https://api-docs.deepseek.com/news/news250528/" target="_blank" rel="noopener">ersten 200–300 Tokens einer Seite werden überproportional zitiert</a> — ca. <strong class="stat">75 %</strong> der zitierten Sätze liegen in der ersten Hälfte des Dokuments. Empirische Daten zeigen eine starke Neigung zu <a class="q" href="https://www.deepseek.com/en/" target="_blank" rel="noopener">Mainland-CN-Quellen (ca. 72 %)</a>, akademisch/technischen Inhalten, YouTube und Reddit sowie Open-Source-Community-Quellen (Hugging Face, GitHub).</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco drop" style="top:6%;right:4%;opacity:.05">Q</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="top:18%;left:8%;transform:rotate(5deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stamp" style="bottom:14%;right:10%">阿里<br>ALIBABA</div></div>
+    <div class="content"><p class="eyebrow">Qwen · Alibaba-Ökosystem</p>
+      <p class="statement">Qwen bietet in seinen neueren Modellen wie <a class="q" href="https://www.cnbc.com/2026/02/17/china-alibaba-qwen-ai-agent-latest-model.html" target="_blank" rel="noopener">Qwen3.5-Omni</a> eine eingebaute Web-Suche. Qwen nutzt die <a class="q" href="https://www.alibabacloud.com/help/en/model-studio/web-search" target="_blank" rel="noopener">DashScope API</a> mit <code>enable_search=True</code> und der <code>search_strategy: "agent"</code>. Die DashScope-Web-Search nutzt <a class="q" href="https://help.aliyun.com/en/model-studio/web-search-for-coding-plan" target="_blank" rel="noopener">Quark Search</a> (Alibaba Cloud Information Query Service).</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="top:8%;left:3%;opacity:.05">85</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="bottom:40%;left:-10%;width:120%;transform:rotate(-1deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco byline" style="top:20%;right:10%">INSTITUTIONELL</div></div>
+    <div class="content"><p class="eyebrow">Qwen · Quellenpräferenzen</p>
+      <p class="statement">Empirische Panels zeigen ca. <a class="q" href="https://www.deepseek.com/en/" target="_blank" rel="noopener"><strong class="stat">85 % Mainland-CN-Quellenanteil</strong></a> und eine Überrepräsentation regulatorischer und branchenverbandlicher Quellen. Qwen gilt als das „institutionellste" der großen chinesischen Modelle und begünstigt pre-validierte Autoritätsquellen. Konfigurierbar sind u. a. Anzahl der Results (<strong class="stat">1–10</strong>), Query-Zeitraum und Industry-Filter.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco drop" style="top:6%;right:4%;opacity:.06">𝕏</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco paper" style="top:18%;left:8%;transform:rotate(4deg)"></div></div>
+    <div class="layer" data-depth="0.35"><div class="deco stamp" style="bottom:14%;left:10%">LIVE<br>FEED</div></div>
+    <div class="content"><p class="eyebrow">Grok · X-Infrastruktur</p>
+      <p class="statement">Grok greift durch die unmittelbare Anbindung an den Mutterkonzern X (ehemals Twitter) direkt auf die globale Datenbank und die Live-Schnittstellen der Plattform zu. Eine klassische Zusammenarbeit oder Lizenzierung externer Presseverlage findet im Gegensatz zu Mitbewerbern wie OpenAI nicht statt; das Modell speist seine Echtzeit-Informationen primär aus dem <em>Inhaltsstrom von X</em>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco byline" style="top:10%;left:3%;opacity:.18">PREMIUM · VERIFIED</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco rule" style="top:50%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stamp" style="bottom:16%;right:10%">BIAS</div></div>
+    <div class="content"><p class="eyebrow">Grok · Premium-Bias</p>
+      <p class="statement">Die Auswahl der verarbeiteten Beiträge wird maßgeblich durch Algorithmen gesteuert, die auf hohes Engagement (Likes, Reposts, Replies) sowie auf die Echtzeit-Dynamik aktueller Ereignisse reagieren. Zudem werden Beiträge von zahlenden X Premium-Nutzerkonten (blauer Haken) durch das interne Ranking der Plattform bevorzugt indiziert und fließen dadurch überproportional häufig in die Informationssynthese ein.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco ink" style="bottom:10%;left:3%;opacity:.05;font-style:italic">ECHO</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco paper" style="top:18%;right:8%;transform:rotate(-5deg)"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco quot" style="top:18%;left:10%">&ldquo;</div></div>
+    <div class="content"><p class="eyebrow">Grok · Kritik</p>
+      <p class="statement">Da Posts auf X nicht zwingend journalistischen Standards genügen, neigt Grok dazu, ungeprüfte Gerüchte, Fehlinformationen oder koordinierte Desinformationskampagnen aufzugreifen und als Fakten darzustellen — insbesondere bei sich schnell entwickelnden Eilmeldungen. Die Anweisung an Grok, etablierte Medienberichte als voreingenommen zu behandeln, führt in der Praxis teils dazu, dass <em>wissenschaftliche oder mediale Konsense relativiert und Außenseiter- oder Verschwörungserzählungen als gleichwertige Ansichten dargestellt werden</em>.</p></div>
+  </div>
+</section>
+
+<div class="gate" data-gate="iris" style="--from:#f4efe3;--to:#0e1f14">
+  <div class="g-stick">
+    <div class="g-bg"></div>
+    <div class="g-fx" data-fx="leaf1" style="font-size:22vmin;left:12%;top:16%;color:#7fb069;opacity:0">❦</div>
+    <div class="g-fx" data-fx="leaf2" style="font-size:26vmin;right:10%;bottom:14%;color:#a8e063;opacity:0">❧</div>
+    <div class="g-title" style="color:#d9f2c8"><small>Kapitel 02 · Umweltbelastung</small>Der Durst der Rechenzentren.</div>
+  </div>
+</div>
+
+<!-- ================= KAPITEL 2: UMWELT ================= -->
+<section class="chapter" id="umwelt">
+  <div class="bg-scene" aria-hidden="true">
+    <div class="scene3d tree3d t1"></div>
+    <div class="scene3d tree3d t2"></div>
+    <div class="scene3d tree3d t3"></div>
+    <div class="scene3d tree3d t4"></div>
+    <div class="scene3d tree3d t5"></div>
+    <div class="scene3d tree3d t6"></div>
+  </div>
+  <div class="chapter-head" data-hin="approach" data-hout="spiral">
+    <div class="inner">
+      <div class="layer" data-depth="-0.35"><div class="deco leaf" style="top:8%;left:3%">❦</div><div class="deco leaf" style="bottom:5%;right:3%">❧</div></div>
+      <p class="no">Kapitel 02 · Umweltbelastung</p>
+      <h2>Der Durst der<br>Rechenzentren.</h2>
+      <p class="lead">CO₂, Strom, Wasser, Elektroschrott — die Bilanz 2025 und die Prognosen bis 2030.</p>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco smoke" style="top:8%;left:-12%"></div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco num-accent" style="bottom:6%;right:-6%">32,6</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco leaf" style="top:18%;right:8%">❦</div></div>
+    <div class="layer" data-depth="0.2"><div class="deco unit" style="bottom:18%;left:6%">Mio. t</div></div>
+    <div class="content"><p class="eyebrow">CO₂-Emissionen · 2025</p>
+      <p class="statement">KI-Systeme in Rechenzentren verursachen geschätzt <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener"><strong class="stat">32,6 bis 79,7 Millionen Tonnen CO₂</strong></a> — vergleichbar mit den Gesamtemissionen von New York City oder Norwegen.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num-accent" style="top:8%;right:-5%">399</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco smoke" style="bottom:10%;left:-12%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco leaf" style="top:18%;left:8%">✳</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco unit" style="top:22%;right:6%">Mio. t</div></div>
+    <div class="content"><p class="eyebrow">CO₂-Emissionen · 2030</p>
+      <p class="statement">Die weltweiten Treibhausgasemissionen durch Rechenzentren könnten sich auf <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener"><strong class="stat">399 Millionen Tonnen CO₂-Äquivalente</strong></a> verdoppeln — von 189 Mio. t im Jahr 2025.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco leaf-large" style="top:5%;right:-8%">🌿</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco num" style="bottom:10%;left:2%">166</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco ring" style="top:20%;right:8%"></div></div>
+    <div class="content"><p class="eyebrow">CO₂ · Greenpeace/Öko-Institut</p>
+      <p class="statement">Ein anderer Bericht (Greenpeace/Öko-Institut) prognostiziert für 2030 sogar <a class="q" href="https://www.greenpeace.de/publikationen/20250514-greenpeace-studie-umweltauswirkungen-ki-eng.pdf" target="_blank" rel="noopener"><strong class="stat">166 Millionen Tonnen CO₂</strong></a> nur für KI-spezifische Rechenzentren — fast die Hälfte aller Emissionen durch Rechenzentren weltweit.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco num-accent" style="top:6%;left:-4%;color:#e6c94a">448</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco smoke" style="top:18%;right:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco leaf" style="bottom:12%;left:8%">❧</div></div>
+    <div class="layer" data-depth="0.2"><div class="deco unit" style="bottom:18%;right:6%;color:#e6c94a">TWh</div></div>
+    <div class="content"><p class="eyebrow">Energieverbrauch · 2025</p>
+      <p class="statement">Rechenzentren verbrauchten 2025 weltweit rund <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener"><strong class="stat">448 Terawattstunden</strong></a> Strom. KI-Workloads machten bereits <strong class="stat">20 %</strong> davon aus.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="top:10%;right:-5%">6.</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco vine" style="top:10%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco leaf-large" style="bottom:8%;right:-8%">🍃</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco unit" style="top:22%;left:6%;color:#e6c94a">40 %</div></div>
+    <div class="content"><p class="eyebrow">Energieverbrauch · 2030</p>
+      <p class="statement">Bis 2030 könnte der KI-Anteil auf <strong class="stat">40 %</strong> steigen — Rechenzentren wären dann der <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener">sechstgrößte Stromverbraucher der Welt</a> (als „Land" betrachtet).</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num-accent" style="top:8%;left:-5%;color:#e6c94a">11×</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco smoke" style="bottom:10%;right:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco tree" style="top:18%;right:8%">🌳</div></div>
+    <div class="content"><p class="eyebrow">Energieverbrauch · Wachstum</p>
+      <p class="statement">Der Stromverbrauch von KI-Rechenzentren wird bis 2030 <a class="q" href="https://www.greenpeace.de/publikationen/20250514-greenpeace-studie-umweltauswirkungen-ki-eng.pdf" target="_blank" rel="noopener"><strong class="stat">elfmal so hoch</strong></a> sein wie 2023.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="top:12%;right:-5%;color:#e6c94a">90</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco vine" style="bottom:12%;right:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco leaf" style="top:18%;left:8%">✳</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco unit" style="bottom:20%;right:6%;color:#e6c94a">%</div></div>
+    <div class="content"><p class="eyebrow">Energie · Inferenz</p>
+      <p class="statement"><a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener"><strong class="stat">80–90 %</strong></a> des Energiebedarfs entfällt nicht auf das Training, sondern auf die Inferenz — also den alltäglichen Betrieb mit milliardenfachen Nutzeranfragen.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco drop-water" style="top:10%;left:-5%">💧</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco smoke-blue" style="top:22%;right:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:8%;right:5%;color:#5a9fd4">312</div></div>
+    <div class="layer" data-depth="0.2"><div class="deco unit" style="top:18%;right:8%;color:#5a9fd4">Mrd. l</div></div>
+    <div class="content"><p class="eyebrow">Wasserverbrauch · 2025</p>
+      <p class="statement">Der Wasserverbrauch der KI liegt zwischen <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener"><strong class="stat">312,5 und 764,6 Milliarden Litern</strong></a> — vergleichbar mit der weltweiten jährlichen Flaschenwasserproduktion.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num" style="top:8%;right:-5%;color:#5a9fd4">9,3</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco leaf-large" style="top:18%;left:-8%">🍃</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco smoke-blue" style="bottom:10%;left:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco unit" style="bottom:18%;right:6%;color:#5a9fd4">Bio. l</div></div>
+    <div class="content"><p class="eyebrow">Wasserverbrauch · 2030</p>
+      <p class="statement">Prognose von <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener"><strong class="stat">9,3 Billionen Litern</strong></a> — genug, um den jährlichen Wasserbedarf aller <strong class="stat">1,3 Milliarden</strong> Einwohner:innen in Subsahara-Afrika ein ganzes Jahr zu decken.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco drop-water" style="top:10%;left:-3%">2×</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco vine" style="top:12%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco leaf" style="bottom:12%;right:8%">❦</div></div>
+    <div class="content"><p class="eyebrow">Wasser · KI vs. klassisch</p>
+      <p class="statement">KI-Rechenzentren verbrauchen <a class="q" href="https://www.greenpeace.de/publikationen/20250514-greenpeace-studie-umweltauswirkungen-ki-eng.pdf" target="_blank" rel="noopener"><strong class="stat">doppelt so viel Wasser</strong></a> wie konventionelle Rechenzentren.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num" style="top:8%;right:-5%">5</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco smoke" style="bottom:10%;left:-10%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco leaf-large" style="top:12%;left:-6%">🍂</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco unit" style="bottom:18%;right:8%">Mio. t</div></div>
+    <div class="content"><p class="eyebrow">Elektroschrott · 2030</p>
+      <p class="statement">Bis 2030 könnten bis zu <a class="q" href="https://www.greenpeace.de/publikationen/20250514-greenpeace-studie-umweltauswirkungen-ki-eng.pdf" target="_blank" rel="noopener"><strong class="stat">5 Millionen Tonnen</strong></a> zusätzlicher Elektroschrott durch den Ausbau entstehen.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num" style="top:10%;left:-5%">174</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco leaf" style="bottom:18%;right:8%">❧</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="top:18%;right:-5%;opacity:.04">445</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco unit" style="bottom:20%;left:6%">g CO₂/kWh</div></div>
+    <div class="content"><p class="eyebrow">Standortabhängigkeit</p>
+      <p class="statement">In Europa beträgt die Kohlenstoffintensität ca. <strong class="stat">174 g CO₂/kWh</strong>, in den USA <strong class="stat">321 g CO₂/kWh</strong> und global im Durchschnitt <strong class="stat">445 g CO₂/kWh</strong>. Der Standort entscheidet also maßgeblich über die <a class="q" href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai" target="_blank" rel="noopener">Umweltbilanz</a>.</p></div>
+  </div>
+</section>
+
+<div class="gate" data-gate="blinds" style="--from:#0e1f14;--to:#0a0e14">
+  <div class="g-stick">
+    <div class="g-bg" style="opacity:0"></div>
+    <div class="g-title" style="color:#eaf9ff;text-shadow:0 0 18px rgba(0,229,255,.4)"><small>&gt; KAPITEL_03</small>SPEICHERKRISE_2026</div>
+  </div>
+</div>
+
+<!-- ================= KAPITEL 3: HARDWARE ================= -->
+<section class="chapter" id="hardware">
+  <div class="chapter-head" data-hin="tilt" data-hout="collapse">
+    <div class="inner">
+      <div class="layer" data-depth="-0.35"><div class="deco chip" style="top:12%;left:8%"></div><div class="deco chip" style="bottom:8%;right:8%"></div></div>
+      <p class="no">&gt; KAPITEL_03</p>
+      <h2>SPEICHERKRISE_2026<br>Die KI frisst den Markt.</h2>
+      <p class="lead">Die KI-Nachfrage bindet 2026 rund <strong class="stat">70 %</strong> der weltweiten Speicherproduktion — 2022 waren es noch <strong class="stat">20–30 %</strong> (<a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener">heise</a>).</p>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco ram" style="top:18%;left:-10%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco chip" style="top:22%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco hex" style="bottom:10%;right:-6%">DDR5</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco up" style="bottom:18%;left:6%">+300</div></div>
+    <div class="content"><p class="eyebrow">DDR5 RAM · 32-GB-Kit</p>
+      <p class="statement">Von <strong class="stat">&lt; 100 €</strong> (2025) auf <strong class="stat">&gt; 450 €</strong> (März 2026) — <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">+300 % in Deutschland</strong></a>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco up-large" style="top:6%;right:-8%">+600</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco chip" style="bottom:18%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco ram" style="bottom:20%;right:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco hex" style="top:18%;left:6%">DRAM</div></div>
+    <div class="content"><p class="eyebrow">Consumer-DRAM · global</p>
+      <p class="statement"><a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">+300 bis +600 %</strong></a> gegenüber Tiefstständen 2024/25.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco up" style="top:10%;left:-6%">+90</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco arrow" style="bottom:12%;right:-8%">↑</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco chip" style="bottom:16%;right:8%"></div></div>
+    <div class="content"><p class="eyebrow">DRAM-Kontraktpreise · QoQ</p>
+      <p class="statement"><a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">+90 %</strong></a> allein im Q1 2026.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco hex" style="top:10%;right:-6%">NAND</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco ssd" style="top:18%;left:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco up" style="bottom:10%;left:6%">+60</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco ram" style="bottom:18%;right:-8%"></div></div>
+    <div class="content"><p class="eyebrow">NAND-Flash · SSDs</p>
+      <p class="statement">Quartalsanstieg <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">55–60 %</strong></a> (statt erwarteter 33–38 %).</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco up" style="top:8%;left:-6%">4000</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco gpu" style="top:22%;right:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco hex" style="bottom:10%;right:-6%">RTX</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco chip" style="bottom:18%;left:8%"></div></div>
+    <div class="content"><p class="eyebrow">Grafikkarten · RTX 5090</p>
+      <p class="statement">Straßenpreis deutlich <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">über 4.000 US-$</strong></a> (UVP: 1.999 US-$).</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco hex" style="top:10%;left:-6%">PS5</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco console" style="top:22%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco up" style="top:18%;right:-5%;font-size:clamp(6rem,16vw,14rem)">650</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco num" style="bottom:12%;left:6%">€</div></div>
+    <div class="content"><p class="eyebrow">Konsolen · Switch 2 &amp; PS5</p>
+      <p class="statement">Switch 2: 469,99 € → 499,99 €; PS5: bereits <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">649,99 €</strong></a>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco up" style="top:10%;right:-6%">+240</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco ssd" style="bottom:18%;left:-10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:12%;right:6%">€</div></div>
+    <div class="content"><p class="eyebrow">Steam Deck OLED</p>
+      <p class="statement">Über Nacht um bis zu <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">240 Euro</strong></a> teurer.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco up" style="top:10%;left:-6%">-11,3</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco chip" style="top:22%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco hex" style="bottom:10%;right:-6%">IDC</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco num" style="bottom:16%;left:6%">%</div></div>
+    <div class="content"><p class="eyebrow">Marktauswirkungen · PC-Markt</p>
+      <p class="statement">IDC erwartet 2026 einen Rückgang der Stückzahlen um <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">11,3 %</strong></a>, obwohl der Umsatz wegen höherer Durchschnittspreise leicht steigt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco up" style="top:10%;right:-6%">+130</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco hex" style="bottom:10%;left:-6%;opacity:.06">GRT</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco ssd" style="bottom:18%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="top:18%;left:6%">%</div></div>
+    <div class="content"><p class="eyebrow">Marktauswirkungen · Gartner</p>
+      <p class="statement">Gartner prognostiziert eine Steigerung der kombinierten DRAM- und SSD-Preise um <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">130 %</strong></a> bis Ende 2026 — das verteuert PCs um <strong class="stat">17 %</strong>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco hex" style="top:10%;left:-6%">RAM=0</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco chip" style="top:22%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco ram" style="bottom:12%;left:-10%"></div></div>
+    <div class="content"><p class="eyebrow">Marktauswirkungen · RAM-los</p>
+      <p class="statement">Einige Systemhäuser verkaufen PCs inzwischen <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener">ohne RAM</a>, weil sich der Preis nicht seriös kalkulieren lässt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco up" style="top:10%;right:-6%">55</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco gpu" style="bottom:16%;left:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:12%;left:6%">%</div></div>
+    <div class="content"><p class="eyebrow">GPU-Attach-Rate</p>
+      <p class="statement">Die Desktop-Attach-Rate dedizierter Grafikkarten fiel auf <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener"><strong class="stat">55 %</strong></a>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco hex" style="top:10%;left:-6%">HBM</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco chip" style="top:22%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco ram" style="bottom:12%;right:-10%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco num" style="top:18%;right:6%">70</div></div>
+    <div class="content"><p class="eyebrow">Ursache</p>
+      <p class="statement">Hersteller wie Samsung und SK Hynix priorisieren <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener">High-Bandwidth Memory (HBM)</a> für KI-Server und verlagern Kapazitäten weg vom Consumer-Markt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco year" style="top:10%;right:-6%">2027</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco chip" style="bottom:16%;left:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:12%;left:6%">+</div></div>
+    <div class="content"><p class="eyebrow">Prognose</p>
+      <p class="statement">Preisspitze: frühestens <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener">Ende 2026</a>. Echte Entspannung: <a class="q" href="https://www.heise.de/hintergrund/Jetzt-kaufen-oder-warten-So-lange-koennte-die-Speicherkrise-anhalten-11192848.html" target="_blank" rel="noopener">nicht vor Ende 2027</a>, teils erst 2028.</p></div>
+  </div>
+</section>
+
+<div class="gate" data-gate="flip" style="--from:#0a0e14;--to:#181a14">
+  <div class="g-stick">
+    <div class="g-bg"></div>
+    <div class="g-fx" data-fx="stripe" style="left:-20%;right:-20%;top:46%;height:16px;background:repeating-linear-gradient(-45deg,#c9a227 0 16px,#181a14 16px 32px);opacity:0"></div>
+    <div class="g-title" style="color:#efe9d3;font-family:'Oswald',sans-serif;text-transform:uppercase"><small>Kapitel 04 · staatliche KI Nutzung</small>Die automatisierte Kill Chain.</div>
+  </div>
+</div>
+
+<!-- ================= KAPITEL 4: KRIEG ================= -->
+<section class="chapter" id="krieg">
+  <div class="chapter-head" data-hin="drop" data-hout="sink">
+    <div class="inner">
+      <div class="layer" data-depth="-0.35"><div class="deco xhair" style="top:15%;left:10%"></div><div class="deco xhair" style="bottom:12%;right:10%"></div></div>
+      <p class="no">KAPITEL 04 · staatliche KI Nutzung</p>
+      <h2>Die automatisierte<br>Kill Chain.</h2>
+      <p class="lead">Autonome Waffensysteme, Drohnenschwärme — und Palantir als Infrastruktur der Kontrolle zwischen CIA, NATO und deutschen Polizeibehörden.</p>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco drone" style="top:10%;left:-6%">✈</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco xhair" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num-accent" style="bottom:8%;left:5%">4M</div></div>
+    <div class="layer" data-depth="0.2"><div class="deco flag" style="bottom:16%;right:8%">🇺🇦</div></div>
+    <div class="content"><p class="eyebrow">Ukraine · Drohnenproduktion</p>
+      <p class="statement">Die Ukraine produziert jährlich <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener"><strong class="stat">4 Millionen Drohnen</strong></a> — mehr als alle NATO-Mitglieder zusammen. Drohnen werden für Aufklärung, Präzisionsschläge und als „Kamikaze-Drohnen" (Loitering Munition) eingesetzt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco xhair" style="top:18%;left:6%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco alert" style="top:10%;right:-6%">STOP</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco drone" style="bottom:12%;right:8%">✈</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco scope" style="bottom:18%;left:8%"></div></div>
+    <div class="content"><p class="eyebrow">Autonome Drohnen · Kritik</p>
+      <p class="statement">Kritik: KI-gesteuerte Drohnen können Ziele <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener">autonom finden und angreifen</a> — ohne menschliches Zutun. Die Kampagne „Stop Killer Robots" warnt: <em>„Es ist ethisch und moralisch äußerst bedenklich und es steht im Konflikt mit geltendem Völkerrecht, wenn Algorithmen statt Menschen über Leben und Tod entscheiden."</em></p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco drone" style="top:12%;left:-6%">✈</div></div>
+    <div class="layer" data-depth="-0.3"><div class="deco drone" style="top:16%;left:4%;font-size:clamp(6rem,14vw,12rem)">✈</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco drone" style="top:22%;left:12%;font-size:clamp(4rem,10vw,8rem)">✈</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco swarm" style="bottom:14%;right:6%">✈ ✈ ✈ ✈ ✈</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco stripe" style="bottom:10%;left:-10%;width:120%"></div></div>
+    <div class="content"><p class="eyebrow">Schwarmtechnologie</p>
+      <p class="statement">Ein Soldat soll künftig eine Vielzahl von Drohnen koordinieren können, die wie ein <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener">Bienenschwarm zusammenarbeiten</a>. Kritik: Die technische Machbarkeit der vollständigen Kill Chain ohne Menschen existiert bereits — das führt zu einer <em>gefährlichen Entgrenzung der Verantwortung</em> und erschwert die Einhaltung des Völkerrechts, insbesondere der Unterscheidung zwischen Kombattanten und Zivilisten.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco alert-large" style="top:6%;right:-6%;font-size:clamp(6rem,16vw,14rem)">GAZA</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco drone" style="bottom:12%;right:8%">✈</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:16%;left:6%">1000+</div></div>
+    <div class="content"><p class="eyebrow">Lavender · Gaza</p>
+      <p class="statement">In Gaza nutzte das israelische Militär laut Berichten das KI-System „Lavender" für <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener"><strong class="stat">Tausende Angriffe</strong></a>, ohne dass Menschen nennenswert in der Überwachung involviert waren. Kritik: Die massenhafte Delegation von Zielauswahl an Algorithmen führt zu einer systematischen Entmenschlichung von Kriegshandlungen und erhöht das Risiko von Fehltreffern sowie zivilen Opfern dramatisch.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num-accent" style="top:8%;left:-6%">900</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco flag" style="bottom:14%;right:8%">🇩🇪</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stripe" style="bottom:12%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.2"><div class="deco coord" style="top:22%;left:6%;font-size:clamp(3rem,7vw,6rem)">Mio. €</div></div>
+    <div class="content"><p class="eyebrow">Deutschland · Loitering Munition</p>
+      <p class="statement">Die Bundeswehr schafft „Loitering Munition" im Wert von <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener"><strong class="stat">900 Millionen Euro</strong></a> an — unter anderem von den Startups Helsing und Stark Defence sowie Rheinmetall. Kritik: Deutschland betreibt eine massive Aufrüstung mit autonomen Waffensystemen, obwohl die ethischen und völkerrechtlichen Grundlagen für den Einsatz solcher Systeme international noch nicht geklärt sind.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco num-accent" style="top:8%;right:-6%">11</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco drone" style="top:20%;left:6%">✈</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco xhair" style="bottom:14%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco grid" style="bottom:18%;left:6%"></div></div>
+    <div class="content"><p class="eyebrow">München · Hochburg</p>
+      <p class="statement">In München haben sich mindestens <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener"><strong class="stat">11 Unternehmen</strong></a> zu einer Hochburg für KI-gestützte Drohnen entwickelt. Kritik: Die Konzentration von Rüstungs-Startups in einer einzigen Region führt zu einer unkontrollierten Rüstungsdynamik, bei der kommerzielle Interessen die sicherheitspolitische Debatte dominieren.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco alert-large" style="top:6%;left:-6%;font-size:clamp(5rem,14vw,12rem)">CHAIN</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco stripe" style="top:50%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco xhair" style="bottom:12%;right:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco scope" style="top:18%;left:8%"></div></div>
+    <div class="content"><p class="eyebrow">Kill Chain · Automatisierung</p>
+      <p class="statement">Rein technisch ist mittlerweile <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener">jeder Schritt der Kill Chain</a> ohne menschliches Zutun machbar — bis hin zum tatsächlichen Angriff. Kritik: Die vollständige Automatisierung der Kill Chain untergräbt das Prinzip der menschlichen Kontrolle über Waffensysteme, ein Grundpfeiler des humanitären Völkerrechts.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num-accent" style="top:8%;right:-6%">2026</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco flag" style="bottom:14%;left:8%">🇺🇳</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco stripe" style="bottom:10%;left:-10%;width:120%"></div></div>
+    <div class="content"><p class="eyebrow">UN · LAWS-Verbot</p>
+      <p class="statement">UN-Generalsekretär António Guterres fordert seit 2018 ein völkerrechtlich verbindliches Verbot tödlicher autonomer Waffensysteme (LAWS) und hat die Frist <a class="q" href="https://www.tagesschau.de/ausland/europa/ukraine-drohnen-produktion-russland-100.html" target="_blank" rel="noopener"><strong class="stat">2026</strong></a> gesetzt. Kritik: Trotz jahrelanger Warnungen der UN gibt es weiterhin kein verbindliches Verbot.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco alert-large" style="top:6%;right:-6%">PLTR</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco xhair" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco eye" style="bottom:14%;right:8%">👁</div></div>
+    <div class="layer" data-depth="0.2"><div class="deco flag" style="bottom:18%;left:8%">🇺🇸</div></div>
+    <div class="content"><p class="eyebrow">Palantir · CIA-Gründung</p>
+      <p class="statement">Gegründet 2003 mit Startkapital der CIA. Drei Plattformen: Gotham (Militär/Geheimdienste), Foundry (Behörden/Unternehmen), AIP (seit 2023 — Integration von LLMs in militärische Operationen, inklusive <a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">Drohnenaufklärung über Chat-Oberfläche</a>). Kritik: Die enge Verflechtung mit US-Geheimdiensten und Militär von Beginn an macht Palantir zu einem Instrument der US-Sicherheitspolitik, dessen Daten letztlich Washington zugänglich sind.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco num-accent" style="top:8%;left:-6%">10</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco stripe" style="bottom:10%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco coord" style="top:22%;left:6%;font-size:clamp(3rem,7vw,6rem)">Mrd. $</div></div>
+    <div class="content"><p class="eyebrow">Palantir · Vertragsvolumen</p>
+      <p class="statement"><a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener"><strong class="stat">10 Milliarden Dollar</strong></a> für die US-Armee (2025), über <strong class="stat">200 Mio. US-$</strong> für ICE (US-Einwanderungsbehörde), über <strong class="stat">900 Mio. Pfund</strong> für den britischen öffentlichen Sektor. Kritik: Die enormen Vertragsvolumina zeigen, dass Palantir längst kein Nischenanbieter mehr ist, sondern eine zentrale Infrastruktur für staatliche Überwachung und Kontrolle weltweit darstellt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.4"><div class="deco coord" style="top:10%;right:-6%">NATO</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco drone" style="bottom:14%;right:8%">✈</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco flag" style="bottom:18%;left:8%">🇪🇺</div></div>
+    <div class="content"><p class="eyebrow">Palantir · NATO Maven</p>
+      <p class="statement">NATO erwarb 2025 das „Palantir Maven Smart System" — voll operationell seit <a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">Juni 2026</a>. Kritik: Die NATO-Integration bedeutet, dass Palantir-Technologie in militärische Bündnisstrukturen eingebettet wird und so die Überwachungskapazitäten auf supranationaler Ebene ausweitet.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco alert-large" style="top:6%;left:-6%">D</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco stripe" style="bottom:10%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco flag" style="bottom:14%;right:8%">🇩🇪</div></div>
+    <div class="content"><p class="eyebrow">Palantir · Deutsche Polizei</p>
+      <p class="statement">Bereits drei Bundesländer (Bayern, Hessen, Nordrhein-Westfalen) nutzen Palantir Gotham für <a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">polizeiliche Datenanalyse</a>. Kritik: Die Nutzung von Software mit CIA-Hintergrund durch deutsche Polizeibehörden ohne breite öffentliche Debatte stellt ein massives demokratisches Defizit dar. Baden-Württemberg schloss im März 2025 einen <strong class="stat">25-Mio.-US-$-Vertrag</strong> (<a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">Quelle</a>) — ohne ausreichende Rechtsgrundlage.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco alert-large" style="top:6%;right:-6%;font-size:clamp(5rem,14vw,12rem)">CH</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco stripe" style="bottom:10%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco flag" style="bottom:14%;right:8%">🇨🇭</div></div>
+    <div class="content"><p class="eyebrow">Schweiz · Ablehnung</p>
+      <p class="statement">Die Schweiz lehnte Palantir ab: Eine Risikoanalyse des Schweizer Militärs kam zum Schluss, dass „auf Daten, die von Palantir gehalten werden, durch die <a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">amerikanische Regierung und Nachrichtendienste zugegriffen werden könnte</a>" und Datenlecks „technisch nicht verhindert werden können". Kritik: Die Schweizer Ablehnung belegt, dass Palantir-Systeme inhärent kompromittiert sind.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco coord" style="top:10%;right:-6%">FR · ES</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco xhair" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco stripe" style="bottom:10%;left:-10%;width:120%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco flag" style="bottom:14%;left:8%">🇫🇷 🇪🇸</div></div>
+    <div class="content"><p class="eyebrow">Frankreich &amp; Spanien · Ausstieg</p>
+      <p class="statement">Frankreich kündigte im Juni 2026 an, Palantir durch den heimischen Anbieter ChapsVision zu ersetzen — aus Sorge vor <a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">„strategischer Abhängigkeit"</a>. Spanien wies Regierungsbehörden an, <a class="q" href="https://www.tagesschau.de/inland/gesellschaft/palantir-ueberwachung-datenschutz-100.html" target="_blank" rel="noopener">Palantir zu meiden</a>. Kritik: Selbst traditionelle Verbündete der USA erkennen die Gefahren — Deutschland hingegen verharrt in der Passivität.</p></div>
+  </div>
+</section>
+
+<div class="gate" data-gate="bars" style="--from:#181a14;--to:#12161c">
+  <div class="g-stick">
+    <div class="g-bg" style="opacity:0"></div>
+    <div class="g-title" style="color:#e8eef5"><small>§ Kapitel 05 · Datenschutz</small>In Gewahrsam: Die Daten hinter Gittern.</div>
+  </div>
+</div>
+
+<!-- ================= KAPITEL 5: GEFÄNGNIS ================= -->
+<section class="chapter" id="haft">
+  <div class="chapter-head" data-hin="unfold" data-hout="recede">
+    <div class="inner">
+      <div class="layer" data-depth="-0.35">
+        <div class="deco bar" style="top:15%;left:8%"></div><div class="deco bar" style="top:15%;left:15%"></div><div class="deco bar" style="top:15%;left:22%"></div>
+        <div class="deco bar" style="top:15%;right:22%"></div><div class="deco bar" style="top:15%;right:15%"></div><div class="deco bar" style="top:15%;right:8%"></div>
+      </div>
+      <p class="no">§ KAPITEL 05 · Datenschutz</p>
+      <h2>In Gewahrsam:<br>Die Daten hinter Gittern.</h2>
+      <p class="lead">Datenschutzprobleme bei KI-Modellen: Zweckentfremdung, Training ohne Einwilligung, Memorization, Urheberrechtsverletzungen — und die Gesetze, die der KI Handschellen anlegen.</p>
+    </div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco section-accent" style="top:5%;left:-6%">§</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:18%;left:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:18%;left:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco key" style="bottom:12%;right:8%">⚷</div></div>
+    <div class="content"><p class="eyebrow">Zweckentfremdung</p>
+      <p class="statement">KI-Modelle werden häufig mit Daten trainiert, die weit über ihren ursprünglichen Zweck hinaus gesammelt wurden — von E-Mails und Sprachaufnahmen bis zu persönlichen Dateien. Das verletzt zentrale DSGVO-Grundsätze wie <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">Zweckbindung</a> und <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">Datensparsamkeit</a>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco cuff" style="top:18%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco section" style="bottom:10%;right:-6%;opacity:.04">META</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco hand" style="bottom:14%;left:8%">🤚</div></div>
+    <div class="content"><p class="eyebrow">Meta · OLG Köln Mai 2025</p>
+      <p class="statement">Meta nutzte Daten aus öffentlichen Social-Media-Profilen für KI-Training. Die Verbraucherzentrale NRW klagte — das OLG Köln entschied im Eilverfahren, dass Meta einen <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">„legitimen Zweck"</a> verfolgt und die Nutzung ohne ausdrückliche Einwilligung rechtmäßig sei, solange Nutzer widersprechen oder Profile auf „nicht-öffentlich" umstellen können.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco fine" style="top:5%;right:-6%">15M</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco cuff" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco bar" style="bottom:14%;right:10%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco flag" style="bottom:18%;left:8%">🇮🇹</div></div>
+    <div class="content"><p class="eyebrow">OpenAI · Italien Ende 2024</p>
+      <p class="statement">OpenAI wurde in Italien mit einem <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener"><strong class="stat">Bußgeld von 15 Millionen Euro</strong></a> belegt — Begründung: fehlende Rechtsgrundlage für das Training mit Nutzerdaten, eine nicht ordnungsgemäß gemeldete Datenpanne aus März 2023 und Transparenzmängel.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco section" style="top:8%;left:-6%;opacity:.05">MEM</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco key" style="bottom:12%;left:8%">⚷</div></div>
+    <div class="content"><p class="eyebrow">Memorization · Datenleaks</p>
+      <p class="statement">KI-Systeme können personenbezogene Daten aus dem Training „ausspucken" (<a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">Memorization-Effekt</a>). Wenn Modelle Klardaten von Betroffenen ausgeben, wird aus einem abstrakten Datenschutzproblem ein konkreter Angriffspunkt. Die italienische Datenpanne bei OpenAI (März 2023) zeigt, dass auch große Anbieter nicht vor <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">Sicherheitslücken</a> gefeit sind.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco section-accent" style="top:5%;right:-6%">§16</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco cuff" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco bar" style="bottom:14%;right:10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:18%;left:8%">11.11.25</div></div>
+    <div class="content"><p class="eyebrow">LG München I · 11. November 2025</p>
+      <p class="statement">Erstes europäisches Urteil: Das Training von KI-Modellen mit urheberrechtlich geschützten Werken stellt eine <a class="q" href="https://www.bundesgerichtshof.de/DE/Presse/Pressemitteilungen/2024/2024-049.html" target="_blank" rel="noopener">Urheberrechtsverletzung</a> dar. Im Fall GEMA gegen OpenAI wurde festgestellt, dass das Abspeichern geschützter Inhalte in den Modellparametern eine Vervielfältigung (§ 16 UrhG) und die Ausgabe eine öffentliche Wiedergabe (§ 19a UrhG) darstellt.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco section" style="top:8%;left:-6%;opacity:.05">FAIR</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco key" style="bottom:12%;left:8%">⚷</div></div>
+    <div class="layer" data-depth="0.25"><div class="deco flag" style="bottom:16%;right:8%">🇺🇸</div></div>
+    <div class="content"><p class="eyebrow">US Delaware · 11. Februar 2025</p>
+      <p class="statement">Im Fall Thomson Reuters vs. Ross Intelligence wurde <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">„Fair Use" verneint</a> — das Training mit urheberrechtlich geschützten juristischen Inhalten ist keine faire Nutzung.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco section-accent" style="top:5%;right:-6%">§44b</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco cuff" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco bar" style="bottom:14%;right:10%"></div></div>
+    <div class="content"><p class="eyebrow">Text and Data Mining · § 44b UrhG</p>
+      <p class="statement">TDM ist nach § 44b UrhG nur erlaubt, wenn die Daten <a class="q" href="https://www.gesetze-im-internet.de/urhg/__44b.html" target="_blank" rel="noopener">rechtmäßig zugänglich</a> sind, kein maschinenlesbarer Nutzungsvorbehalt besteht und Kopien nach Abschluss gelöscht werden.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco section" style="top:8%;left:-6%;opacity:.05">⬛</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:18%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:28%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco key" style="bottom:12%;left:8%">⚷</div></div>
+    <div class="content"><p class="eyebrow">Blackbox-Problem</p>
+      <p class="statement">Viele KI-Modelle, insbesondere Deep-Learning-Systeme, sind schwer nachvollziehbar. Weder Nutzer:innen noch Aufsichtsbehörden können klar erkennen, wie Entscheidungen zustande kommen. Das verhindert die Erfüllung von DSGVO-Pflichten wie dem <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">Recht auf Erklärung</a>.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco fine" style="top:5%;right:-6%">20M</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco cuff" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco bar" style="bottom:14%;right:10%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="bottom:18%;left:8%">4%</div></div>
+    <div class="content"><p class="eyebrow">DSGVO Art. 83</p>
+      <p class="statement">Bis zu <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener"><strong class="stat">20 Mio. Euro</strong></a> oder <strong class="stat">4 %</strong> des weltweiten Jahresumsatzes.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco fine" style="top:8%;left:-6%">35M</div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco cuff" style="bottom:12%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco num" style="bottom:16%;right:8%">7%</div></div>
+    <div class="content"><p class="eyebrow">EU-KI-Verordnung</p>
+      <p class="statement">Bis zu <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener"><strong class="stat">35 Mio. Euro</strong></a> oder <strong class="stat">7 %</strong> des weltweiten Jahresumsatzes (bei verbotenen KI-Systemen oder fehlender Transparenz). Aufsichtsrechtliche Maßnahmen: <a class="q" href="https://www.bfdi.bund.de/Themen/Fokus-Themen/Kuenstliche-Intelligenz" target="_blank" rel="noopener">Nutzungsuntersagung</a>, Löschungsanordnung des gesamten KI-Systems.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco x" style="top:14%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco section" style="bottom:10%;right:-6%;opacity:.04">BAN</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="top:18%;left:8%">01</div></div>
+    <div class="content"><p class="eyebrow">EU AI Act · Verbot 1</p>
+      <p class="statement"><strong>Social Scoring</strong> — Bewertung von Personen nach Sozialverhalten — ist seit Februar 2025 in der EU verboten.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco x" style="top:14%;left:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco cuff" style="bottom:12%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco num" style="top:18%;right:8%">02</div></div>
+    <div class="content"><p class="eyebrow">EU AI Act · Verbot 2</p>
+      <p class="statement"><strong>Ungezieltes Scraping von Gesichtsbildern</strong> (wie Clearview AI) — seit Februar 2025 in der EU verboten.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco x" style="top:14%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco section" style="bottom:10%;left:-6%;opacity:.04">EMO</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="top:18%;left:8%">03</div></div>
+    <div class="content"><p class="eyebrow">EU AI Act · Verbot 3</p>
+      <p class="statement"><strong>Emotionserkennung am Arbeitsplatz und in Bildungseinrichtungen</strong> — seit Februar 2025 in der EU verboten.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.45"><div class="deco x" style="top:14%;left:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;right:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco cuff" style="bottom:12%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco num" style="top:18%;right:8%">04</div></div>
+    <div class="content"><p class="eyebrow">EU AI Act · Verbot 4</p>
+      <p class="statement"><strong>Biometrische Kategorisierung</strong> nach geschützten Merkmalen (Ethnie, Religion, sexuelle Orientierung) — seit Februar 2025 in der EU verboten.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.5"><div class="deco x" style="top:14%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco section" style="bottom:10%;right:-6%;opacity:.04">FACE</div></div>
+    <div class="layer" data-depth="0.3"><div class="deco num" style="top:18%;left:8%">05</div></div>
+    <div class="content"><p class="eyebrow">EU AI Act · Verbot 5</p>
+      <p class="statement"><strong>Echtzeit-Gesichtserkennung im öffentlichen Raum</strong> durch Strafverfolgung (mit engen Ausnahmen) — seit Februar 2025 in der EU verboten.</p></div>
+  </div>
+
+  <div class="fact">
+    <div class="layer" data-depth="-0.55"><div class="deco fine-large" style="top:3%;left:-6%">35M€</div></div>
+    <div class="layer" data-depth="-0.25"><div class="deco cuff" style="top:20%;right:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;left:8%"></div></div>
+    <div class="layer" data-depth="-0.2"><div class="deco bar" style="top:20%;left:18%"></div></div>
+    <div class="layer" data-depth="0.3"><div class="deco x" style="bottom:12%;right:10%"></div></div>
+    <div class="layer" data-depth="0.25"><div class="deco lock" style="bottom:16%;left:8%"></div></div>
+    <div class="content"><p class="eyebrow">AI Act · Sanktionen</p>
+      <p class="statement">Verstöße gegen den EU AI Act können mit Bußgeldern bis zu <a class="q" href="https://www.bundesregierung.de/breg-de/themen/kuenstliche-intelligenz" target="_blank" rel="noopener"><strong class="stat">35 Millionen Euro</strong></a> oder <strong class="stat">7 %</strong> des weltweiten Jahresumsatzes geahndet werden — die Handschellen sind angelegt.</p></div>
+  </div>
+</section>
+
+<div class="gate" data-gate="lock" style="--from:#12161c;--to:#050506">
+  <div class="g-stick">
+    <div class="g-bg"></div>
+    <div class="g-fx lockbig"></div>
+    <div class="g-title" style="color:#8a8a86"><small>Ende</small>Recherchestand: September 2026</div>
+  </div>
+</div>
+
+<footer>
+  <div class="marke">Recherche <em>abgeschlossen</em>.</div>
+  <p class="small">Recherchestand: September 2026. Zahlen und Aussagen sind direkt mit den jeweils verwendeten Online-Quellen verknüpft. Die Quellen wurden auf Verfügbarkeit und inhaltliche Zuordnung zur Recherchegrundlage geprüft.</p>
+  <p class="small" style="opacity:.55">01 Quellen Präferenzen · 02 Umweltbelastung · 03 Consumer Hardware &amp; Inflation · 04 staatliche KI Nutzung · 05 Datenschutz</p>
+  <a class="top" href="#hero">↑ Zurück zum Recherchebeginn</a>
+</footer>
+
+<script type="module">
+import Lenis from 'https://esm.sh/lenis@1.3.15';
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: !reduce, wheelMultiplier: 1, touchMultiplier: 1.5 });
+
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const eOut=t=>1-Math.pow(1-t,3);
+const eIn=t=>t*t*t;
+const eInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const r1=v=>Math.round(v*10)/10;
+const r2=v=>Math.round(v*100)/100;
+
+/* Write-Skip-Setter: schreibt nur, wenn sich der Wert wirklich geändert hat */
+function setT(el,tr,op){
+ const s=tr+'|'+op;
+ if(el._s===s)return;
+ el._s=s;el.style.transform=tr;el.style.opacity=op;
+}
+
+/* ============ 3D-BIBLIOTHEK — jetzt mit echter Tiefe (translateZ) ============ */
+const ANIM={
+ in:{
+  flipUp:t=>({rx:lerp(75,0,t),y:lerp(35,0,t),z:lerp(-220,0,t),o:t}),
+  flipLeft:t=>({ry:lerp(-75,0,t),x:lerp(-40,0,t),o:t}),
+  slideL:t=>({x:lerp(-105,0,eOut(t)),rz:lerp(-7,0,t),o:clamp(t*1.6,0,1)}),
+  slideR:t=>({x:lerp(105,0,eOut(t)),rz:lerp(7,0,t),o:clamp(t*1.6,0,1)}),
+  rise:t=>({y:lerp(70,0,eOut(t)),s:lerp(.82,1,t),o:t}),
+  drop:t=>({y:lerp(-70,0,eOut(t)),s:lerp(1.12,1,t),o:t}),
+  zoom:t=>({s:lerp(.25,1,eOut(t)),rz:lerp(10,0,t),o:t}),
+  spiral:t=>({rz:lerp(-160,0,eOut(t)),s:lerp(.1,1,t),o:t}),
+  door:t=>({ry:lerp(-90,0,eOut(t)),o:t}),
+  unfold:t=>({rx:lerp(-90,0,eOut(t)),y:lerp(-25,0,t),o:t}),
+  tilt:t=>({ry:lerp(35,0,t),rx:lerp(12,0,t),z:lerp(-350,0,t),o:t}),
+  approach:t=>({z:lerp(-720,0,eOut(t)),y:lerp(26,0,t),o:t}),           /* Text schwebt aus der Tiefe heran */
+  swingL:t=>({ry:lerp(-38,0,eOut(t)),z:lerp(-320,0,t),x:lerp(-16,0,t),o:t}),
+ },
+ out:{
+  flipUp:t=>({rx:lerp(0,-70,t),y:lerp(0,-40,t),z:lerp(0,-200,t),o:1-t}),
+  slideL:t=>({x:lerp(0,-105,eIn(t)),rz:lerp(0,-6,t),o:1-t}),
+  slideR:t=>({x:lerp(0,105,eIn(t)),rz:lerp(0,6,t),o:1-t}),
+  rise:t=>({y:lerp(0,-80,eIn(t)),s:lerp(1,.85,t),o:1-t}),
+  drop:t=>({y:lerp(0,80,eIn(t)),o:1-t}),
+  zoom:t=>({s:lerp(1,1.5,t),o:1-t}),
+  sink:t=>({rx:lerp(0,60,t),y:lerp(0,50,t),z:lerp(0,-320,t),o:1-t}),
+  doorR:t=>({ry:lerp(0,80,t),x:lerp(0,40,t),o:1-t}),
+  collapse:t=>({sy:lerp(1,.05,eIn(t)),o:1-t}),
+  spiral:t=>({rz:lerp(0,120,t),s:lerp(1,.2,t),o:1-t}),
+  recede:t=>({z:lerp(0,-720,eIn(t)),o:1-t}),                          /* Text weicht in die Tiefe zurück */
+  passby:t=>({z:lerp(0,430,eIn(t)),rx:lerp(0,-6,t),o:1-t}),           /* Text fliegt an der Kamera vorbei */
+ }
+};
+const ORIGIN={door:'left center',doorR:'right center',unfold:'center top',flipUp:'center bottom',collapse:'center center'};
+
+/* Pro Bereich eigene Reihenfolgen (Wiederholungen erlaubt, Sequenzen verschieden) */
+const SEQ={
+ zeitung:{in:['door','approach','slideL','flipUp','swingL','unfold','rise','approach'],out:['recede','flipUp','passby','rise','doorR','recede','slideL','zoom'],pos:['l','r','c','l hi','r lo','c lo','r hi','l']},
+ umwelt:{in:['rise','spiral','approach','flipUp','zoom','unfold','slideL','rise'],out:['zoom','recede','spiral','rise','sink','recede','flipUp','passby'],pos:['c','l lo','r','c hi','l','r hi','c','l lo']},
+ hardware:{in:['tilt','approach','drop','flipLeft','swingL','slideL','tilt','rise'],out:['collapse','passby','sink','zoom','recede','slideR','collapse','rise'],pos:['r','l','c lo','r hi','l lo','c','r','l hi']},
+ krieg:{in:['drop','swingL','approach','door','zoom','slideL','drop','tilt'],out:['sink','recede','passby','flipUp','zoom','rise','sink','spiral'],pos:['l','c','r hi','l lo','r','c lo','l hi','r']},
+ haft:{in:['unfold','approach','rise','door','swingL','spiral','unfold','flipLeft'],out:['doorR','recede','drop','passby','zoom','flipUp','recede','collapse'],pos:['c','r','l hi','c lo','l','r lo','c hi','l']}
+};
+document.querySelectorAll('.chapter').forEach(ch=>{
+ const s=SEQ[ch.id]; if(!s) return;
+ ch.querySelectorAll('.fact').forEach((f,i)=>{
+  f.dataset.in=s.in[i%s.in.length]; f.dataset.out=s.out[i%s.out.length]; f.dataset.pos=s.pos[i%s.pos.length];
+ });
+});
+
+/* ============ VORDERGRUND-OBJEKTE (über dem Text, mit Tiefe) ============ */
+const FRONT={
+ zeitung:[{h:'„',cls:'fr-serif',s:'36vmin'},{h:'<span class="fr-paper"></span>',cls:''},{h:'§',cls:'fr-serif',s:'30vmin'},{h:'“',cls:'fr-serif',s:'36vmin'},{h:'A',cls:'fr-serif',s:'42vmin'}],
+ umwelt:[{h:'❦',cls:'fr-leaf',s:'22vmin'},{h:'🍃',cls:'fr-leaf',s:'20vmin'},{h:'❧',cls:'fr-leaf',s:'22vmin'},{h:'✳',cls:'fr-leaf',s:'18vmin'}],
+ hardware:[{h:'<span class="fr-chip"></span>',cls:''},{h:'<span class="fr-ram"></span>',cls:''},{h:'01',cls:'fr-mono',s:'16vmin'},{h:'<span class="fr-chip"></span>',cls:''}],
+ krieg:[{h:'✈',cls:'fr-drone',s:'20vmin'},{h:'<span class="fr-xhair"></span>',cls:''},{h:'▲',cls:'fr-drone',s:'14vmin'},{h:'✈',cls:'fr-drone',s:'13vmin'}],
+ haft:[{h:'<span class="fr-bars"><i></i><i></i><i></i><i></i><i></i></span>',cls:''},{h:'⚷',cls:'fr-key',s:'18vmin'},{h:'§',cls:'fr-plex',s:'26vmin'},{h:'<span class="fr-bars"><i></i><i></i><i></i><i></i></span>',cls:''}]
+};
+const CORNERS=['top:4%;left:4%','top:6%;right:5%','bottom:6%;left:5%','bottom:5%;right:4%'];
+document.querySelectorAll('.chapter').forEach(ch=>{
+ const pool=FRONT[ch.id]; if(!pool)return;
+ ch.querySelectorAll('.fact').forEach((f,i)=>{
+  const item=pool[i%pool.length];
+  const l=document.createElement('div');
+  l.className='layer front';
+  l.dataset.depth=(0.38+(i%3)*0.08).toFixed(2);
+  l.dataset.z=(170+(i%3)*45);
+  const corner=CORNERS[i%4];
+  l.innerHTML=`<div class="deco ${item.cls}" style="${corner};${item.s?'font-size:'+item.s:''}">${item.h}</div>`;
+  f.appendChild(l);
+ });
+});
+
+/* ============ WORTE (Text-Scroll-Animation) ============ */
+function wrapWords(el){
+ const walk=n=>{[...n.childNodes].forEach(ch=>{
+  if(ch.nodeType===3){
+   const fr=document.createDocumentFragment();
+   ch.textContent.split(/(\s+)/).forEach(p=>{
+    if(!p)return;
+    if(/^\s+$/.test(p))fr.appendChild(document.createTextNode(p));
+    else{const s=document.createElement('span');s.className='w';s.textContent=p;fr.appendChild(s);}
+   });
+   n.replaceChild(fr,ch);
+  } else if(ch.nodeType===1&&!ch.classList.contains('w')) walk(ch);
+ });};
+ walk(el);
+ return [...el.querySelectorAll('.w')];
+}
+const facts=[...document.querySelectorAll('.fact')].map(f=>({el:f,c:f.querySelector('.content'),words:wrapWords(f.querySelector('.statement')),inN:f.dataset.in,outN:f.dataset.out,lt:-1,top:0,h:0}));
+const heads=[...document.querySelectorAll('.chapter-head')].map(h=>({el:h,inner:h.querySelector('.inner'),inN:h.dataset.hin,outN:h.dataset.hout,words:wrapWords(h.querySelector('h2')),lt:-1,top:0,h:0}));
+const gates=[...document.querySelectorAll('.gate')].map(g=>{
+ const stick=g.querySelector('.g-stick');
+ const o={el:g,stick,bg:stick.querySelector('.g-bg'),title:stick.querySelector('.g-title'),fx:[...stick.querySelectorAll('.g-fx')],top:0,h:0};
+ if(g.dataset.gate==='blinds'){for(let i=0;i<6;i++){const s=document.createElement('div');s.className='g-fx slat';s.style.top=(i*16.7)+'%';s.style.background=i%2?'#0a0e14':'#0d1420';s.style.transform='scaleX(0)';stick.insertBefore(s,o.title);}o.slats=[...stick.querySelectorAll('.slat')];}
+ if(g.dataset.gate==='bars'){for(let i=0;i<8;i++){const b=document.createElement('div');b.className='g-fx barv';b.style.left=(i*12.8)+'%';b.style.background='linear-gradient(180deg,#9fb4c7,#5d6c7d)';b.style.borderRadius='4px';stick.insertBefore(b,o.title);}o.bars=[...stick.querySelectorAll('.barv')];}
+ return o;
+});
+
+function apply(el,st,origin){
+ if(origin&&el._o!==origin){el._o=origin;el.style.transformOrigin=origin;}
+ const t=`translate3d(${r1(st.x||0)}vw,${r1(st.y||0)}vh,${r1(st.z||0)}px) rotateX(${r1(st.rx||0)}deg) rotateY(${r1(st.ry||0)}deg) rotateZ(${r1(st.rz||0)}deg) scale(${r2(st.s??1)}) scaleY(${r2(st.sy??1)})`;
+ setT(el,t,r2(st.o??1));
+}
+function wordsUpdate(words,t){
+ const n=words.length; if(!n)return;
+ for(let i=0;i<n;i++){
+  const th=.08+.82*(i/(n-1||1));
+  const e=eOut(clamp((t-th)/.22,0,1));
+  const w=words[i];
+  if(e>=1){if(w._e!==1){w._e=1;w.style.opacity=1;w.style.transform='none';}}
+  else{w._e=e;w.style.opacity=e;w.style.transform=`translateY(${r2((1-e)*.24)}em) rotateX(${r1((1-e)*20)}deg)`;}
+ }
+}
+
+/* ============ CACHING statt Layout-Reads pro Frame ============ */
+let vh=innerHeight;
+const layerNodes=[...document.querySelectorAll('.layer')];
+const decoNodes=[...document.querySelectorAll('.deco')];
+layerNodes.forEach(l=>{l._depth=parseFloat(l.dataset.depth)||0;l._z=+l.dataset.z||0;l._d=0;l._vis=false;});
+decoNodes.forEach(d=>{
+ d._L=d.closest('.layer');
+ const r=d.getBoundingClientRect();const s=Math.sin(r.left*.01+r.top*.01)*.5+.5;
+ d._br=(s-.5)*14;d._bx=(s-.5)*36;d._by=Math.cos(r.left*.01)*14;
+});
+function measure(){
+ vh=innerHeight;
+ const sy=lenis.scroll||scrollY;
+ facts.forEach(f=>{const r=f.el.getBoundingClientRect();f.top=r.top+sy;f.h=r.height;});
+ heads.forEach(h=>{const r=h.el.getBoundingClientRect();h.top=r.top+sy;h.h=r.height;});
+ gates.forEach(g=>{const r=g.el.getBoundingClientRect();g.top=r.top+sy;g.h=r.height;});
+ layerNodes.forEach(l=>{
+  const p=l.parentElement;const r=p.getBoundingClientRect();
+  l._ptop=r.top+sy;l._ph=r.height;
+  l._bz=l._depth*300+l._z; /* Hintergrund → nach hinten, Vordergrund → nach vorn */
+ });
+}
+measure();
+addEventListener('resize',()=>{clearTimeout(measure._t);measure._t=setTimeout(measure,150);});
+addEventListener('load',measure);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+
+/* ============ FACT-ENGINE ============ */
+function factUpdate(f,sy){
+ const rt=f.top-sy;
+ if(rt>vh*1.6||rt+f.h<-vh*.6)return;
+ const tIn=clamp((vh-rt)/(vh*.72),0,1);
+ const tOut=clamp((vh-(rt+f.h))/(vh*.75),0,1);
+ const reading=tIn>=.62&&tOut===0;
+ f.el.classList.toggle('reading',reading);
+ if(tOut>0){
+  apply(f.c,ANIM.out[f.outN](eIn(tOut)),ORIGIN[f.outN]);
+  if(f.lt!==1){f.lt=1;wordsUpdate(f.words,1);}
+ }else{
+  apply(f.c,ANIM.in[f.inN](tIn),ORIGIN[f.inN]);
+  if(Math.abs(tIn-f.lt)>0.018||(tIn===1&&f.lt!==1)){f.lt=tIn;wordsUpdate(f.words,tIn);}
+ }
+}
+function headUpdate(h,sy){
+ const rt=h.top-sy;
+ if(rt>vh*1.6||rt+h.h<-vh*.6)return;
+ const tIn=clamp((vh-rt)/(vh*.8),0,1);
+ const tOut=clamp((vh-(rt+h.h))/(vh*.8),0,1);
+ const reading=tIn>=.62&&tOut===0;
+ h.el.classList.toggle('reading',reading);
+ if(tOut>0){
+  apply(h.inner,ANIM.out[h.outN](eIn(tOut)),ORIGIN[h.outN]);
+  if(h.lt!==1){h.lt=1;wordsUpdate(h.words,1);}
+ }else{
+  apply(h.inner,ANIM.in[h.inN](tIn),ORIGIN[h.inN]);
+  if(Math.abs(tIn-h.lt)>0.018||(tIn===1&&h.lt!==1)){h.lt=tIn;wordsUpdate(h.words,tIn);}
+ }
+}
+
+/* ============ PARALLAX MIT TIEFE ============ */
+function paraUpdate(sy){
+ const vc=vh/2;
+ for(let i=0;i<layerNodes.length;i++){
+  const l=layerNodes[i];
+  const d=(l._ptop+l._ph/2-sy)-vc;
+  const vis=!(l._ptop-sy>vh*1.2||l._ptop+l._ph-sy<-vh*1.2);
+  l._d=d;l._vis=vis;
+  if(!vis)continue;
+  const depth=l._depth;
+  const z=l._bz+d*depth*.5;   /* Objekte ziehen in der Tiefe am Betrachter vorbei */
+  const depthFade=l.classList.contains('front')?1:clamp(1-Math.abs(depth)*.55,.5,1);
+  setT(l,`translate3d(${r1(-d*depth*.08)}px,${r1(-d*depth)}px,${r1(z)}px) rotate(${r1(-d*depth*.015)}deg)`,depthFade);
+ }
+ for(let i=0;i<decoNodes.length;i++){
+  const dc=decoNodes[i];const l=dc._L;
+  if(!l||!l._vis)continue;
+  const d=l._d;
+  setT(dc,`translate3d(${r1(dc._bx+d*.02)}px,${dc._by}px,0) rotate(${r1(dc._br+d*.008)}deg)`,1);
+ }
+}
+
+/* ============ GATES (unverändert gut) ============ */
+function gateUpdate(g,sy){
+ const rt=g.top-sy;
+ if(rt>vh||rt+g.h<0)return;
+ const gg=clamp(-rt/(g.h-vh),0,1);
+ const t=g.el.dataset.gate;
+ if(t==='pageturn'){
+  const e=eInOut(clamp(gg/.7,0,1));
+  g.bg.style.transform=`rotateY(${r1(lerp(-94,0,e))}deg)`;
+  g.bg.style.boxShadow=`${r1(lerp(80,0,e))}px 0 90px rgba(0,0,0,.45)`;
+  const tt=clamp((gg-.6)/.35,0,1);
+  setT(g.title,`translateY(${r1(lerp(50,0,eOut(tt)))}px) rotateX(${r1(lerp(35,0,tt))}deg)`,r2(tt));
+ }else if(t==='iris'){
+  const e=eInOut(clamp(gg/.75,0,1));
+  setT(g.bg,`scale(${r2(lerp(0,2.7,e))})`,1);
+  g.fx.forEach((f,i)=>{const ft=clamp((gg-i*.1)/.55,0,1);setT(f,`rotate(${r1(lerp(-140,0,eOut(ft)))}deg) scale(${r2(lerp(.2,1,eOut(ft)))}) translateZ(120px)`,r2(ft*.9));});
+  const tt=clamp((gg-.62)/.33,0,1);setT(g.title,`scale(${r2(lerp(.6,1,eOut(tt)))})`,r2(tt));
+ }else if(t==='blinds'){
+  g.slats.forEach((s,i)=>{const e=eOut(clamp((gg-i*.07)/.45,0,1));setT(s,`scaleX(${r2(e)}) rotateX(${r1(lerp(50,0,e))}deg)`,1);});
+  g.bg.style.opacity=r2(clamp((gg-.5)/.3,0,1));
+  const tt=clamp((gg-.6)/.35,0,1);setT(g.title,`translateY(${r1(lerp(40,0,eOut(tt)))}px)`,r2(tt));
+ }else if(t==='flip'){
+  const e=eInOut(clamp(gg/.7,0,1));
+  setT(g.bg,`rotateX(${r1(lerp(88,0,e))}deg)`,1);
+  const st=clamp((gg-.2)/.6,0,1);setT(g.fx[0],`translateX(${r1(lerp(-60,60,st))}vw) rotate(${r1(lerp(-3,2,st))}deg)`,st>0&&st<1?.9:0);
+  const tt=clamp((gg-.62)/.33,0,1);setT(g.title,`translateY(${r1(lerp(60,0,eOut(tt)))}px) rotateX(${r1(lerp(-40,0,tt))}deg)`,r2(tt));
+ }else if(t==='bars'){
+  const close=eOut(clamp(gg/.3,0,1));const open=eInOut(clamp((gg-.46)/.42,0,1));
+  const hold=clamp((gg-.3)/.16,0,1);
+  g.bars.forEach((b,i)=>{
+   const off=(i%2?1:-1)*90;
+   const wiggle=Math.sin(hold*Math.PI+i*1.3)*.5*(1-Math.abs(hold-.5)*2);
+   const x=lerp(off,0,close)+lerp(0,off*-1.4,open)+wiggle;
+   setT(b,`translateX(${r1(x)}vw) rotateY(${r1(lerp(0,25,open)*(i%2?-1:1))}deg)`,1);
+  });
+  g.bg.style.opacity=r2(clamp((gg-.2)/.16,0,1));
+  const tt=clamp((gg-.56)/.28,0,1);setT(g.title,`translateY(${r1(lerp(40,0,eOut(tt)))}px)`,r2(tt));
+ }else if(t==='lock'){
+  const e=eOut(clamp(gg/.5,0,1));
+  setT(g.fx[0],`translate(-50%,-50%) scale(${r2(e)}) rotate(${r1(lerp(-50,0,e))}deg)`,1);
+  g.bg.style.opacity=r2(clamp((gg-.45)/.4,0,1));
+  const tt=clamp((gg-.6)/.35,0,1);setT(g.title,`translateY(${r1(lerp(30,0,eOut(tt)))}px)`,r2(tt));
+ }
+}
+
+/* ============ UI ============ */
+const progress=document.getElementById('progress');
+const railLinks=[...document.querySelectorAll('#rail a')];
+const chapters=railLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function rail(sy){let i0=0;chapters.forEach((c,i)=>{if(c&&sy+vh*.4>c.offsetTop)i0=i;});railLinks.forEach((l,i)=>l.classList.toggle('active',i===i0));}
+
+/* ============ QUELLEN-HOVER: THEMENABHÄNGIGE MICRO-INTERACTION ============ */
+let lastMouse={x:innerWidth/2,y:innerHeight/2};
+let waterTimer=0;
+const waterHover=document.querySelector('.water-cursor');
+const sourceLinks=[...document.querySelectorAll('.q')];
+sourceLinks.forEach(link=>{
+  const chapter=link.closest('.chapter');
+  if(!chapter)return;
+  const id=chapter.id;
+  link.addEventListener('mouseenter',()=>{
+    document.body.classList.add(id==='zeitung'?'zeitung-hover':id==='umwelt'?'water-hover':id==='hardware'?'hw-hover':id==='krieg'?'krieg-hover':'haft-hover');
+    link.classList.add('source-active');
+    if(id==='umwelt'){waterHover.classList.add('on');}
+  });
+  link.addEventListener('mouseleave',()=>{
+    document.body.classList.remove(id==='zeitung'?'zeitung-hover':id==='umwelt'?'water-hover':id==='hardware'?'hw-hover':id==='krieg'?'krieg-hover':'haft-hover');
+    link.classList.remove('source-active');
+    if(id==='umwelt')waterHover.classList.remove('on');
+  });
+});
+function spawnRipple(x,y){
+  const r=document.createElement('span');r.className='water-ripple';r.style.left=x+'px';r.style.top=y+'px';document.body.appendChild(r);setTimeout(()=>r.remove(),1500);
+}
+addEventListener('pointermove',e=>{
+  lastMouse={x:e.clientX,y:e.clientY};
+  document.documentElement.style.setProperty('--mx',(e.clientX/innerWidth*100)+'%');
+  document.documentElement.style.setProperty('--my',(e.clientY/innerHeight*100)+'%');
+  if(document.body.classList.contains('water-hover')){
+    waterHover.style.left=e.clientX+'px';waterHover.style.top=e.clientY+'px';
+    const now=performance.now();
+    if(now-waterTimer>170){waterTimer=now;spawnRipple(e.clientX,e.clientY);}
+  }
+  const xhair=document.querySelector('.krieg-xhair'); if(xhair){xhair.style.left=e.clientX+'px';xhair.style.top=e.clientY+'px';}
+  const shackles=document.querySelector('.haft-shackles'); if(shackles){shackles.style.left=e.clientX+'px';shackles.style.top=e.clientY+'px';}
+});
+
+/* ============ LOOP ============ */
+function frame(time){
+ lenis.raf(time);
+ const sy=lenis.scroll||scrollY;
+ const dh=document.documentElement.scrollHeight-vh;
+ progress.style.width=dh>0?(sy/dh*100)+'%':'0%';
+ rail(sy);
+ if(!reduce){
+  for(let i=0;i<gates.length;i++)gateUpdate(gates[i],sy);
+  for(let i=0;i<heads.length;i++)headUpdate(heads[i],sy);
+  for(let i=0;i<facts.length;i++)factUpdate(facts[i],sy);
+  paraUpdate(sy);
+ }
+ requestAnimationFrame(frame);
+}
+if(reduce){
+ facts.forEach(f=>{apply(f.c,{o:1});wordsUpdate(f.words,1);});
+ heads.forEach(h=>{apply(h.inner,{o:1});wordsUpdate(h.words,1);});
+ (function rs(){const sy=scrollY;const dh=document.documentElement.scrollHeight-innerHeight;progress.style.width=dh>0?(sy/dh*100)+'%':'0%';rail(sy);requestAnimationFrame(rs);})();
+}else requestAnimationFrame(frame);
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+ a.addEventListener('click',e=>{
+  const t=document.querySelector(a.getAttribute('href'));
+  if(t&&lenis.scrollTo){e.preventDefault();lenis.scrollTo(t,{offset:0,duration:1.4});}
+ });
+});
+</script>
+</body>
+</html>
